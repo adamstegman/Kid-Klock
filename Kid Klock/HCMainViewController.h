@@ -3,7 +3,7 @@
 //  Kid Klock
 //
 //  Created by Adam Stegman on 5/12/12.
-//  Copyright (c) 2012 Cerner Corporation. All rights reserved.
+//  Copyright (c) 2012 Homemade Concoctions. All rights reserved.
 //
 
 #import "HCSettingsViewController.h"

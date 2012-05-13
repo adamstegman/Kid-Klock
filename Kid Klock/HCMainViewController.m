@@ -3,7 +3,7 @@
 //  Kid Klock
 //
 //  Created by Adam Stegman on 5/12/12.
-//  Copyright (c) 2012 Cerner Corporation. All rights reserved.
+//  Copyright (c) 2012 Homemade Concoctions. All rights reserved.
 //
 
 #import "HCMainViewController.h"
@@ -16,25 +16,8 @@
 
 @synthesize settingsPopoverController = _settingsPopoverController;
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-      return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-  } else {
-      return YES;
-  }
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+  return YES;
 }
 
 #pragma mark - Flipside View Controller

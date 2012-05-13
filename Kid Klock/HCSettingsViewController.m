@@ -9,12 +9,11 @@
 #import "HCSettingsViewController.h"
 
 @interface HCSettingsViewController ()
-
 @end
 
 @implementation HCSettingsViewController
 
-@synthesize delegate = _delegate;
+@synthesize settingsDelegate = _settingsDelegate;
 
 #pragma mark - View lifecycle
 
@@ -30,7 +29,35 @@
 #pragma mark - Actions
 
 - (IBAction)done:(id)sender {
-    [self.delegate settingsViewControllerDidFinish:self];
+  [self.settingsDelegate settingsViewControllerDidFinish:self];
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  // TODO
+}
+
+#pragma mark - UITableViewDataSource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  // TODO
+  return nil;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+  // TODO
+  return 0;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  // TODO
+  return 0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+  // TODO
+  return @"";
 }
 
 @end

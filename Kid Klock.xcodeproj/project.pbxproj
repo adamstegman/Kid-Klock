@@ -1,0 +1,466 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6680D8A7155F5D45008D3581 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A6155F5D45008D3581 /* UIKit.framework */; };
+		6680D8A9155F5D45008D3581 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A8155F5D45008D3581 /* Foundation.framework */; };
+		6680D8AB155F5D45008D3581 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8AA155F5D45008D3581 /* CoreGraphics.framework */; };
+		6680D8B1155F5D45008D3581 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6680D8AF155F5D45008D3581 /* InfoPlist.strings */; };
+		6680D8B3155F5D45008D3581 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8B2155F5D45008D3581 /* main.m */; };
+		6680D8B7155F5D45008D3581 /* HCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8B6155F5D45008D3581 /* HCAppDelegate.m */; };
+		6680D8BA155F5D45008D3581 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6680D8B8155F5D45008D3581 /* MainStoryboard_iPhone.storyboard */; };
+		6680D8BD155F5D45008D3581 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6680D8BB155F5D45008D3581 /* MainStoryboard_iPad.storyboard */; };
+		6680D8C0155F5D45008D3581 /* HCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8BF155F5D45008D3581 /* HCMainViewController.m */; };
+		6680D8C3155F5D45008D3581 /* HCFlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8C2155F5D45008D3581 /* HCFlipsideViewController.m */; };
+		6680D8CB155F5D45008D3581 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8CA155F5D45008D3581 /* SenTestingKit.framework */; };
+		6680D8CC155F5D45008D3581 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A6155F5D45008D3581 /* UIKit.framework */; };
+		6680D8CD155F5D45008D3581 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A8155F5D45008D3581 /* Foundation.framework */; };
+		6680D8D5155F5D45008D3581 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6680D8D3155F5D45008D3581 /* InfoPlist.strings */; };
+		6680D8D8155F5D45008D3581 /* Kid_KlockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8D7155F5D45008D3581 /* Kid_KlockTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6680D8CE155F5D45008D3581 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6680D899155F5D45008D3581 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6680D8A1155F5D45008D3581;
+			remoteInfo = "Kid Klock";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6680D8A2155F5D45008D3581 /* Kid Klock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kid Klock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6680D8A6155F5D45008D3581 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		6680D8A8155F5D45008D3581 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6680D8AA155F5D45008D3581 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		6680D8AE155F5D45008D3581 /* Kid Klock-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Kid Klock-Info.plist"; sourceTree = "<group>"; };
+		6680D8B0155F5D45008D3581 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6680D8B2155F5D45008D3581 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6680D8B4155F5D45008D3581 /* Kid Klock-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Kid Klock-Prefix.pch"; sourceTree = "<group>"; };
+		6680D8B5155F5D45008D3581 /* HCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCAppDelegate.h; sourceTree = "<group>"; };
+		6680D8B6155F5D45008D3581 /* HCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCAppDelegate.m; sourceTree = "<group>"; };
+		6680D8B9155F5D45008D3581 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		6680D8BC155F5D45008D3581 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		6680D8BE155F5D45008D3581 /* HCMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCMainViewController.h; sourceTree = "<group>"; };
+		6680D8BF155F5D45008D3581 /* HCMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCMainViewController.m; sourceTree = "<group>"; };
+		6680D8C1155F5D45008D3581 /* HCFlipsideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCFlipsideViewController.h; sourceTree = "<group>"; };
+		6680D8C2155F5D45008D3581 /* HCFlipsideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCFlipsideViewController.m; sourceTree = "<group>"; };
+		6680D8C9155F5D45008D3581 /* Kid KlockTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Kid KlockTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6680D8CA155F5D45008D3581 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		6680D8D2155F5D45008D3581 /* Kid KlockTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Kid KlockTests-Info.plist"; sourceTree = "<group>"; };
+		6680D8D4155F5D45008D3581 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6680D8D6155F5D45008D3581 /* Kid_KlockTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Kid_KlockTests.h; sourceTree = "<group>"; };
+		6680D8D7155F5D45008D3581 /* Kid_KlockTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Kid_KlockTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6680D89F155F5D45008D3581 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6680D8A7155F5D45008D3581 /* UIKit.framework in Frameworks */,
+				6680D8A9155F5D45008D3581 /* Foundation.framework in Frameworks */,
+				6680D8AB155F5D45008D3581 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6680D8C5155F5D45008D3581 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6680D8CB155F5D45008D3581 /* SenTestingKit.framework in Frameworks */,
+				6680D8CC155F5D45008D3581 /* UIKit.framework in Frameworks */,
+				6680D8CD155F5D45008D3581 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6680D897155F5D45008D3581 = {
+			isa = PBXGroup;
+			children = (
+				6680D8AC155F5D45008D3581 /* Kid Klock */,
+				6680D8D0155F5D45008D3581 /* Kid KlockTests */,
+				6680D8A5155F5D45008D3581 /* Frameworks */,
+				6680D8A3155F5D45008D3581 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6680D8A3155F5D45008D3581 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6680D8A2155F5D45008D3581 /* Kid Klock.app */,
+				6680D8C9155F5D45008D3581 /* Kid KlockTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6680D8A5155F5D45008D3581 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6680D8A6155F5D45008D3581 /* UIKit.framework */,
+				6680D8A8155F5D45008D3581 /* Foundation.framework */,
+				6680D8AA155F5D45008D3581 /* CoreGraphics.framework */,
+				6680D8CA155F5D45008D3581 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6680D8AC155F5D45008D3581 /* Kid Klock */ = {
+			isa = PBXGroup;
+			children = (
+				6680D8B5155F5D45008D3581 /* HCAppDelegate.h */,
+				6680D8B6155F5D45008D3581 /* HCAppDelegate.m */,
+				6680D8B8155F5D45008D3581 /* MainStoryboard_iPhone.storyboard */,
+				6680D8BB155F5D45008D3581 /* MainStoryboard_iPad.storyboard */,
+				6680D8BE155F5D45008D3581 /* HCMainViewController.h */,
+				6680D8BF155F5D45008D3581 /* HCMainViewController.m */,
+				6680D8C1155F5D45008D3581 /* HCFlipsideViewController.h */,
+				6680D8C2155F5D45008D3581 /* HCFlipsideViewController.m */,
+				6680D8AD155F5D45008D3581 /* Supporting Files */,
+			);
+			path = "Kid Klock";
+			sourceTree = "<group>";
+		};
+		6680D8AD155F5D45008D3581 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6680D8AE155F5D45008D3581 /* Kid Klock-Info.plist */,
+				6680D8AF155F5D45008D3581 /* InfoPlist.strings */,
+				6680D8B2155F5D45008D3581 /* main.m */,
+				6680D8B4155F5D45008D3581 /* Kid Klock-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6680D8D0155F5D45008D3581 /* Kid KlockTests */ = {
+			isa = PBXGroup;
+			children = (
+				6680D8D6155F5D45008D3581 /* Kid_KlockTests.h */,
+				6680D8D7155F5D45008D3581 /* Kid_KlockTests.m */,
+				6680D8D1155F5D45008D3581 /* Supporting Files */,
+			);
+			path = "Kid KlockTests";
+			sourceTree = "<group>";
+		};
+		6680D8D1155F5D45008D3581 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6680D8D2155F5D45008D3581 /* Kid KlockTests-Info.plist */,
+				6680D8D3155F5D45008D3581 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6680D8A1155F5D45008D3581 /* Kid Klock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6680D8DB155F5D45008D3581 /* Build configuration list for PBXNativeTarget "Kid Klock" */;
+			buildPhases = (
+				6680D89E155F5D45008D3581 /* Sources */,
+				6680D89F155F5D45008D3581 /* Frameworks */,
+				6680D8A0155F5D45008D3581 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Kid Klock";
+			productName = "Kid Klock";
+			productReference = 6680D8A2155F5D45008D3581 /* Kid Klock.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6680D8C8155F5D45008D3581 /* Kid KlockTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6680D8DE155F5D45008D3581 /* Build configuration list for PBXNativeTarget "Kid KlockTests" */;
+			buildPhases = (
+				6680D8C4155F5D45008D3581 /* Sources */,
+				6680D8C5155F5D45008D3581 /* Frameworks */,
+				6680D8C6155F5D45008D3581 /* Resources */,
+				6680D8C7155F5D45008D3581 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6680D8CF155F5D45008D3581 /* PBXTargetDependency */,
+			);
+			name = "Kid KlockTests";
+			productName = "Kid KlockTests";
+			productReference = 6680D8C9155F5D45008D3581 /* Kid KlockTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6680D899155F5D45008D3581 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = HC;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Cerner Corporation";
+			};
+			buildConfigurationList = 6680D89C155F5D45008D3581 /* Build configuration list for PBXProject "Kid Klock" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6680D897155F5D45008D3581;
+			productRefGroup = 6680D8A3155F5D45008D3581 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6680D8A1155F5D45008D3581 /* Kid Klock */,
+				6680D8C8155F5D45008D3581 /* Kid KlockTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6680D8A0155F5D45008D3581 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6680D8B1155F5D45008D3581 /* InfoPlist.strings in Resources */,
+				6680D8BA155F5D45008D3581 /* MainStoryboard_iPhone.storyboard in Resources */,
+				6680D8BD155F5D45008D3581 /* MainStoryboard_iPad.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6680D8C6155F5D45008D3581 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6680D8D5155F5D45008D3581 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6680D8C7155F5D45008D3581 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6680D89E155F5D45008D3581 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6680D8B3155F5D45008D3581 /* main.m in Sources */,
+				6680D8B7155F5D45008D3581 /* HCAppDelegate.m in Sources */,
+				6680D8C0155F5D45008D3581 /* HCMainViewController.m in Sources */,
+				6680D8C3155F5D45008D3581 /* HCFlipsideViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6680D8C4155F5D45008D3581 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6680D8D8155F5D45008D3581 /* Kid_KlockTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6680D8CF155F5D45008D3581 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6680D8A1155F5D45008D3581 /* Kid Klock */;
+			targetProxy = 6680D8CE155F5D45008D3581 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6680D8AF155F5D45008D3581 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6680D8B0155F5D45008D3581 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		6680D8B8155F5D45008D3581 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6680D8B9155F5D45008D3581 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		6680D8BB155F5D45008D3581 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6680D8BC155F5D45008D3581 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		6680D8D3155F5D45008D3581 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6680D8D4155F5D45008D3581 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6680D8D9155F5D45008D3581 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6680D8DA155F5D45008D3581 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6680D8DC155F5D45008D3581 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Kid Klock/Kid Klock-Prefix.pch";
+				INFOPLIST_FILE = "Kid Klock/Kid Klock-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		6680D8DD155F5D45008D3581 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Kid Klock/Kid Klock-Prefix.pch";
+				INFOPLIST_FILE = "Kid Klock/Kid Klock-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		6680D8DF155F5D45008D3581 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Kid Klock.app/Kid Klock";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Kid Klock/Kid Klock-Prefix.pch";
+				INFOPLIST_FILE = "Kid KlockTests/Kid KlockTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		6680D8E0155F5D45008D3581 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Kid Klock.app/Kid Klock";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Kid Klock/Kid Klock-Prefix.pch";
+				INFOPLIST_FILE = "Kid KlockTests/Kid KlockTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6680D89C155F5D45008D3581 /* Build configuration list for PBXProject "Kid Klock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6680D8D9155F5D45008D3581 /* Debug */,
+				6680D8DA155F5D45008D3581 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6680D8DB155F5D45008D3581 /* Build configuration list for PBXNativeTarget "Kid Klock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6680D8DC155F5D45008D3581 /* Debug */,
+				6680D8DD155F5D45008D3581 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		6680D8DE155F5D45008D3581 /* Build configuration list for PBXNativeTarget "Kid KlockTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6680D8DF155F5D45008D3581 /* Debug */,
+				6680D8E0155F5D45008D3581 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6680D899155F5D45008D3581 /* Project object */;
+}

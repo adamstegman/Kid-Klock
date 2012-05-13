@@ -16,7 +16,7 @@
 		6680D8BA155F5D45008D3581 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6680D8B8155F5D45008D3581 /* MainStoryboard_iPhone.storyboard */; };
 		6680D8BD155F5D45008D3581 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6680D8BB155F5D45008D3581 /* MainStoryboard_iPad.storyboard */; };
 		6680D8C0155F5D45008D3581 /* HCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8BF155F5D45008D3581 /* HCMainViewController.m */; };
-		6680D8C3155F5D45008D3581 /* HCFlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8C2155F5D45008D3581 /* HCFlipsideViewController.m */; };
+		6680D8C3155F5D45008D3581 /* HCSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8C2155F5D45008D3581 /* HCSettingsViewController.m */; };
 		6680D8CB155F5D45008D3581 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8CA155F5D45008D3581 /* SenTestingKit.framework */; };
 		6680D8CC155F5D45008D3581 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A6155F5D45008D3581 /* UIKit.framework */; };
 		6680D8CD155F5D45008D3581 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A8155F5D45008D3581 /* Foundation.framework */; };
@@ -49,8 +49,8 @@
 		6680D8BC155F5D45008D3581 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		6680D8BE155F5D45008D3581 /* HCMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCMainViewController.h; sourceTree = "<group>"; };
 		6680D8BF155F5D45008D3581 /* HCMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCMainViewController.m; sourceTree = "<group>"; };
-		6680D8C1155F5D45008D3581 /* HCFlipsideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCFlipsideViewController.h; sourceTree = "<group>"; };
-		6680D8C2155F5D45008D3581 /* HCFlipsideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCFlipsideViewController.m; sourceTree = "<group>"; };
+		6680D8C1155F5D45008D3581 /* HCSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCSettingsViewController.h; sourceTree = "<group>"; };
+		6680D8C2155F5D45008D3581 /* HCSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCSettingsViewController.m; sourceTree = "<group>"; };
 		6680D8C9155F5D45008D3581 /* Kid KlockTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Kid KlockTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6680D8CA155F5D45008D3581 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		6680D8D2155F5D45008D3581 /* Kid KlockTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Kid KlockTests-Info.plist"; sourceTree = "<group>"; };
@@ -122,8 +122,8 @@
 				6680D8BB155F5D45008D3581 /* MainStoryboard_iPad.storyboard */,
 				6680D8BE155F5D45008D3581 /* HCMainViewController.h */,
 				6680D8BF155F5D45008D3581 /* HCMainViewController.m */,
-				6680D8C1155F5D45008D3581 /* HCFlipsideViewController.h */,
-				6680D8C2155F5D45008D3581 /* HCFlipsideViewController.m */,
+				6680D8C1155F5D45008D3581 /* HCSettingsViewController.h */,
+				6680D8C2155F5D45008D3581 /* HCSettingsViewController.m */,
 				6680D8AD155F5D45008D3581 /* Supporting Files */,
 			);
 			path = "Kid Klock";
@@ -271,7 +271,7 @@
 				6680D8B3155F5D45008D3581 /* main.m in Sources */,
 				6680D8B7155F5D45008D3581 /* HCAppDelegate.m in Sources */,
 				6680D8C0155F5D45008D3581 /* HCMainViewController.m in Sources */,
-				6680D8C3155F5D45008D3581 /* HCFlipsideViewController.m in Sources */,
+				6680D8C3155F5D45008D3581 /* HCSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

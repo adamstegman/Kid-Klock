@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1906" systemVersion="11A511" targetRuntime="iOS.CocoaTouch.iPad" nextObjectID="24" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="902"/>
+        <deployment defaultVersion="1296" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
     <scenes>
+        <!--Main View Controller-->
         <scene sceneID="4">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
@@ -29,19 +31,19 @@
                         <color key="backgroundColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <segue destination="5" kind="popover" identifier="showAlternate" popoverAnchorBarButtonItem="15" id="22">
+                        <segue destination="5" kind="popover" identifier="showSettings" popoverAnchorBarButtonItem="15" id="22">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                            <popoverPassthroughViews/>
                         </segue>
                     </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="-286" y="15"/>
         </scene>
+        <!--Settings View Controller-->
         <scene sceneID="7">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6" sceneMemberID="firstResponder"/>
-                <viewController id="5" customClass="HCFlipsideViewController" sceneMemberID="viewController">
+                <viewController id="5" userLabel="Settings View Controller" customClass="HCSettingsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -69,16 +71,14 @@
         </scene>
     </scenes>
     <classes>
-        <class className="HCFlipsideViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/HCFlipsideViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="done:"/>
-                <relationship kind="outlet" name="delegate"/>
-            </relationships>
-        </class>
         <class className="HCMainViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HCMainViewController.h"/>
-            <relationships/>
+        </class>
+        <class className="HCSettingsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/HCSettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="done:"/>
+            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

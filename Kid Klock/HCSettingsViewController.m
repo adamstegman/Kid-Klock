@@ -1,18 +1,18 @@
 //
-//  HCFlipsideViewController.m
+//  HCSettingsViewController.m
 //  Kid Klock
 //
 //  Created by Adam Stegman on 5/12/12.
 //  Copyright (c) 2012 Cerner Corporation. All rights reserved.
 //
 
-#import "HCFlipsideViewController.h"
+#import "HCSettingsViewController.h"
 
-@interface HCFlipsideViewController ()
+@interface HCSettingsViewController ()
 
 @end
 
-@implementation HCFlipsideViewController
+@implementation HCSettingsViewController
 
 @synthesize delegate = _delegate;
 
@@ -45,9 +45,8 @@
 
 #pragma mark - Actions
 
-- (IBAction)done:(id)sender
-{
-    [self.delegate flipsideViewControllerDidFinish:self];
+- (IBAction)done:(id)sender {
+    [self.delegate settingsViewControllerDidFinish:self];
 }
 
 @end

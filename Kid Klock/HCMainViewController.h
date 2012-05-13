@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Cerner Corporation. All rights reserved.
 //
 
-#import "HCFlipsideViewController.h"
+#import "HCSettingsViewController.h"
 
-@interface HCMainViewController : UIViewController <HCFlipsideViewControllerDelegate, UIPopoverControllerDelegate>
+@interface HCMainViewController : UIViewController <HCSettingsViewControllerDelegate, UIPopoverControllerDelegate>
 
-@property (strong, nonatomic) UIPopoverController *flipsidePopoverController;
+@property (strong, nonatomic) UIPopoverController *settingsPopoverController;
 
 @end

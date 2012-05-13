@@ -26,6 +26,16 @@
   return YES;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+  // show the status bar for the settings view
+  [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+  // hide the status bar for the main view
+  [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+}
+
 #pragma mark - Actions
 
 - (IBAction)done:(id)sender {

@@ -17,6 +17,7 @@
 @interface HCSettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) id <HCSettingsViewControllerDelegate> settingsDelegate;
+@property (strong, nonatomic) UITableView *tableView;
 
 - (IBAction)done:(id)sender;
 

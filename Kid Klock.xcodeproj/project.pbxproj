@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6629A0A51561FEC800BDAA3C /* HCDictionaryAlarmSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0A41561FEC800BDAA3C /* HCDictionaryAlarmSpec.m */; };
+		6629A0A71561FFF100BDAA3C /* libKiwi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6629A0A61561FFF100BDAA3C /* libKiwi.a */; };
+		6629A0AA156222BD00BDAA3C /* HCStaticAssetAnimal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0A9156222BD00BDAA3C /* HCStaticAssetAnimal.m */; };
+		6629A0AF1562254300BDAA3C /* HCStaticAssetAnimalSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0AE1562254300BDAA3C /* HCStaticAssetAnimalSpec.m */; };
+		6629A0B91562380000BDAA3C /* HCUserDefaultsPersistenceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0B81562380000BDAA3C /* HCUserDefaultsPersistenceSpec.m */; };
 		6680D8A7155F5D45008D3581 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A6155F5D45008D3581 /* UIKit.framework */; };
 		6680D8A9155F5D45008D3581 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A8155F5D45008D3581 /* Foundation.framework */; };
 		6680D8AB155F5D45008D3581 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8AA155F5D45008D3581 /* CoreGraphics.framework */; };
@@ -21,7 +26,9 @@
 		6680D8CC155F5D45008D3581 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A6155F5D45008D3581 /* UIKit.framework */; };
 		6680D8CD155F5D45008D3581 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A8155F5D45008D3581 /* Foundation.framework */; };
 		6680D8D5155F5D45008D3581 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6680D8D3155F5D45008D3581 /* InfoPlist.strings */; };
-		6680D8D8155F5D45008D3581 /* Kid_KlockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8D7155F5D45008D3581 /* Kid_KlockTests.m */; };
+		6680D8F1155FE5D1008D3581 /* HCUserDefaultsPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8F0155FE5D1008D3581 /* HCUserDefaultsPersistence.m */; };
+		6680D8F4155FFA0D008D3581 /* HCDictionaryAlarm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8F3155FFA0D008D3581 /* HCDictionaryAlarm.m */; };
+		6692F51515671F28003B3AFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51315671F28003B3AFA /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +42,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6629A0A41561FEC800BDAA3C /* HCDictionaryAlarmSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCDictionaryAlarmSpec.m; sourceTree = "<group>"; };
+		6629A0A61561FFF100BDAA3C /* libKiwi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libKiwi.a; path = "Frameworks/Kiwi/build/Release-iphoneos/libKiwi.a"; sourceTree = "<group>"; };
+		6629A0A8156222BD00BDAA3C /* HCStaticAssetAnimal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCStaticAssetAnimal.h; sourceTree = "<group>"; };
+		6629A0A9156222BD00BDAA3C /* HCStaticAssetAnimal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCStaticAssetAnimal.m; sourceTree = "<group>"; };
+		6629A0AE1562254300BDAA3C /* HCStaticAssetAnimalSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCStaticAssetAnimalSpec.m; sourceTree = "<group>"; };
+		6629A0B81562380000BDAA3C /* HCUserDefaultsPersistenceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCUserDefaultsPersistenceSpec.m; sourceTree = "<group>"; };
 		6680D8A2155F5D45008D3581 /* Kid Klock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kid Klock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6680D8A6155F5D45008D3581 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6680D8A8155F5D45008D3581 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -55,8 +68,13 @@
 		6680D8CA155F5D45008D3581 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		6680D8D2155F5D45008D3581 /* Kid KlockTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Kid KlockTests-Info.plist"; sourceTree = "<group>"; };
 		6680D8D4155F5D45008D3581 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6680D8D6155F5D45008D3581 /* Kid_KlockTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Kid_KlockTests.h; sourceTree = "<group>"; };
-		6680D8D7155F5D45008D3581 /* Kid_KlockTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Kid_KlockTests.m; sourceTree = "<group>"; };
+		6680D8E4155FDC84008D3581 /* HCAlarm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCAlarm.h; sourceTree = "<group>"; };
+		6680D8E8155FDED6008D3581 /* HCAnimal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCAnimal.h; sourceTree = "<group>"; };
+		6680D8EF155FE5D1008D3581 /* HCUserDefaultsPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCUserDefaultsPersistence.h; sourceTree = "<group>"; };
+		6680D8F0155FE5D1008D3581 /* HCUserDefaultsPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCUserDefaultsPersistence.m; sourceTree = "<group>"; };
+		6680D8F2155FFA0D008D3581 /* HCDictionaryAlarm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCDictionaryAlarm.h; sourceTree = "<group>"; };
+		6680D8F3155FFA0D008D3581 /* HCDictionaryAlarm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCDictionaryAlarm.m; sourceTree = "<group>"; };
+		6692F51415671F28003B3AFA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6629A0A71561FFF100BDAA3C /* libKiwi.a in Frameworks */,
 				6680D8CB155F5D45008D3581 /* SenTestingKit.framework in Frameworks */,
 				6680D8CC155F5D45008D3581 /* UIKit.framework in Frameworks */,
 				6680D8CD155F5D45008D3581 /* Foundation.framework in Frameworks */,
@@ -105,6 +124,7 @@
 		6680D8A5155F5D45008D3581 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6629A0A61561FFF100BDAA3C /* libKiwi.a */,
 				6680D8A6155F5D45008D3581 /* UIKit.framework */,
 				6680D8A8155F5D45008D3581 /* Foundation.framework */,
 				6680D8AA155F5D45008D3581 /* CoreGraphics.framework */,
@@ -116,14 +136,15 @@
 		6680D8AC155F5D45008D3581 /* Kid Klock */ = {
 			isa = PBXGroup;
 			children = (
-				6680D8B5155F5D45008D3581 /* HCAppDelegate.h */,
-				6680D8B6155F5D45008D3581 /* HCAppDelegate.m */,
-				6680D8B8155F5D45008D3581 /* MainStoryboard_iPhone.storyboard */,
-				6680D8BB155F5D45008D3581 /* MainStoryboard_iPad.storyboard */,
-				6680D8BE155F5D45008D3581 /* HCMainViewController.h */,
-				6680D8BF155F5D45008D3581 /* HCMainViewController.m */,
-				6680D8C1155F5D45008D3581 /* HCSettingsViewController.h */,
-				6680D8C2155F5D45008D3581 /* HCSettingsViewController.m */,
+				6680D8EF155FE5D1008D3581 /* HCUserDefaultsPersistence.h */,
+				6680D8F0155FE5D1008D3581 /* HCUserDefaultsPersistence.m */,
+				6680D8F2155FFA0D008D3581 /* HCDictionaryAlarm.h */,
+				6680D8F3155FFA0D008D3581 /* HCDictionaryAlarm.m */,
+				6629A0A8156222BD00BDAA3C /* HCStaticAssetAnimal.h */,
+				6629A0A9156222BD00BDAA3C /* HCStaticAssetAnimal.m */,
+				6680D8E7155FDC93008D3581 /* UI */,
+				6680D8E4155FDC84008D3581 /* HCAlarm.h */,
+				6680D8E8155FDED6008D3581 /* HCAnimal.h */,
 				6680D8AD155F5D45008D3581 /* Supporting Files */,
 			);
 			path = "Kid Klock";
@@ -132,6 +153,7 @@
 		6680D8AD155F5D45008D3581 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6692F51315671F28003B3AFA /* Localizable.strings */,
 				6680D8AE155F5D45008D3581 /* Kid Klock-Info.plist */,
 				6680D8AF155F5D45008D3581 /* InfoPlist.strings */,
 				6680D8B2155F5D45008D3581 /* main.m */,
@@ -143,9 +165,10 @@
 		6680D8D0155F5D45008D3581 /* Kid KlockTests */ = {
 			isa = PBXGroup;
 			children = (
-				6680D8D6155F5D45008D3581 /* Kid_KlockTests.h */,
-				6680D8D7155F5D45008D3581 /* Kid_KlockTests.m */,
 				6680D8D1155F5D45008D3581 /* Supporting Files */,
+				6629A0A41561FEC800BDAA3C /* HCDictionaryAlarmSpec.m */,
+				6629A0AE1562254300BDAA3C /* HCStaticAssetAnimalSpec.m */,
+				6629A0B81562380000BDAA3C /* HCUserDefaultsPersistenceSpec.m */,
 			);
 			path = "Kid KlockTests";
 			sourceTree = "<group>";
@@ -157,6 +180,21 @@
 				6680D8D3155F5D45008D3581 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6680D8E7155FDC93008D3581 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				6680D8B5155F5D45008D3581 /* HCAppDelegate.h */,
+				6680D8B6155F5D45008D3581 /* HCAppDelegate.m */,
+				6680D8B8155F5D45008D3581 /* MainStoryboard_iPhone.storyboard */,
+				6680D8BB155F5D45008D3581 /* MainStoryboard_iPad.storyboard */,
+				6680D8BE155F5D45008D3581 /* HCMainViewController.h */,
+				6680D8BF155F5D45008D3581 /* HCMainViewController.m */,
+				6680D8C1155F5D45008D3581 /* HCSettingsViewController.h */,
+				6680D8C2155F5D45008D3581 /* HCSettingsViewController.m */,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,6 +272,7 @@
 				6680D8B1155F5D45008D3581 /* InfoPlist.strings in Resources */,
 				6680D8BA155F5D45008D3581 /* MainStoryboard_iPhone.storyboard in Resources */,
 				6680D8BD155F5D45008D3581 /* MainStoryboard_iPad.storyboard in Resources */,
+				6692F51515671F28003B3AFA /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +311,9 @@
 				6680D8B7155F5D45008D3581 /* HCAppDelegate.m in Sources */,
 				6680D8C0155F5D45008D3581 /* HCMainViewController.m in Sources */,
 				6680D8C3155F5D45008D3581 /* HCSettingsViewController.m in Sources */,
+				6680D8F1155FE5D1008D3581 /* HCUserDefaultsPersistence.m in Sources */,
+				6680D8F4155FFA0D008D3581 /* HCDictionaryAlarm.m in Sources */,
+				6629A0AA156222BD00BDAA3C /* HCStaticAssetAnimal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,7 +321,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6680D8D8155F5D45008D3581 /* Kid_KlockTests.m in Sources */,
+				6629A0A51561FEC800BDAA3C /* HCDictionaryAlarmSpec.m in Sources */,
+				6629A0AF1562254300BDAA3C /* HCStaticAssetAnimalSpec.m in Sources */,
+				6629A0B91562380000BDAA3C /* HCUserDefaultsPersistenceSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +368,14 @@
 				6680D8D4155F5D45008D3581 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		6692F51315671F28003B3AFA /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6692F51415671F28003B3AFA /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -401,6 +453,7 @@
 		6680D8DF155F5D45008D3581 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Kid Klock.app/Kid Klock";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -409,8 +462,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Kid Klock/Kid Klock-Prefix.pch";
 				INFOPLIST_FILE = "Kid KlockTests/Kid KlockTests-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/KiwiPublicHeaders";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -418,6 +473,7 @@
 		6680D8E0155F5D45008D3581 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Kid Klock.app/Kid Klock";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -426,8 +482,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Kid Klock/Kid Klock-Prefix.pch";
 				INFOPLIST_FILE = "Kid KlockTests/Kid KlockTests-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/KiwiPublicHeaders";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -451,6 +509,7 @@
 				6680D8DD155F5D45008D3581 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6680D8DE155F5D45008D3581 /* Build configuration list for PBXNativeTarget "Kid KlockTests" */ = {
 			isa = XCConfigurationList;
@@ -459,6 +518,7 @@
 				6680D8E0155F5D45008D3581 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

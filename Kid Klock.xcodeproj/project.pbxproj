@@ -29,6 +29,8 @@
 		6680D8F1155FE5D1008D3581 /* HCUserDefaultsPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8F0155FE5D1008D3581 /* HCUserDefaultsPersistence.m */; };
 		6680D8F4155FFA0D008D3581 /* HCDictionaryAlarm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8F3155FFA0D008D3581 /* HCDictionaryAlarm.m */; };
 		6692F51515671F28003B3AFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51315671F28003B3AFA /* Localizable.strings */; };
+		6692F51815674FAD003B3AFA /* HCAlarmTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */; };
+		6692F51B15674FD9003B3AFA /* HCAlarmTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6692F51A15674FD9003B3AFA /* HCAlarmTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,9 @@
 		6680D8F2155FFA0D008D3581 /* HCDictionaryAlarm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCDictionaryAlarm.h; sourceTree = "<group>"; };
 		6680D8F3155FFA0D008D3581 /* HCDictionaryAlarm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCDictionaryAlarm.m; sourceTree = "<group>"; };
 		6692F51415671F28003B3AFA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HCAlarmTableViewCell.xib; sourceTree = "<group>"; };
+		6692F51915674FD9003B3AFA /* HCAlarmTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCAlarmTableViewCell.h; sourceTree = "<group>"; };
+		6692F51A15674FD9003B3AFA /* HCAlarmTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCAlarmTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +198,9 @@
 				6680D8BF155F5D45008D3581 /* HCMainViewController.m */,
 				6680D8C1155F5D45008D3581 /* HCSettingsViewController.h */,
 				6680D8C2155F5D45008D3581 /* HCSettingsViewController.m */,
+				6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */,
+				6692F51915674FD9003B3AFA /* HCAlarmTableViewCell.h */,
+				6692F51A15674FD9003B3AFA /* HCAlarmTableViewCell.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -273,6 +281,7 @@
 				6680D8BA155F5D45008D3581 /* MainStoryboard_iPhone.storyboard in Resources */,
 				6680D8BD155F5D45008D3581 /* MainStoryboard_iPad.storyboard in Resources */,
 				6692F51515671F28003B3AFA /* Localizable.strings in Resources */,
+				6692F51815674FAD003B3AFA /* HCAlarmTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +323,7 @@
 				6680D8F1155FE5D1008D3581 /* HCUserDefaultsPersistence.m in Sources */,
 				6680D8F4155FFA0D008D3581 /* HCDictionaryAlarm.m in Sources */,
 				6629A0AA156222BD00BDAA3C /* HCStaticAssetAnimal.m in Sources */,
+				6692F51B15674FD9003B3AFA /* HCAlarmTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

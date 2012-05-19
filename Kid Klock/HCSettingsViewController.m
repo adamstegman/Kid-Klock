@@ -9,6 +9,7 @@
 #import "HCSettingsViewController.h"
 #import "HCAlarm.h"
 #import "HCUserDefaultsPersistence.h"
+#import "HCAlarmTableViewCell.h"
 
 @interface HCSettingsViewController ()
 - (id <HCAlarm>)alarmForIndex:(NSUInteger)index;
@@ -87,54 +88,30 @@
 #pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSUInteger section = [indexPath indexAtPosition:0U];
-  if ([[HCUserDefaultsPersistence fetchAlarms] count] > section) {
-    id <HCAlarm> alarm = [self alarmForIndex:section];
-    NSString *value = @"";
-    // FIXME: are the values formatted here or on the model?
-    switch ([indexPath indexAtPosition:1U]) {
-      case 0:
-        value = [self formatTime:alarm.bedtime];
-        break;
-      case 1:
-        value = [self formatTime:alarm.waketime];
-        break;
-      case 2:
-        value = [alarm repeatAsString];
-        break;
-      case 3:
-        value = alarm.animal.name;
-        break;
-    }
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"label"];
-    cell.textLabel.text = value;
-    return cell;
-  } else {
-    // last section is "add an alarm" button
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addAlarm"];
-    // TODO: plus icon
-    return cell;
+  id <HCAlarm> alarm = [self alarmForIndex:indexPath.row];
+  HCAlarmTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"alarm"];
+  if (!cell) {
+    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HCAlarmTableViewCell" owner:self options:nil];
+    cell = [nib objectAtIndex:0];
   }
+  cell.labelLabel.text = alarm.name;
+// TODO  cell.animalImageView.image = alarm.animal.icon;
+  cell.timeLabel.text = [self formatTime:alarm.bedtime];
+  cell.enabledSwitch.enabled = YES; // TODO
+  // TODO: repeats
+  return cell;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return [[HCUserDefaultsPersistence fetchAlarms] count] + 1;
+  return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if ([[HCUserDefaultsPersistence fetchAlarms] count] > section) {
-    return 5; // number of fields in HCAlarm
-  } else {
-    return 1; // last section is "add an alarm" button
-  }
+  return [[HCUserDefaultsPersistence fetchAlarms] count];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  if ([[HCUserDefaultsPersistence fetchAlarms] count] > section) {
-    return [[self alarmForIndex:section] name];
-  } else {
-    return @""; // last section is "add an alarm" button
-  }
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  return 99;
 }
 
 @end

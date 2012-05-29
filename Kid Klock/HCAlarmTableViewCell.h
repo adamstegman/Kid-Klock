@@ -1,11 +1,3 @@
-//
-//  HCAlarmTableViewCell.h
-//  Kid Klock
-//
-//  Created by Adam Stegman on 5/18/12.
-//  Copyright (c) 2012 Homemade Concoctions. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 
 @interface HCAlarmTableViewCell : UITableViewCell

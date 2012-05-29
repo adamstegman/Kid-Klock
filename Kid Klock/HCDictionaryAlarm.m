@@ -1,20 +1,12 @@
-//
-//  HCAlarmData.m
-//  Kid Klock
-//
-//  Created by Adam Stegman on 5/13/12.
-//  Copyright (c) 2012 Homemade Concoctions. All rights reserved.
-//
-
 #import "HCDictionaryAlarm.h"
 #import "HCStaticAssetAnimal.h"
 
 @implementation HCDictionaryAlarm
 
 @dynamic name;
-@dynamic bedtime;
 @dynamic waketime;
 @dynamic animal;
+@dynamic repeat;
 
 - (NSString *)name {
   return [_attributes objectForKey:@"name"];
@@ -24,16 +16,16 @@
   [_attributes setObject:[name copy] forKey:@"name"];
 }
 
-- (NSDate *)bedtime {
-  return [_attributes objectForKey:@"bedtime"];
-}
-
-- (void)setBedtime:(NSDate *)bedtime {
-  [_attributes setObject:bedtime forKey:@"bedtime"];
-}
-
 - (NSDate *)waketime {
   return [_attributes objectForKey:@"waketime"];
+}
+
+- (NSString *)waketimeAsString {
+  if (self.waketime) {
+    return [NSDateFormatter localizedStringFromDate:self.waketime dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterShortStyle];
+  } else {
+    return @"";
+  }
 }
 
 - (void)setWaketime:(NSDate *)waketime {
@@ -52,14 +44,24 @@
   return [HCStaticAssetAnimal animalWithType:self.animalType];
 }
 
-- (NSString *)repeatAsString {
-  // TODO
-  return nil;
+- (void)setRepeat:(NSArray *)days {
+  if ([days count] == 7U) [_attributes setObject:[days copy] forKey:@"repeat"];
 }
 
-- (void)setRepeatForSunday:(BOOL)sunday monday:(BOOL)monday tuesday:(BOOL)tuesday wednesday:(BOOL)wednesday
-                  thursday:(BOOL)thursday friday:(BOOL)friday saturday:(BOOL)saturday {
-  // TODO
+- (NSArray *)repeat {
+  return [_attributes objectForKey:@"repeat"];
+}
+
+- (NSString *)repeatAsString {
+  NSMutableString *repeatString = [NSMutableString string];
+  NSArray *repeat = [_attributes objectForKey:@"repeat"];
+  if (!repeat) return repeatString;
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  dateFormatter.locale = [NSLocale autoupdatingCurrentLocale];
+  [[dateFormatter veryShortWeekdaySymbols] enumerateObjectsUsingBlock:^(id weekday, NSUInteger index, BOOL *stop){
+    if ([[repeat objectAtIndex:index] boolValue]) [repeatString appendString:weekday];
+  }];
+  return repeatString;
 }
 
 + (id)alarmWithAttributes:(NSDictionary *)attributes {

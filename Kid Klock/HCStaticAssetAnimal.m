@@ -1,17 +1,14 @@
-//
-//  HCStaticAssetAnimal.m
-//  Kid Klock
-//
-//  Created by Adam Stegman on 5/15/12.
-//  Copyright (c) 2012 Homemade Concoctions. All rights reserved.
-//
-
 #import "HCStaticAssetAnimal.h"
 
 @implementation HCStaticAssetAnimal
 
+@dynamic icon;
 @synthesize name = _name;
 @dynamic type;
+
+- (UIImage *)icon {
+  return nil;
+}
 
 - (HCAnimalType)type {
   return _type;

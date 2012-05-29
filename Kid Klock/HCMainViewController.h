@@ -1,14 +1,6 @@
-//
-//  HCMainViewController.h
-//  Kid Klock
-//
-//  Created by Adam Stegman on 5/12/12.
-//  Copyright (c) 2012 Homemade Concoctions. All rights reserved.
-//
+#import "HCAlarmsViewController.h"
 
-#import "HCSettingsViewController.h"
-
-@interface HCMainViewController : UIViewController <HCSettingsViewControllerDelegate, UIPopoverControllerDelegate>
+@interface HCMainViewController : UIViewController <HCAlarmsViewControllerDelegate, UIPopoverControllerDelegate>
 
 @property (strong, nonatomic) UIPopoverController *settingsPopoverController;
 

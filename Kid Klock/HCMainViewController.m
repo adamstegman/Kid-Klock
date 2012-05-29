@@ -1,11 +1,3 @@
-//
-//  HCMainViewController.m
-//  Kid Klock
-//
-//  Created by Adam Stegman on 5/12/12.
-//  Copyright (c) 2012 Homemade Concoctions. All rights reserved.
-//
-
 #import "HCMainViewController.h"
 
 @interface HCMainViewController ()
@@ -22,7 +14,11 @@
 
 #pragma mark - Flipside View Controller
 
-- (void)settingsViewControllerDidFinish:(HCSettingsViewController *)controller {
+- (void)alarmsViewControllerDidFinish:(HCAlarmsViewController *)controller {
+  // hide the status bar for the main view
+  [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+  
+  // dismiss the settings view
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
     [self dismissModalViewControllerAnimated:YES];
   } else {
@@ -32,18 +28,23 @@
 }
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+  // hide the status bar for the main view
+  [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
   self.settingsPopoverController = nil;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   if ([[segue identifier] isEqualToString:@"showSettings"]) {
-    [[segue destinationViewController] setSettingsDelegate:self];
+    [(HCAlarmsViewController *)[segue destinationViewController] setAlarmsDelegate:self];
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
       UIPopoverController *popoverController = [(UIStoryboardPopoverSegue *)segue popoverController];
       self.settingsPopoverController = popoverController;
       popoverController.delegate = self;
     }
+    
+    // show the status bar for the settings view
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
   }
 }
 

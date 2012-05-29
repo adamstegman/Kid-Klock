@@ -1,11 +1,3 @@
-//
-//  HCAppDelegate.m
-//  Kid Klock
-//
-//  Created by Adam Stegman on 5/12/12.
-//  Copyright (c) 2012 Homemade Concotions. All rights reserved.
-//
-
 #import "HCAppDelegate.h"
 
 @implementation HCAppDelegate

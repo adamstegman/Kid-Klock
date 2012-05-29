@@ -1,11 +1,3 @@
-//
-//  HCAlarmPersistence.m
-//  Kid Klock
-//
-//  Created by Adam Stegman on 5/13/12.
-//  Copyright (c) 2012 Homemade Concoctions. All rights reserved.
-//
-
 #import "HCUserDefaultsPersistence.h"
 
 static NSString *bundleIdentifier;

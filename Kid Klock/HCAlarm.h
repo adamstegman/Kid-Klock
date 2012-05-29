@@ -15,20 +15,25 @@
 @protocol HCAlarm <NSObject>
 
 @property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSDate *bedtime;
 @property (strong, nonatomic) NSDate *waketime;
 @property (assign, nonatomic) HCAnimalType animalType;
 @property (strong, nonatomic, readonly) id <HCAnimal> animal;
 
 /**
+ * Assign which days the alarm should repeat on. Does nothing if the given array does not have exactly seven elements.
+ *
+ * \param days BOOL values indexed to correspond to [NSDateFormatter -veryShortWeekdaySymbols].
+ */
+@property (copy, nonatomic) NSArray *repeat;
+
+/**
+ * \return a string appropriate for the user interface representing the waketime for this alarm
+ */
+- (NSString *)waketimeAsString;
+
+/**
  * \return a string appropriate for the user interface representing which days of the week this alarm repeats on
  */
 - (NSString *)repeatAsString;
-
-/**
- * Assign which days the alarm should repeat on.
- */
-- (void)setRepeatForSunday:(BOOL)sunday monday:(BOOL)monday tuesday:(BOOL)tuesday wednesday:(BOOL)wednesday
-                  thursday:(BOOL)thursday friday:(BOOL)friday saturday:(BOOL)saturday;
 
 @end

@@ -21,13 +21,15 @@
 		6680D8BA155F5D45008D3581 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6680D8B8155F5D45008D3581 /* MainStoryboard_iPhone.storyboard */; };
 		6680D8BD155F5D45008D3581 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6680D8BB155F5D45008D3581 /* MainStoryboard_iPad.storyboard */; };
 		6680D8C0155F5D45008D3581 /* HCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8BF155F5D45008D3581 /* HCMainViewController.m */; };
-		6680D8C3155F5D45008D3581 /* HCSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8C2155F5D45008D3581 /* HCSettingsViewController.m */; };
+		6680D8C3155F5D45008D3581 /* HCAlarmsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8C2155F5D45008D3581 /* HCAlarmsViewController.m */; };
 		6680D8CB155F5D45008D3581 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8CA155F5D45008D3581 /* SenTestingKit.framework */; };
 		6680D8CC155F5D45008D3581 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A6155F5D45008D3581 /* UIKit.framework */; };
 		6680D8CD155F5D45008D3581 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A8155F5D45008D3581 /* Foundation.framework */; };
 		6680D8D5155F5D45008D3581 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6680D8D3155F5D45008D3581 /* InfoPlist.strings */; };
 		6680D8F1155FE5D1008D3581 /* HCUserDefaultsPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8F0155FE5D1008D3581 /* HCUserDefaultsPersistence.m */; };
 		6680D8F4155FFA0D008D3581 /* HCDictionaryAlarm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8F3155FFA0D008D3581 /* HCDictionaryAlarm.m */; };
+		66859D731568B31000C0788E /* HCAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66859D721568B31000C0788E /* HCAlarmViewController.m */; };
+		66859D77156B11F400C0788E /* HCRepeatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66859D76156B11F400C0788E /* HCRepeatViewController.m */; };
 		6692F51515671F28003B3AFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51315671F28003B3AFA /* Localizable.strings */; };
 		6692F51815674FAD003B3AFA /* HCAlarmTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */; };
 		6692F51B15674FD9003B3AFA /* HCAlarmTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6692F51A15674FD9003B3AFA /* HCAlarmTableViewCell.m */; };
@@ -64,8 +66,8 @@
 		6680D8BC155F5D45008D3581 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		6680D8BE155F5D45008D3581 /* HCMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCMainViewController.h; sourceTree = "<group>"; };
 		6680D8BF155F5D45008D3581 /* HCMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCMainViewController.m; sourceTree = "<group>"; };
-		6680D8C1155F5D45008D3581 /* HCSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCSettingsViewController.h; sourceTree = "<group>"; };
-		6680D8C2155F5D45008D3581 /* HCSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCSettingsViewController.m; sourceTree = "<group>"; };
+		6680D8C1155F5D45008D3581 /* HCAlarmsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCAlarmsViewController.h; sourceTree = "<group>"; };
+		6680D8C2155F5D45008D3581 /* HCAlarmsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCAlarmsViewController.m; sourceTree = "<group>"; };
 		6680D8C9155F5D45008D3581 /* Kid KlockTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Kid KlockTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6680D8CA155F5D45008D3581 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		6680D8D2155F5D45008D3581 /* Kid KlockTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Kid KlockTests-Info.plist"; sourceTree = "<group>"; };
@@ -76,6 +78,10 @@
 		6680D8F0155FE5D1008D3581 /* HCUserDefaultsPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCUserDefaultsPersistence.m; sourceTree = "<group>"; };
 		6680D8F2155FFA0D008D3581 /* HCDictionaryAlarm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCDictionaryAlarm.h; sourceTree = "<group>"; };
 		6680D8F3155FFA0D008D3581 /* HCDictionaryAlarm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCDictionaryAlarm.m; sourceTree = "<group>"; };
+		66859D711568B31000C0788E /* HCAlarmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCAlarmViewController.h; sourceTree = "<group>"; };
+		66859D721568B31000C0788E /* HCAlarmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCAlarmViewController.m; sourceTree = "<group>"; };
+		66859D75156B11F300C0788E /* HCRepeatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCRepeatViewController.h; sourceTree = "<group>"; };
+		66859D76156B11F400C0788E /* HCRepeatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCRepeatViewController.m; sourceTree = "<group>"; };
 		6692F51415671F28003B3AFA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HCAlarmTableViewCell.xib; sourceTree = "<group>"; };
 		6692F51915674FD9003B3AFA /* HCAlarmTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCAlarmTableViewCell.h; sourceTree = "<group>"; };
@@ -196,11 +202,15 @@
 				6680D8BB155F5D45008D3581 /* MainStoryboard_iPad.storyboard */,
 				6680D8BE155F5D45008D3581 /* HCMainViewController.h */,
 				6680D8BF155F5D45008D3581 /* HCMainViewController.m */,
-				6680D8C1155F5D45008D3581 /* HCSettingsViewController.h */,
-				6680D8C2155F5D45008D3581 /* HCSettingsViewController.m */,
+				6680D8C1155F5D45008D3581 /* HCAlarmsViewController.h */,
+				6680D8C2155F5D45008D3581 /* HCAlarmsViewController.m */,
 				6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */,
 				6692F51915674FD9003B3AFA /* HCAlarmTableViewCell.h */,
 				6692F51A15674FD9003B3AFA /* HCAlarmTableViewCell.m */,
+				66859D711568B31000C0788E /* HCAlarmViewController.h */,
+				66859D721568B31000C0788E /* HCAlarmViewController.m */,
+				66859D75156B11F300C0788E /* HCRepeatViewController.h */,
+				66859D76156B11F400C0788E /* HCRepeatViewController.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -319,11 +329,13 @@
 				6680D8B3155F5D45008D3581 /* main.m in Sources */,
 				6680D8B7155F5D45008D3581 /* HCAppDelegate.m in Sources */,
 				6680D8C0155F5D45008D3581 /* HCMainViewController.m in Sources */,
-				6680D8C3155F5D45008D3581 /* HCSettingsViewController.m in Sources */,
+				6680D8C3155F5D45008D3581 /* HCAlarmsViewController.m in Sources */,
 				6680D8F1155FE5D1008D3581 /* HCUserDefaultsPersistence.m in Sources */,
 				6680D8F4155FFA0D008D3581 /* HCDictionaryAlarm.m in Sources */,
 				6629A0AA156222BD00BDAA3C /* HCStaticAssetAnimal.m in Sources */,
 				6692F51B15674FD9003B3AFA /* HCAlarmTableViewCell.m in Sources */,
+				66859D731568B31000C0788E /* HCAlarmViewController.m in Sources */,
+				66859D77156B11F400C0788E /* HCRepeatViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

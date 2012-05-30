@@ -50,6 +50,7 @@
 
 - (void)alarmViewController:(HCAlarmViewController *)controller didFinishWithAlarm:(id<HCAlarm>)alarm {
   if (alarm) {
+    // TODO: handle new alarm same as existing alarm name
     [HCUserDefaultsPersistence upsert:(HCDictionaryAlarm *)alarm];
     [self.tableView reloadData];
     [self.tableView setNeedsDisplay];

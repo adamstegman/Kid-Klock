@@ -7,8 +7,9 @@
 - (void)alarmViewController:(HCAlarmViewController *)controller didFinishWithAlarm:(id <HCAlarm>)alarm;
 @end
 
-@interface HCAlarmViewController : UITableViewController {
+@interface HCAlarmViewController : UITableViewController <UITextFieldDelegate> {
   HCDictionaryAlarm *_alarm;
+  UITableViewCell *_editingCell;
 }
 
 @property (nonatomic, strong) id <HCAlarmViewControllerDelegate> alarmDelegate;

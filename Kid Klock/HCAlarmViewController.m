@@ -11,6 +11,7 @@
 
 @implementation HCAlarmViewController
 
+@synthesize alarm = _alarm;
 @synthesize alarmDelegate = _alarmDelegate;
 
 #pragma mark - Actions
@@ -20,7 +21,7 @@
 }
 
 - (IBAction)done:(id)sender {
-  [self.alarmDelegate alarmViewController:self didFinishWithAlarm:_alarm];
+  [self.alarmDelegate alarmViewController:self didFinishWithAlarm:self.alarm];
 }
 
 #pragma mark - Methods
@@ -53,17 +54,14 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
-  // TODO: edit alarm
-  NSDictionary *alarmAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSDate date], @"waketime",
-                                   NSLocalizedString(@"alarm.name.default", @"Default new alarm name"), @"name",
-                                   [NSNumber numberWithInt:HCNoAnimal], @"animalType", nil];
-  _alarm = [HCDictionaryAlarm alarmWithAttributes:alarmAttributes];
-  self.title = _alarm.name;
+  self.title = self.alarm.name;
+  [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
   _editingCell = nil;
   [self.tableView reloadData];
+  [super viewWillAppear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -74,7 +72,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   if ([segue.identifier isEqualToString:@"repeat"] || [segue.identifier isEqualToString:@"waketime"]) {
     id <HCAlarmSettings> alarmSettingsViewController = (id <HCAlarmSettings>)[segue destinationViewController];
-    alarmSettingsViewController.alarm = _alarm;
+    alarmSettingsViewController.alarm = self.alarm;
   }
 }
 
@@ -94,19 +92,19 @@
     case 0: {
       cell = [tableView dequeueReusableCellWithIdentifier:@"name"];
       [[cell.contentView subviews] enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop) {
-        [obj setText:_alarm.name];
+        [obj setText:self.alarm.name];
       }];
       break;
     }
     case 1: {
       cell = [tableView dequeueReusableCellWithIdentifier:@"waketime"];
-      cell.textLabel.text = [_alarm waketimeAsString];
+      cell.textLabel.text = [self.alarm waketimeAsString];
       break;
     }
     case 2: {
       // TODO: add icon
       cell = [tableView dequeueReusableCellWithIdentifier:@"animalType"];
-      cell.textLabel.text = _alarm.animal.name;
+      cell.textLabel.text = self.alarm.animal.name;
       break;
     }
     case 3: {
@@ -129,7 +127,7 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
   UILabel *textLabel = (UILabel *)[[textField superview] viewWithTag:HCALARM_TEXT_LABEL_TAG];
-  _alarm.name = textLabel.text = [textField.text stringByReplacingCharactersInRange:range withString:string];
+  self.alarm.name = textLabel.text = [textField.text stringByReplacingCharactersInRange:range withString:string];
   return YES;
 }
 

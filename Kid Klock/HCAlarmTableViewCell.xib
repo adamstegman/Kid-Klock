@@ -154,6 +154,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<reference key="IBUIContentView" ref="669682726"/>
 				<string key="IBUIReuseIdentifier">alarm</string>
+				<int key="IBUIEditingAccessoryType">1</int>
 				<real value="88" key="IBUIRowHeight"/>
 			</object>
 		</array>

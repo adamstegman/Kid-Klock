@@ -29,6 +29,7 @@
 - (void)viewWillAppear:(BOOL)animated {
   [self initRepeat];
   _weekdaySymbols = [[[NSDateFormatter alloc] init] weekdaySymbols];
+  [super viewWillAppear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

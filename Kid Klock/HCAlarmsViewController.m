@@ -1,5 +1,6 @@
 #import "HCAlarmsViewController.h"
 #import "HCAlarm.h"
+#import "HCDictionaryAlarm.h"
 #import "HCUserDefaultsPersistence.h"
 #import "HCAlarmTableViewCell.h"
 
@@ -9,11 +10,20 @@
 
 @implementation HCAlarmsViewController
 
-@synthesize alarmsDelegate = _settingsDelegate;
+@synthesize alarmsDelegate = _alarmsDelegate;
 @synthesize tableView = _tableView;
+@synthesize settingsNavigationItem = _settingsNavigationItem;
+@synthesize doneButtonItem = _doneButtonItem;
 
 - (id <HCAlarm>)alarmForIndex:(NSUInteger)index {
   return [[HCUserDefaultsPersistence fetchAlarms] objectAtIndex:index];
+}
+
+- (id <HCAlarm>)newAlarm {
+  NSDictionary *alarmAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSDate date], @"waketime",
+                                   NSLocalizedString(@"alarm.name.default", @"Default new alarm name"), @"name",
+                                   [NSNumber numberWithInt:HCNoAnimal], @"animalType", nil];
+  return [HCDictionaryAlarm alarmWithAttributes:alarmAttributes];
 }
 
 #pragma mark - View lifecycle
@@ -24,14 +34,38 @@
 }
 
 - (void)viewDidLoad {
-  self.tableView = [[self.view subviews] objectAtIndex:0U];
+  self.settingsNavigationItem.rightBarButtonItem = self.editButtonItem;
   [super viewDidLoad];
 }
 
+- (void)viewDidUnload {
+  self.tableView = nil;
+  self.settingsNavigationItem = nil;
+  self.doneButtonItem = nil;
+  [super viewDidUnload];
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+  // hide Done button if editing
+  if (editing) {
+    self.settingsNavigationItem.leftBarButtonItem = nil;
+  } else {
+    self.settingsNavigationItem.leftBarButtonItem = self.doneButtonItem;
+  }
+  [self.tableView setEditing:editing animated:animated];
+  [super setEditing:editing animated:animated];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  if ([[segue identifier] isEqualToString:@"addAlarm"]) {
+  if ([[segue identifier] isEqualToString:@"editAlarm"]) {
     UINavigationController *alarmNavigationController = (UINavigationController *)[segue destinationViewController];
-    [(HCAlarmViewController *)alarmNavigationController.topViewController setAlarmDelegate:self];
+    HCAlarmViewController *alarmViewController = (HCAlarmViewController *)alarmNavigationController.topViewController;
+    if (_selectedAlarm) {
+      alarmViewController.alarm = _selectedAlarm;
+    } else {
+      alarmViewController.alarm = [self newAlarm];
+    }
+    alarmViewController.alarmDelegate = self;
   }
 }
 
@@ -56,13 +90,27 @@
     [self.tableView setNeedsDisplay];
   }
   [self dismissModalViewControllerAnimated:YES];
+  // if editing, deselect the row being edited
+  if (_selectedAlarm) {
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+  }
 }
 
 #pragma mark - UITableViewDelegate
 
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+  _selectedAlarm = nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  _selectedAlarm = [self alarmForIndex:indexPath.row];
+  [self performSegueWithIdentifier:@"editAlarm" sender:tableView];
+}
+
 #pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  // TODO: sorting
   id <HCAlarm> alarm = [self alarmForIndex:indexPath.row];
   HCAlarmTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"alarm"];
   if (!cell) {
@@ -75,6 +123,13 @@
   cell.enabledSwitch.enabled = YES; // TODO
   // TODO: repeats
   return cell;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (editingStyle == UITableViewCellEditingStyleDelete) {
+    [HCUserDefaultsPersistence remove:[self alarmForIndex:indexPath.row].name];
+    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+  }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

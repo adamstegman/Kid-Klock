@@ -8,10 +8,10 @@
 @end
 
 @interface HCAlarmViewController : UITableViewController <UITextFieldDelegate> {
-  HCDictionaryAlarm *_alarm;
   UITableViewCell *_editingCell;
 }
 
+@property (nonatomic, strong) id <HCAlarm> alarm;
 @property (nonatomic, strong) id <HCAlarmViewControllerDelegate> alarmDelegate;
 
 - (IBAction)cancel:(id)sender;

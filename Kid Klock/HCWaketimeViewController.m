@@ -34,10 +34,17 @@
   self.timePicker.minuteInterval = [self.alarm minuteInterval];
   // date pickers do not have delegates, so force its hand
   [self.timePicker addTarget:self action:@selector(waketimeDidUpdate:) forControlEvents:UIControlEventValueChanged];
+  [super viewDidLoad];
+}
+
+- (void)viewDidUnload {
+  self.timePicker = nil;
+  [super viewDidUnload];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
   [self initWaketime];
+  [super viewWillAppear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -45,8 +52,4 @@
   return YES;
 }
 
-- (void)viewDidUnload {
-  [self setTimePicker:nil];
-  [super viewDidUnload];
-}
 @end

@@ -13,31 +13,53 @@ describe(@"HCDictionaryAlarm", ^{
 
   describe(@"+alarmWithAttributes:", ^{
     it(@"allocates and initializes an alarm with the given attributes", ^{
+      NSNumber *yes = [NSNumber numberWithBool:YES];
+      NSNumber *no = [NSNumber numberWithBool:NO];
+      NSArray *repeat = [NSArray arrayWithObjects:no, no, yes, no, no, no, no, nil];
       NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:@"testing", @"name",
                                   [NSDate dateWithTimeIntervalSinceReferenceDate:5.0], @"bedtime",
                                   [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0], @"waketime",
                                   [NSNumber numberWithInt:HCBunny], @"animalType",
-                                  [NSNumber numberWithInt:0x55], @"repeat", nil];
+                                  repeat, @"repeat", nil];
       alarm = [HCDictionaryAlarm alarmWithAttributes:attributes];
       [[alarm.name should] equal:@"testing"];
       [[alarm.waketime should] equal:[NSDate dateWithTimeIntervalSinceReferenceDate:1500.0]];
       [[theValue(alarm.animalType) should] equal:theValue(HCBunny)];
-      // TODO: repeatAsString
+      [[alarm.repeat should] equal:repeat];
     });
   });
 
   describe(@"-initWithAttributes:", ^{
     it(@"stores the given attributes", ^{
+      NSNumber *yes = [NSNumber numberWithBool:YES];
+      NSNumber *no = [NSNumber numberWithBool:NO];
+      NSArray *repeat = [NSArray arrayWithObjects:no, no, yes, no, no, no, no, nil];
       NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:@"testing", @"name",
                                   [NSDate dateWithTimeIntervalSinceReferenceDate:5.0], @"bedtime",
                                   [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0], @"waketime",
                                   [NSNumber numberWithInt:HCBunny], @"animalType",
-                                  [NSNumber numberWithInt:0x55], @"repeat", nil];
+                                  repeat, @"repeat", nil];
       alarm = [[HCDictionaryAlarm alloc] initWithAttributes:attributes];
       [[alarm.name should] equal:@"testing"];
       [[alarm.waketime should] equal:[NSDate dateWithTimeIntervalSinceReferenceDate:1500.0]];
       [[theValue(alarm.animalType) should] equal:theValue(HCBunny)];
-      // TODO: repeatAsString
+      [[alarm.repeat should] equal:repeat];
+    });
+
+    it(@"rounds waketime down to the nearest minute interval", ^{
+      NSDate *waketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0];
+      NSDate *unroundedWaketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1560.0];
+      NSDictionary *attributes = [NSDictionary dictionaryWithObject:unroundedWaketime forKey:@"waketime"];
+      alarm = [[HCDictionaryAlarm alloc] initWithAttributes:attributes];
+      [[alarm.waketime should] equal:waketime];
+    });
+
+    it(@"rounds waketime up to the nearest minute interval", ^{
+      NSDate *waketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0];
+      NSDate *unroundedWaketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1440.0];
+      NSDictionary *attributes = [NSDictionary dictionaryWithObject:unroundedWaketime forKey:@"waketime"];
+      alarm = [[HCDictionaryAlarm alloc] initWithAttributes:attributes];
+      [[alarm.waketime should] equal:waketime];
     });
 
     it(@"handles nil gracefully", ^{
@@ -74,6 +96,20 @@ describe(@"HCDictionaryAlarm", ^{
     it(@"assigns a waketime", ^{
       NSDate *waketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0];
       alarm.waketime = waketime;
+      [[alarm.waketime should] equal:waketime];
+    });
+
+    it(@"rounds waketime down to the nearest minute interval", ^{
+      NSDate *waketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0];
+      NSDate *unroundedWaketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1560.0];
+      alarm.waketime = unroundedWaketime;
+      [[alarm.waketime should] equal:waketime];
+    });
+
+    it(@"rounds waketime up to the nearest minute interval", ^{
+      NSDate *waketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0];
+      NSDate *unroundedWaketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1440.0];
+      alarm.waketime = unroundedWaketime;
       [[alarm.waketime should] equal:waketime];
     });
   });

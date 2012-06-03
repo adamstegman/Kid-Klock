@@ -36,4 +36,12 @@
  */
 - (NSString *)repeatAsString;
 
+/**
+ * Returns the interval used between minutes when setting the alarm. The alarm will not support minute precision more
+ * granular than this number. When -setWaketime: is called, it will round to the nearest minute matching this number.
+ *
+ * \return the interval between minutes allowed when setting the alarm
+ */
+- (NSInteger)minuteInterval;
+
 @end

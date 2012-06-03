@@ -1,6 +1,6 @@
 #import "HCAlarmViewController.h"
 #import "HCDictionaryAlarm.h"
-#import "HCRepeatViewController.h"
+#import "HCAlarmSettings.h"
 
 #define HCALARM_TEXT_LABEL_TAG 1
 #define HCALARM_TEXT_VIEW_TAG 2
@@ -63,6 +63,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   _editingCell = nil;
+  [self.tableView reloadData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -71,9 +72,9 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  if ([segue.identifier isEqualToString:@"repeat"]) {
-    HCRepeatViewController *repeatViewController = (HCRepeatViewController *)[segue destinationViewController];
-    repeatViewController.alarm = _alarm;
+  if ([segue.identifier isEqualToString:@"repeat"] || [segue.identifier isEqualToString:@"waketime"]) {
+    id <HCAlarmSettings> alarmSettingsViewController = (id <HCAlarmSettings>)[segue destinationViewController];
+    alarmSettingsViewController.alarm = _alarm;
   }
 }
 

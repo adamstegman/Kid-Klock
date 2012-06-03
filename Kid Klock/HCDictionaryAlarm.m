@@ -13,7 +13,9 @@
 }
 
 - (void)setName:(NSString *)name {
-  [_attributes setObject:[name copy] forKey:@"name"];
+  if (name) {
+    [_attributes setObject:[name copy] forKey:@"name"];
+  }
 }
 
 - (NSDate *)waketime {
@@ -29,7 +31,21 @@
 }
 
 - (void)setWaketime:(NSDate *)waketime {
-  [_attributes setObject:waketime forKey:@"waketime"];
+  if (waketime) {
+    // round to nearest minute interval
+    NSDateComponents *waketimeComponents = [[NSCalendar currentCalendar] components:NSMinuteCalendarUnit fromDate:waketime];
+    NSInteger minutes = [waketimeComponents minute];
+    NSInteger minuteInterval = [self minuteInterval];
+    NSInteger minuteRemainder = minutes % minuteInterval;
+    if (minuteRemainder < minuteInterval / 2) {
+      // round down
+      waketime = [waketime dateByAddingTimeInterval:(-60 * minuteRemainder)];
+    } else {
+      // round up
+      waketime = [waketime dateByAddingTimeInterval:(60 * (minuteInterval - minuteRemainder))];
+    }
+    [_attributes setObject:waketime forKey:@"waketime"];
+  }
 }
 
 - (HCAnimalType)animalType {
@@ -71,10 +87,12 @@
 - (id)initWithAttributes:(NSDictionary *)attributes {
   self = [super init];
   if (self) {
+    _attributes = [NSMutableDictionary dictionary];
     if (attributes) {
-      _attributes = [attributes mutableCopy];
-    } else {
-      _attributes = [NSMutableDictionary dictionary];
+      [self setName:[attributes objectForKey:@"name"]];
+      [self setWaketime:[attributes objectForKey:@"waketime"]];
+      [self setAnimalType:[[attributes objectForKey:@"animalType"] intValue]];
+      [self setRepeat:[attributes objectForKey:@"repeat"]];
     }
   }
   return self;
@@ -86,6 +104,10 @@
 
 - (NSDictionary *)attributes {
   return _attributes;
+}
+
+- (NSInteger)minuteInterval {
+  return 5;
 }
 
 @end

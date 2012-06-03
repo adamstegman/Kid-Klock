@@ -1,10 +1,8 @@
 #import <UIKit/UIKit.h>
-#import "HCAlarm.h"
+#import "HCAlarmSettings.h"
 
-@interface HCRepeatViewController : UITableViewController {
+@interface HCRepeatViewController : UITableViewController <HCAlarmSettings> {
   NSArray *_weekdaySymbols;
 }
-
-@property (strong, nonatomic) id <HCAlarm> alarm;
 
 @end

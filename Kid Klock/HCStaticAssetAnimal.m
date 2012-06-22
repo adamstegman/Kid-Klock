@@ -7,7 +7,15 @@
 @dynamic type;
 
 - (UIImage *)icon {
-  return nil;
+  NSString *resource = nil;
+  switch (_type) {
+    case HCNoAnimal:
+      resource = @"HCNoAnimal";
+      break;
+    default:
+      return nil;
+  }
+  return [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:resource ofType:@"png"]];
 }
 
 - (HCAnimalType)type {

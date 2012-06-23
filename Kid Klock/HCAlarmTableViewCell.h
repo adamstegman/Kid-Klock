@@ -1,6 +1,9 @@
 #import <UIKit/UIKit.h>
 
-@interface HCAlarmTableViewCell : UITableViewCell
+@interface HCAlarmTableViewCell : UITableViewCell {
+  NSArray *_editLabelHorizontalConstraint;
+  NSArray *_editImageHorizontalConstraint;
+}
 
 @property (strong, nonatomic) IBOutlet UILabel *labelLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *animalImageView;

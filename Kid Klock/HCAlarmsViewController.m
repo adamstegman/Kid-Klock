@@ -29,7 +29,7 @@
 #pragma mark - View lifecycle
 
 - (void)awakeFromNib {
-  self.contentSizeForViewInPopover = CGSizeMake(320.0, 480.0);
+  self.contentSizeForViewInPopover = CGSizeMake(320.0f, 480.0f);
   [super awakeFromNib];
 }
 
@@ -141,7 +141,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return 99.0;
+  return 99.0f;
 }
 
 @end

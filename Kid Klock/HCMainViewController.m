@@ -8,9 +8,13 @@
 
 @synthesize settingsPopoverController = _settingsPopoverController;
 
+#pragma mark - View lifecycle
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
 }
+
+// FIXME: use autolayout to keep info icon in right place during rotation
 
 #pragma mark - Flipside View Controller
 

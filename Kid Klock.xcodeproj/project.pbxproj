@@ -32,7 +32,7 @@
 		6680D8F4155FFA0D008D3581 /* HCDictionaryAlarm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680D8F3155FFA0D008D3581 /* HCDictionaryAlarm.m */; };
 		66859D731568B31000C0788E /* HCAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66859D721568B31000C0788E /* HCAlarmViewController.m */; };
 		66859D77156B11F400C0788E /* HCRepeatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66859D76156B11F400C0788E /* HCRepeatViewController.m */; };
-		66859D7A157A623A00C0788E /* HCWaketimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66859D79157A623A00C0788E /* HCWaketimeViewController.m */; };
+		66927D6115A3996A00CDC780 /* HCWaketimeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66927D6015A3996A00CDC780 /* HCWaketimeTableViewCell.m */; };
 		6692F51515671F28003B3AFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51315671F28003B3AFA /* Localizable.strings */; };
 		6692F51815674FAD003B3AFA /* HCAlarmTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */; };
 		6692F51B15674FD9003B3AFA /* HCAlarmTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6692F51A15674FD9003B3AFA /* HCAlarmTableViewCell.m */; };
@@ -87,9 +87,9 @@
 		66859D721568B31000C0788E /* HCAlarmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCAlarmViewController.m; sourceTree = "<group>"; };
 		66859D75156B11F300C0788E /* HCRepeatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCRepeatViewController.h; sourceTree = "<group>"; };
 		66859D76156B11F400C0788E /* HCRepeatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCRepeatViewController.m; sourceTree = "<group>"; };
-		66859D78157A623900C0788E /* HCWaketimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCWaketimeViewController.h; sourceTree = "<group>"; };
-		66859D79157A623A00C0788E /* HCWaketimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCWaketimeViewController.m; sourceTree = "<group>"; };
 		66859D7B157A6C4700C0788E /* HCAlarmSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCAlarmSettings.h; sourceTree = "<group>"; };
+		66927D5F15A3996A00CDC780 /* HCWaketimeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCWaketimeTableViewCell.h; sourceTree = "<group>"; };
+		66927D6015A3996A00CDC780 /* HCWaketimeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCWaketimeTableViewCell.m; sourceTree = "<group>"; };
 		6692F51415671F28003B3AFA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HCAlarmTableViewCell.xib; sourceTree = "<group>"; };
 		6692F51915674FD9003B3AFA /* HCAlarmTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCAlarmTableViewCell.h; sourceTree = "<group>"; };
@@ -205,8 +205,8 @@
 		6680D8E7155FDC93008D3581 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				66859D78157A623900C0788E /* HCWaketimeViewController.h */,
-				66859D79157A623A00C0788E /* HCWaketimeViewController.m */,
+				66927D5F15A3996A00CDC780 /* HCWaketimeTableViewCell.h */,
+				66927D6015A3996A00CDC780 /* HCWaketimeTableViewCell.m */,
 				66859D7B157A6C4700C0788E /* HCAlarmSettings.h */,
 				6680D8B5155F5D45008D3581 /* HCAppDelegate.h */,
 				6680D8B6155F5D45008D3581 /* HCAppDelegate.m */,
@@ -359,7 +359,7 @@
 				6692F51B15674FD9003B3AFA /* HCAlarmTableViewCell.m in Sources */,
 				66859D731568B31000C0788E /* HCAlarmViewController.m in Sources */,
 				66859D77156B11F400C0788E /* HCRepeatViewController.m in Sources */,
-				66859D7A157A623A00C0788E /* HCWaketimeViewController.m in Sources */,
+				66927D6115A3996A00CDC780 /* HCWaketimeTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

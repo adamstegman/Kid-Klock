@@ -1,12 +1,47 @@
 #import "HCMainViewController.h"
+#import "HCUserDefaultsPersistence.h"
 
-@interface HCMainViewController ()
-
+@interface HCMainViewController()
+- (void)setAlarmImage;
 @end
 
 @implementation HCMainViewController
 
+#pragma mark - Properties
+
+@dynamic currentAlarm;
 @synthesize settingsPopoverController = _settingsPopoverController;
+@synthesize alarmImage = _alarmImage;
+
+- (id <HCAlarm>)currentAlarm {
+  NSArray *alarms = [[HCUserDefaultsPersistence fetchAlarms] sortedArrayUsingComparator:^NSComparisonResult(id l, id r) {
+    return [((id <HCAlarm>)l).waketime compare:((id <HCAlarm>)r).waketime];
+  }];
+  if ([alarms count] > 0) {
+    // find current alarm
+    NSDate *now = [NSDate date];
+    for (NSUInteger i = 0U, len = [alarms count]; i < len; i++) {
+      id <HCAlarm> alarm = [alarms objectAtIndex:i];
+      if ([now compare:alarm.waketime] != NSOrderedDescending) {
+        return alarm;
+      }
+    }
+    // now is after all the alarms, so wrap around to the first alarm
+    return [alarms objectAtIndex:0U];
+  } else {
+    // TODO: return something if there are no alarms, or go to alarms view?
+    return nil;
+  }
+}
+
+#pragma mark - Private methods
+
+- (void)setAlarmImage {
+  if (self.currentAlarm) {
+    self.alarmImage.image = self.currentAlarm.animal.sleepImage;
+    // TODO: change to awakeImage on waketime
+  }
+}
 
 #pragma mark - View lifecycle
 
@@ -14,11 +49,16 @@
   return YES;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+  [self setAlarmImage];
+}
+
 // FIXME: use autolayout to keep info icon in right place during rotation
 
 #pragma mark - Flipside View Controller
 
 - (void)alarmsViewControllerDidFinish:(HCAlarmsViewController *)controller {
+  [self setAlarmImage];
   // hide the status bar for the main view
   [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
   

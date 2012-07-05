@@ -33,6 +33,10 @@
 		66859D731568B31000C0788E /* HCAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66859D721568B31000C0788E /* HCAlarmViewController.m */; };
 		66859D77156B11F400C0788E /* HCRepeatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66859D76156B11F400C0788E /* HCRepeatViewController.m */; };
 		66927D6115A3996A00CDC780 /* HCResponderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66927D6015A3996A00CDC780 /* HCResponderCell.m */; };
+		66927D6C15A5700200CDC780 /* HCBunny-Day@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66927D6A15A5700200CDC780 /* HCBunny-Day@2x.png */; };
+		66927D6D15A5700200CDC780 /* HCBunny-Night@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66927D6B15A5700200CDC780 /* HCBunny-Night@2x.png */; };
+		66927D7015A5708600CDC780 /* HCBunny-Day.png in Resources */ = {isa = PBXBuildFile; fileRef = 66927D6E15A5708600CDC780 /* HCBunny-Day.png */; };
+		66927D7115A5708600CDC780 /* HCBunny-Night.png in Resources */ = {isa = PBXBuildFile; fileRef = 66927D6F15A5708600CDC780 /* HCBunny-Night.png */; };
 		6692F51515671F28003B3AFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51315671F28003B3AFA /* Localizable.strings */; };
 		6692F51815674FAD003B3AFA /* HCAlarmTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */; };
 		6692F51B15674FD9003B3AFA /* HCAlarmTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6692F51A15674FD9003B3AFA /* HCAlarmTableViewCell.m */; };
@@ -90,6 +94,10 @@
 		66859D7B157A6C4700C0788E /* HCAlarmSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCAlarmSettings.h; sourceTree = "<group>"; };
 		66927D5F15A3996A00CDC780 /* HCResponderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCResponderCell.h; sourceTree = "<group>"; };
 		66927D6015A3996A00CDC780 /* HCResponderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCResponderCell.m; sourceTree = "<group>"; };
+		66927D6A15A5700200CDC780 /* HCBunny-Day@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCBunny-Day@2x.png"; sourceTree = "<group>"; };
+		66927D6B15A5700200CDC780 /* HCBunny-Night@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCBunny-Night@2x.png"; sourceTree = "<group>"; };
+		66927D6E15A5708600CDC780 /* HCBunny-Day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCBunny-Day.png"; sourceTree = "<group>"; };
+		66927D6F15A5708600CDC780 /* HCBunny-Night.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCBunny-Night.png"; sourceTree = "<group>"; };
 		6692F51415671F28003B3AFA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HCAlarmTableViewCell.xib; sourceTree = "<group>"; };
 		6692F51915674FD9003B3AFA /* HCAlarmTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCAlarmTableViewCell.h; sourceTree = "<group>"; };
@@ -172,7 +180,7 @@
 		6680D8AD155F5D45008D3581 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				66859D7C157C407A00C0788E /* Animal Icons */,
+				66859D7C157C407A00C0788E /* Animals */,
 				6692F51315671F28003B3AFA /* Localizable.strings */,
 				6680D8AE155F5D45008D3581 /* Kid Klock-Info.plist */,
 				6680D8AF155F5D45008D3581 /* InfoPlist.strings */,
@@ -227,13 +235,17 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
-		66859D7C157C407A00C0788E /* Animal Icons */ = {
+		66859D7C157C407A00C0788E /* Animals */ = {
 			isa = PBXGroup;
 			children = (
+				66927D6E15A5708600CDC780 /* HCBunny-Day.png */,
+				66927D6F15A5708600CDC780 /* HCBunny-Night.png */,
+				66927D6A15A5700200CDC780 /* HCBunny-Day@2x.png */,
+				66927D6B15A5700200CDC780 /* HCBunny-Night@2x.png */,
 				665AF5A4157DBA4B009464DA /* HCNoAnimal.png */,
 				665AF5A1157DB913009464DA /* HCNoAnimal@2x.png */,
 			);
-			name = "Animal Icons";
+			name = Animals;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,6 +327,10 @@
 				6692F51815674FAD003B3AFA /* HCAlarmTableViewCell.xib in Resources */,
 				665AF5A3157DB913009464DA /* HCNoAnimal@2x.png in Resources */,
 				665AF5A5157DBA4B009464DA /* HCNoAnimal.png in Resources */,
+				66927D6C15A5700200CDC780 /* HCBunny-Day@2x.png in Resources */,
+				66927D6D15A5700200CDC780 /* HCBunny-Night@2x.png in Resources */,
+				66927D7015A5708600CDC780 /* HCBunny-Day.png in Resources */,
+				66927D7115A5708600CDC780 /* HCBunny-Night.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -34,14 +34,6 @@ describe(@"HCStaticAssetAnimal", ^{
       [[theValue(animal.type) should] equal:theValue(0)];
     });
   });
-  
-  describe(@"-icon", ^{
-    pending(@"returns the static asset no animal icon for the none type", ^{});
-    
-    pending(@"returns the static asset clock icon for the clock type", ^{});
-    
-    pending(@"returns the static asset bunny icon for the bunny type", ^{});
-  });
 
   describe(@"-setType:", ^{
     it(@"assigns the type and none name for the none type", ^{

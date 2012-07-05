@@ -2,20 +2,24 @@
 
 @implementation HCStaticAssetAnimal
 
+#pragma mark - Properties
+
 @dynamic icon;
+@dynamic awakeImage;
+@dynamic sleepImage;
 @synthesize name = _name;
 @dynamic type;
 
 - (UIImage *)icon {
-  NSString *resource = nil;
-  switch (_type) {
-    case HCNoAnimal:
-      resource = @"HCNoAnimal";
-      break;
-    default:
-      return nil;
-  }
-  return [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:resource ofType:@"png"]];
+  return [UIImage imageNamed:_resourceName];
+}
+
+- (UIImage *)awakeImage {
+  return [UIImage imageNamed:[_resourceName stringByAppendingString:@"-Day"]];
+}
+
+- (UIImage *)sleepImage {
+  return [UIImage imageNamed:[_resourceName stringByAppendingString:@"-Night"]];
 }
 
 - (HCAnimalType)type {
@@ -27,15 +31,20 @@
   switch (_type) {
     case HCNoAnimal:
       _name = NSLocalizedString(@"animal.name.none", @"Name of no animal");
+      _resourceName = @"HCNoAnimal";
       break;
     case HCClock:
       _name = NSLocalizedString(@"animal.name.clock", @"Clock (instead of an animal) name");
+      _resourceName = @"HCClock";
       break;
     case HCBunny:
       _name = NSLocalizedString(@"animal.name.bunny", @"Bunny animal name");
+      _resourceName = @"HCBunny";
       break;
   }
 }
+
+#pragma mark - Constructors
 
 + (id <HCAnimal>)animalWithType:(HCAnimalType)type {
   return [[self alloc] initWithType:type];

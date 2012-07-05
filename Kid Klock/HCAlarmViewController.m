@@ -80,7 +80,7 @@
   if (!_waketimePopoverController) {
     UIViewController *waketimePickerViewController = [[UIViewController alloc] init];
     waketimePickerViewController.view = self.waketimePicker;
-    // FIXME: iPad uses the landscape picker size, but the frame size still reports portrait size (which I want)
+    // FIXME: iPad uses the landscape picker size, but the frame size still reports portrait size (which I want) - see warnings in console
     waketimePickerViewController.contentSizeForViewInPopover = self.waketimePicker.frame.size;
     _waketimePopoverController = [[UIPopoverController alloc] initWithContentViewController:waketimePickerViewController];
     _waketimePopoverController.delegate = self;
@@ -120,7 +120,7 @@
   if (!_animalTypePopoverController) {
     UIViewController *animalTypePickerViewController = [[UIViewController alloc] init];
     animalTypePickerViewController.view = self.animalTypePicker;
-    // FIXME: iPad uses the landscape picker size, but the frame size still reports portrait size (which I want)
+    // FIXME: iPad uses the landscape picker size, but the frame size still reports portrait size (which I want) - see warnings in console
     animalTypePickerViewController.contentSizeForViewInPopover = self.animalTypePicker.frame.size;
     _animalTypePopoverController = [[UIPopoverController alloc] initWithContentViewController:animalTypePickerViewController];
     _animalTypePopoverController.delegate = self;

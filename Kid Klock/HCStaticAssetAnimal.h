@@ -6,6 +6,7 @@
  */
 @interface HCStaticAssetAnimal : NSObject <HCAnimal> {
   NSString *_name;
+  NSString *_resourceName;
   HCAnimalType _type;
 }
 

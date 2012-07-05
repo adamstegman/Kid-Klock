@@ -1,6 +1,6 @@
-#import "HCWaketimeTableViewCell.h"
+#import "HCResponderCell.h"
 
-@implementation HCWaketimeTableViewCell
+@implementation HCResponderCell
 
 @synthesize inputAccessoryView;
 @synthesize inputView;

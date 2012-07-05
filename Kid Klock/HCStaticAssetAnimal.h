@@ -1,6 +1,9 @@
 #import <Foundation/Foundation.h>
 #import "HCAnimal.h"
 
+/**
+ * An HCAnimal whose images are backed by static assets in the bundle.
+ */
 @interface HCStaticAssetAnimal : NSObject <HCAnimal> {
   NSString *_name;
   HCAnimalType _type;

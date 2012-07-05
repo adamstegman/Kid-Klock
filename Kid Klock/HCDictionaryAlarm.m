@@ -31,6 +31,7 @@
 }
 
 - (void)setWaketime:(NSDate *)waketime {
+  // FIXME: this is not rounding correctly?
   if (waketime) {
     // round to nearest minute interval
     NSDateComponents *waketimeComponents = [[NSCalendar currentCalendar] components:NSMinuteCalendarUnit fromDate:waketime];

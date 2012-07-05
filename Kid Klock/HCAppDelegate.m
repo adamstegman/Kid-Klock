@@ -1,12 +1,24 @@
 #import "HCAppDelegate.h"
+#import "HCMainViewController.h"
 
 @implementation HCAppDelegate
 
 @synthesize window = _window;
 
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+  // notify main view
+  // FIXME: what happens if another view is visible on iPad? on iPhone?
+  HCMainViewController *mainViewController = (HCMainViewController *)[[self window] rootViewController];
+  [mainViewController wakeAlarm];
+}
+
+- (void)applicationSignificantTimeChange:(UIApplication *)application {
+  // TODO: daylight savings, time update, etc.
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    return YES;
+  // Override point for customization after application launch.
+  return YES;
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application {

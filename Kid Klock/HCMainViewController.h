@@ -6,4 +6,6 @@
 @property (strong, nonatomic) UIPopoverController *settingsPopoverController;
 @property (strong, nonatomic) IBOutlet UIImageView *alarmImage;
 
+- (void)wakeAlarm;
+
 @end

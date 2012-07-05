@@ -2,7 +2,7 @@
 #import "HCUserDefaultsPersistence.h"
 
 @interface HCMainViewController()
-- (void)setAlarmImage;
+- (void)updateAlarm;
 @end
 
 @implementation HCMainViewController
@@ -34,12 +34,27 @@
   }
 }
 
+#pragma mark - Methods
+
+- (void)wakeAlarm {
+  [[UIApplication sharedApplication] cancelAllLocalNotifications];
+  if (self.currentAlarm) {
+    self.alarmImage.image = self.currentAlarm.animal.awakeImage;
+    // TODO: set notification to go to sleep image for next alarm
+  }
+}
+
 #pragma mark - Private methods
 
-- (void)setAlarmImage {
+- (void)updateAlarm {
+  [[UIApplication sharedApplication] cancelAllLocalNotifications];
   if (self.currentAlarm) {
     self.alarmImage.image = self.currentAlarm.animal.sleepImage;
     // TODO: change to awakeImage on waketime
+    UILocalNotification *wakeNotification = [[UILocalNotification alloc] init];
+    wakeNotification.fireDate = self.currentAlarm.waketime;
+    wakeNotification.timeZone = [NSTimeZone localTimeZone];
+    [[UIApplication sharedApplication] scheduleLocalNotification:wakeNotification];
   }
 }
 
@@ -50,7 +65,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-  [self setAlarmImage];
+  [self updateAlarm];
 }
 
 // FIXME: use autolayout to keep info icon in right place during rotation
@@ -58,7 +73,7 @@
 #pragma mark - Flipside View Controller
 
 - (void)alarmsViewControllerDidFinish:(HCAlarmsViewController *)controller {
-  [self setAlarmImage];
+  [self updateAlarm];
   // hide the status bar for the main view
   [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
   

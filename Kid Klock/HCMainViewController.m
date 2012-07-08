@@ -52,12 +52,13 @@ static NSString *hcBrightnessKey = @"brightness";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-  // TODO: do not go to sleep
+  [UIApplication sharedApplication].idleTimerDisabled = YES;
   [self updateAlarm];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
   // TODO: is this called when quitting, background, etc.?
+  [UIApplication sharedApplication].idleTimerDisabled = NO;
   [self restoreBrightness];
 }
 

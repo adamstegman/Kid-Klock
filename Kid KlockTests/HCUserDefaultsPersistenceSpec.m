@@ -15,75 +15,26 @@ describe(@"HCUserDefaultsPersistence", ^{
     [NSUserDefaults stub:@selector(standardUserDefaults) andReturn:mockUserDefaults];
   });
 
-  describe(@"+fetchAlarms", ^{
-    it(@"returns an empty array if no alarms have been upserted", ^{
-      [[[HCUserDefaultsPersistence fetchAlarms] should] beEmpty];
+  describe(@"+settingsForKey:", ^{
+    it(@"returns nil if no settings exist for that key", ^{
+      [[HCUserDefaultsPersistence settingsForKey:@"test"] shouldBeNil];
     });
 
-    it(@"finds all upserted alarms", ^{
-      HCDictionaryAlarm *alarm1 = [HCDictionaryAlarm alarmWithAttributes:[NSDictionary dictionaryWithObject:@"testing" forKey:@"name"]];
-      HCDictionaryAlarm *alarm2 = [HCDictionaryAlarm alarmWithAttributes:[NSDictionary dictionaryWithObject:@"another" forKey:@"name"]];
-      NSDictionary *alarms = [NSDictionary dictionaryWithObjectsAndKeys:alarm1.attributes, alarm1.name,
-                              alarm2.attributes, alarm2.name, nil];
-      [mockUserDefaults stub:@selector(persistentDomainForName:) andReturn:[NSDictionary dictionaryWithObject:alarms forKey:@"alarms"]];
-      NSArray *fetched = [HCUserDefaultsPersistence fetchAlarms];
-      [[fetched should] haveCountOf:2];
-      [[[[fetched objectAtIndex:0U] name] should] equal:@"testing"];
-      [[[[fetched objectAtIndex:1U] name] should] equal:@"another"];
+    it(@"returns the stored settings value", ^{
+      id value = [NSObject mockWithName:@"testValue"];
+      [mockUserDefaults stub:@selector(persistentDomainForName:) andReturn:[NSDictionary dictionaryWithObject:value forKey:@"test"]];
+      id fetched = [HCUserDefaultsPersistence settingsForKey:@"test"];
+      [[fetched should] equal:value];
     });
   });
 
-  describe(@"+clear", ^{
-    it(@"removes all alarms from the user defaults", ^{
+  describe(@"+setSettingsValue:forKey:", ^{
+    it(@"adds the given value to the user defaults", ^{
+      id value = [NSObject mockWithName:@"testValue"];
       KWCaptureSpy *domainSpy = [mockUserDefaults captureArgument:@selector(setPersistentDomain:forName:) atIndex:0];
-      [HCUserDefaultsPersistence clear];
-      [[domainSpy.argument should] beEmpty];
-    });
-  });
-
-  describe(@"+remove:", ^{
-    it(@"removes the alarm with the given name from the user defaults", ^{
-      HCDictionaryAlarm *alarm1 = [HCDictionaryAlarm alarmWithAttributes:[NSDictionary dictionaryWithObject:@"testing" forKey:@"name"]];
-      HCDictionaryAlarm *alarm2 = [HCDictionaryAlarm alarmWithAttributes:[NSDictionary dictionaryWithObject:@"another" forKey:@"name"]];
-      NSDictionary *alarms = [NSDictionary dictionaryWithObjectsAndKeys:alarm1.attributes, alarm1.name,
-                              alarm2.attributes, alarm2.name, nil];
-      [mockUserDefaults stub:@selector(persistentDomainForName:) andReturn:[NSDictionary dictionaryWithObject:alarms forKey:@"alarms"]];
-      KWCaptureSpy *domainSpy = [mockUserDefaults captureArgument:@selector(setPersistentDomain:forName:) atIndex:0];
-      [HCUserDefaultsPersistence remove:@"another"];
+      [HCUserDefaultsPersistence setSettingsValue:value forKey:@"test"];
       [[domainSpy.argument should] haveCountOf:1U];
-      [[[domainSpy.argument objectForKey:@"alarms"] objectForKey:@"testing"] shouldNotBeNil];
-    });
-
-    it(@"does nothing if the given name does not exist", ^{
-      HCDictionaryAlarm *alarm = [HCDictionaryAlarm alarmWithAttributes:[NSDictionary dictionaryWithObject:@"testing" forKey:@"name"]];
-      NSDictionary *alarms = [NSDictionary dictionaryWithObjectsAndKeys:alarm.attributes, alarm.name, nil];
-      [mockUserDefaults stub:@selector(persistentDomainForName:) andReturn:[NSDictionary dictionaryWithObject:alarms forKey:@"alarms"]];
-      [[mockUserDefaults shouldNot] receive:@selector(setPersistentDomain:forName:)];
-      [HCUserDefaultsPersistence remove:@"blah"];
-    });
-  });
-
-  describe(@"+upsert:", ^{
-    it(@"adds the given alarm to the user defaults", ^{
-      HCDictionaryAlarm *alarm = [HCDictionaryAlarm alarmWithAttributes:[NSDictionary dictionaryWithObject:@"testing" forKey:@"name"]];
-      KWCaptureSpy *domainSpy = [mockUserDefaults captureArgument:@selector(setPersistentDomain:forName:) atIndex:0];
-      [HCUserDefaultsPersistence upsert:alarm];
-      [[domainSpy.argument should] haveCountOf:1U];
-      [[[domainSpy.argument objectForKey:@"alarms"] objectForKey:@"testing"] shouldNotBeNil];
-    });
-
-    it(@"updates an existing saved alarm", ^{
-      HCDictionaryAlarm *alarm = [HCDictionaryAlarm alarmWithAttributes:[NSDictionary dictionaryWithObject:@"testing" forKey:@"name"]];
-      NSDictionary *alarms = [NSDictionary dictionaryWithObjectsAndKeys:alarm.attributes, alarm.name, nil];
-      [mockUserDefaults stub:@selector(persistentDomainForName:) andReturn:[NSDictionary dictionaryWithObject:alarms forKey:@"alarms"]];
-      alarm.animalType = HCBunny;
-      KWCaptureSpy *domainSpy = [mockUserDefaults captureArgument:@selector(setPersistentDomain:forName:) atIndex:0];
-      [HCUserDefaultsPersistence upsert:alarm];
-      [[domainSpy.argument should] haveCountOf:1U];
-      NSLog(@"%@", [[[domainSpy.argument objectForKey:@"alarms"] objectForKey:@"testing"] description]);
-      NSDictionary *bunnyAlarmAttributes = [[domainSpy.argument objectForKey:@"alarms"] objectForKey:@"testing"];
-      [[[bunnyAlarmAttributes objectForKey:@"name"] should] equal:@"testing"];
-      [[theValue([[bunnyAlarmAttributes objectForKey:@"animalType"] intValue]) should] equal:theValue(HCBunny)];
+      [[[domainSpy.argument objectForKey:@"test"] should] equal:value];
     });
   });
 });

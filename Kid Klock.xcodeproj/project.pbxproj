@@ -11,7 +11,6 @@
 		6629A0A71561FFF100BDAA3C /* libKiwi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6629A0A61561FFF100BDAA3C /* libKiwi.a */; };
 		6629A0AA156222BD00BDAA3C /* HCStaticAssetAnimal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0A9156222BD00BDAA3C /* HCStaticAssetAnimal.m */; };
 		6629A0AF1562254300BDAA3C /* HCStaticAssetAnimalSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0AE1562254300BDAA3C /* HCStaticAssetAnimalSpec.m */; };
-		6629A0B91562380000BDAA3C /* HCUserDefaultsPersistenceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0B81562380000BDAA3C /* HCUserDefaultsPersistenceSpec.m */; };
 		665AF5A3157DB913009464DA /* HCNoAnimal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 665AF5A1157DB913009464DA /* HCNoAnimal@2x.png */; };
 		665AF5A5157DBA4B009464DA /* HCNoAnimal.png in Resources */ = {isa = PBXBuildFile; fileRef = 665AF5A4157DBA4B009464DA /* HCNoAnimal.png */; };
 		6680D8A7155F5D45008D3581 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A6155F5D45008D3581 /* UIKit.framework */; };
@@ -40,6 +39,9 @@
 		6692F51515671F28003B3AFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51315671F28003B3AFA /* Localizable.strings */; };
 		6692F51815674FAD003B3AFA /* HCAlarmTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */; };
 		6692F51B15674FD9003B3AFA /* HCAlarmTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6692F51A15674FD9003B3AFA /* HCAlarmTableViewCell.m */; };
+		66EAFF1815A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EAFF1715A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.m */; };
+		66EAFF1A15A751AA00E4EA9C /* HCUserDefaultsPersistenceHCAlarmSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EAFF1915A751AA00E4EA9C /* HCUserDefaultsPersistenceHCAlarmSpec.m */; };
+		66EAFF1C15A757F700E4EA9C /* HCUserDefaultsPersistenceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EAFF1B15A757F700E4EA9C /* HCUserDefaultsPersistenceSpec.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +60,6 @@
 		6629A0A8156222BD00BDAA3C /* HCStaticAssetAnimal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCStaticAssetAnimal.h; sourceTree = "<group>"; };
 		6629A0A9156222BD00BDAA3C /* HCStaticAssetAnimal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCStaticAssetAnimal.m; sourceTree = "<group>"; };
 		6629A0AE1562254300BDAA3C /* HCStaticAssetAnimalSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCStaticAssetAnimalSpec.m; sourceTree = "<group>"; };
-		6629A0B81562380000BDAA3C /* HCUserDefaultsPersistenceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCUserDefaultsPersistenceSpec.m; sourceTree = "<group>"; };
 		665AF5A1157DB913009464DA /* HCNoAnimal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCNoAnimal@2x.png"; sourceTree = "<group>"; };
 		665AF5A4157DBA4B009464DA /* HCNoAnimal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HCNoAnimal.png; sourceTree = "<group>"; };
 		6680D8A2155F5D45008D3581 /* Kid Klock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kid Klock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +103,10 @@
 		6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HCAlarmTableViewCell.xib; sourceTree = "<group>"; };
 		6692F51915674FD9003B3AFA /* HCAlarmTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCAlarmTableViewCell.h; sourceTree = "<group>"; };
 		6692F51A15674FD9003B3AFA /* HCAlarmTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCAlarmTableViewCell.m; sourceTree = "<group>"; };
+		66EAFF1615A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HCUserDefaultsPersistence+HCAlarm.h"; sourceTree = "<group>"; };
+		66EAFF1715A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HCUserDefaultsPersistence+HCAlarm.m"; sourceTree = "<group>"; };
+		66EAFF1915A751AA00E4EA9C /* HCUserDefaultsPersistenceHCAlarmSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCUserDefaultsPersistenceHCAlarmSpec.m; sourceTree = "<group>"; };
+		66EAFF1B15A757F700E4EA9C /* HCUserDefaultsPersistenceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCUserDefaultsPersistenceSpec.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,13 +170,15 @@
 			children = (
 				6680D8EF155FE5D1008D3581 /* HCUserDefaultsPersistence.h */,
 				6680D8F0155FE5D1008D3581 /* HCUserDefaultsPersistence.m */,
+				66EAFF1615A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.h */,
+				66EAFF1715A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.m */,
+				6680D8E4155FDC84008D3581 /* HCAlarm.h */,
 				6680D8F2155FFA0D008D3581 /* HCDictionaryAlarm.h */,
 				6680D8F3155FFA0D008D3581 /* HCDictionaryAlarm.m */,
+				6680D8E8155FDED6008D3581 /* HCAnimal.h */,
 				6629A0A8156222BD00BDAA3C /* HCStaticAssetAnimal.h */,
 				6629A0A9156222BD00BDAA3C /* HCStaticAssetAnimal.m */,
 				6680D8E7155FDC93008D3581 /* UI */,
-				6680D8E4155FDC84008D3581 /* HCAlarm.h */,
-				6680D8E8155FDED6008D3581 /* HCAnimal.h */,
 				6680D8AD155F5D45008D3581 /* Supporting Files */,
 			);
 			path = "Kid Klock";
@@ -196,7 +203,8 @@
 				6680D8D1155F5D45008D3581 /* Supporting Files */,
 				6629A0A41561FEC800BDAA3C /* HCDictionaryAlarmSpec.m */,
 				6629A0AE1562254300BDAA3C /* HCStaticAssetAnimalSpec.m */,
-				6629A0B81562380000BDAA3C /* HCUserDefaultsPersistenceSpec.m */,
+				66EAFF1915A751AA00E4EA9C /* HCUserDefaultsPersistenceHCAlarmSpec.m */,
+				66EAFF1B15A757F700E4EA9C /* HCUserDefaultsPersistenceSpec.m */,
 			);
 			path = "Kid KlockTests";
 			sourceTree = "<group>";
@@ -376,6 +384,7 @@
 				66859D731568B31000C0788E /* HCAlarmViewController.m in Sources */,
 				66859D77156B11F400C0788E /* HCRepeatViewController.m in Sources */,
 				66927D6115A3996A00CDC780 /* HCResponderCell.m in Sources */,
+				66EAFF1815A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +394,8 @@
 			files = (
 				6629A0A51561FEC800BDAA3C /* HCDictionaryAlarmSpec.m in Sources */,
 				6629A0AF1562254300BDAA3C /* HCStaticAssetAnimalSpec.m in Sources */,
-				6629A0B91562380000BDAA3C /* HCUserDefaultsPersistenceSpec.m in Sources */,
+				66EAFF1A15A751AA00E4EA9C /* HCUserDefaultsPersistenceHCAlarmSpec.m in Sources */,
+				66EAFF1C15A757F700E4EA9C /* HCUserDefaultsPersistenceSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

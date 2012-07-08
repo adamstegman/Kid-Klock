@@ -1,8 +1,14 @@
 #import "HCMainViewController.h"
-#import "HCUserDefaultsPersistence.h"
+#import "HCUserDefaultsPersistence+HCAlarm.h"
+
+#define DIM_BRIGHTNESS 0.01f
+
+static NSString *hcBrightnessKey = @"brightness";
 
 @interface HCMainViewController()
 - (void)updateAlarm;
+- (void)dimForSleep;
+- (void)restoreBrightness;
 @end
 
 @implementation HCMainViewController
@@ -65,10 +71,14 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+  // TODO: do not go to sleep
   [self updateAlarm];
 }
 
-// FIXME: use autolayout to keep info icon in right place during rotation
+- (void)viewWillDisappear:(BOOL)animated {
+  // TODO: is this called when quitting, background, etc.?
+  [self restoreBrightness];
+}
 
 #pragma mark - Flipside View Controller
 
@@ -113,6 +123,25 @@
     self.settingsPopoverController = nil;
   } else {
     [self performSegueWithIdentifier:@"showSettings" sender:sender];
+  }
+}
+
+#pragma mark - Private methods
+
+- (void)dimForSleep {
+  NSNumber *oldBrightess = [HCUserDefaultsPersistence settingsForKey:hcBrightnessKey];
+  if (!oldBrightess) {
+    NSNumber *oldBrightness = [NSNumber numberWithFloat:[UIScreen mainScreen].brightness];
+    [HCUserDefaultsPersistence setSettingsValue:oldBrightness forKey:hcBrightnessKey];
+  }
+  [UIScreen mainScreen].brightness = DIM_BRIGHTNESS; // TODO: may need to do this in applicationDidBecomeActive:, and undo it when quitting etc.
+}
+
+- (void)restoreBrightness {
+  NSNumber *oldBrightness = [HCUserDefaultsPersistence settingsForKey:hcBrightnessKey];
+  [HCUserDefaultsPersistence setSettingsValue:nil forKey:hcBrightnessKey];
+  if (oldBrightness) {
+    [UIScreen mainScreen].brightness = [oldBrightness floatValue];
   }
 }
 

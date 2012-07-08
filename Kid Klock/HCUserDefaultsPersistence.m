@@ -2,52 +2,40 @@
 
 static NSString *bundleIdentifier;
 
-@interface HCUserDefaultsPersistence ()
+@interface HCUserDefaultsPersistence()
 + (NSString *)domain;
-+ (NSDictionary *)settings;
++ (NSMutableDictionary *)settings;
 + (void)setSettings:(NSDictionary *)settings;
 @end
 
 @implementation HCUserDefaultsPersistence
 
-+ (NSArray *)fetchAlarms {
-  NSArray *alarmAttributes = [[[self settings] objectForKey:@"alarms"] allValues];
-  NSMutableArray *alarms = [NSMutableArray array];
-  if (alarmAttributes) {
-    [alarmAttributes enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop) {
-      [alarms addObject:[HCDictionaryAlarm alarmWithAttributes:obj]];
-    }];
-  }
-  return alarms;
+#pragma mark - Methods
+
++ (id)settingsForKey:(NSString *)key {
+  return [[self settings] objectForKey:key];
 }
 
-+ (void)clear {
-  [self setSettings:[NSDictionary dictionary]];
++ (void)setSettingsValue:(id)value forKey:(NSString *)key {
+  NSMutableDictionary *settings = [self settings];
+  if (value) {
+    [settings setValue:value forKey:key];
+  } else {
+    [settings removeObjectForKey:key];
+  }
+  [self setSettings:settings];
 }
 
-+ (void)remove:(NSString *)alarmName {
-  NSMutableDictionary *alarms = [[[self settings] objectForKey:@"alarms"] mutableCopy];
-  if (!alarms) {
-    alarms = [NSMutableDictionary dictionary];
-  }
-  if ([alarms objectForKey:alarmName]) {
-    [alarms removeObjectForKey:alarmName];
-    [self setSettings:[NSDictionary dictionaryWithObject:alarms forKey:@"alarms"]];
-  }
-}
+#pragma mark - Private methods
 
-+ (void)upsert:(HCDictionaryAlarm *)alarm {
-  NSMutableDictionary *alarms = [[[self settings] objectForKey:@"alarms"] mutableCopy];
-  if (!alarms) {
-    alarms = [NSMutableDictionary dictionary];
-  }
-  [alarms setObject:alarm.attributes forKey:alarm.name];
-  [self setSettings:[NSDictionary dictionaryWithObject:alarms forKey:@"alarms"]];
-}
-
-+ (NSDictionary *)settings {
++ (NSMutableDictionary *)settings {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  return [userDefaults persistentDomainForName:[self domain]];
+  NSDictionary *settings = [userDefaults persistentDomainForName:[self domain]];
+  // FIXME: test
+  if (!settings) {
+    settings = [NSDictionary dictionary];
+  }
+  return [settings mutableCopy];
 }
 
 + (void)setSettings:(NSDictionary *)settings {

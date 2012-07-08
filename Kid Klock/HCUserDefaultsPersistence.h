@@ -1,26 +1,20 @@
 #import <Foundation/Foundation.h>
-#import "HCDictionaryAlarm.h"
 
+/**
+ * NSUserDefaults persistence for objects.
+ *
+ * Categories on this class implement specific object persistence.
+ */
 @interface HCUserDefaultsPersistence : NSObject
 
 /**
- * \return all persisted HCAlarm objects
+ * \return the settings for the given key for the application
  */
-+ (NSArray *)fetchAlarms;
++ (id)settingsForKey:(NSString *)key;
 
 /**
- * Removes all alarms.
+ * Persist the given setting identified by the given key for the application.
  */
-+ (void)clear;
-
-/**
- * Removes the alarm with the given name.
- */
-+ (void)remove:(NSString *)alarmName;
-
-/**
- * Insert or update the given alarm, using the alarm's name as the primary key.
- */
-+ (void)upsert:(HCDictionaryAlarm *)alarm;
++ (void)setSettingsValue:(id)value forKey:(NSString *)key;
 
 @end

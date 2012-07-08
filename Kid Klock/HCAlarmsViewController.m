@@ -1,7 +1,7 @@
 #import "HCAlarmsViewController.h"
 #import "HCAlarm.h"
 #import "HCDictionaryAlarm.h"
-#import "HCUserDefaultsPersistence.h"
+#import "HCUserDefaultsPersistence+HCAlarm.h"
 #import "HCAlarmTableViewCell.h"
 
 @interface HCAlarmsViewController ()
@@ -85,7 +85,7 @@
 - (void)alarmViewController:(HCAlarmViewController *)controller didFinishWithAlarm:(id<HCAlarm>)alarm {
   if (alarm) {
     // TODO: handle new alarm same as existing alarm name
-    [HCUserDefaultsPersistence upsert:(HCDictionaryAlarm *)alarm];
+    [HCUserDefaultsPersistence upsertAlarm:(HCDictionaryAlarm *)alarm];
     [self.tableView reloadData];
     [self.tableView setNeedsDisplay];
   }
@@ -127,7 +127,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
-    [HCUserDefaultsPersistence remove:[self alarmForIndex:indexPath.row].name];
+    [HCUserDefaultsPersistence removeAlarm:[self alarmForIndex:indexPath.row].name];
     [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
   }
 }

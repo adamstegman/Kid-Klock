@@ -15,15 +15,18 @@ describe(@"HCDictionaryAlarm", ^{
     it(@"allocates and initializes an alarm with the given attributes", ^{
       NSNumber *yes = [NSNumber numberWithBool:YES];
       NSNumber *no = [NSNumber numberWithBool:NO];
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:1];
+      [waketime setMinute:0];
       NSArray *repeat = [NSArray arrayWithObjects:no, no, yes, no, no, no, no, nil];
       NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:@"testing", @"name",
                                   [NSDate dateWithTimeIntervalSinceReferenceDate:5.0], @"bedtime",
-                                  [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0], @"waketime",
+                                  waketime, @"waketime",
                                   [NSNumber numberWithInt:HCBunny], @"animalType",
                                   repeat, @"repeat", nil];
       alarm = [HCDictionaryAlarm alarmWithAttributes:attributes];
       [[alarm.name should] equal:@"testing"];
-      [[alarm.waketime should] equal:[NSDate dateWithTimeIntervalSinceReferenceDate:1500.0]];
+      [[alarm.waketime should] equal:waketime];
       [[theValue(alarm.animalType) should] equal:theValue(HCBunny)];
       [[alarm.repeat should] equal:repeat];
     });
@@ -33,33 +36,19 @@ describe(@"HCDictionaryAlarm", ^{
     it(@"stores the given attributes", ^{
       NSNumber *yes = [NSNumber numberWithBool:YES];
       NSNumber *no = [NSNumber numberWithBool:NO];
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:1];
+      [waketime setMinute:0];
       NSArray *repeat = [NSArray arrayWithObjects:no, no, yes, no, no, no, no, nil];
       NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:@"testing", @"name",
-                                  [NSDate dateWithTimeIntervalSinceReferenceDate:5.0], @"bedtime",
-                                  [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0], @"waketime",
+                                  waketime, @"waketime",
                                   [NSNumber numberWithInt:HCBunny], @"animalType",
                                   repeat, @"repeat", nil];
       alarm = [[HCDictionaryAlarm alloc] initWithAttributes:attributes];
       [[alarm.name should] equal:@"testing"];
-      [[alarm.waketime should] equal:[NSDate dateWithTimeIntervalSinceReferenceDate:1500.0]];
+      [[alarm.waketime should] equal:waketime];
       [[theValue(alarm.animalType) should] equal:theValue(HCBunny)];
       [[alarm.repeat should] equal:repeat];
-    });
-
-    it(@"rounds waketime down to the nearest minute interval", ^{
-      NSDate *waketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0];
-      NSDate *unroundedWaketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1560.0];
-      NSDictionary *attributes = [NSDictionary dictionaryWithObject:unroundedWaketime forKey:@"waketime"];
-      alarm = [[HCDictionaryAlarm alloc] initWithAttributes:attributes];
-      [[alarm.waketime should] equal:waketime];
-    });
-
-    it(@"rounds waketime up to the nearest minute interval", ^{
-      NSDate *waketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0];
-      NSDate *unroundedWaketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1440.0];
-      NSDictionary *attributes = [NSDictionary dictionaryWithObject:unroundedWaketime forKey:@"waketime"];
-      alarm = [[HCDictionaryAlarm alloc] initWithAttributes:attributes];
-      [[alarm.waketime should] equal:waketime];
     });
 
     it(@"handles nil gracefully", ^{
@@ -93,31 +82,147 @@ describe(@"HCDictionaryAlarm", ^{
   });
 
   describe(@"-waketime", ^{
-    it(@"assigns a waketime", ^{
-      NSDate *waketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0];
-      alarm.waketime = waketime;
-      [[alarm.waketime should] equal:waketime];
-    });
-
     it(@"rounds waketime down to the nearest minute interval", ^{
-      NSDate *waketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0];
-      NSDate *unroundedWaketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1560.0];
-      alarm.waketime = unroundedWaketime;
-      [[alarm.waketime should] equal:waketime];
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:1];
+      [waketime setMinute:2];
+      alarm.waketime = waketime;
+      [[theValue([alarm.waketime hour]) should] equal:theValue(1)];
+      [[theValue([alarm.waketime minute]) should] equal:theValue(0)];
     });
 
     it(@"rounds waketime up to the nearest minute interval", ^{
-      NSDate *waketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1500.0];
-      NSDate *unroundedWaketime = [NSDate dateWithTimeIntervalSinceReferenceDate:1440.0];
-      alarm.waketime = unroundedWaketime;
-      [[alarm.waketime should] equal:waketime];
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:1];
+      [waketime setMinute:3];
+      alarm.waketime = waketime;
+      [[theValue([alarm.waketime hour]) should] equal:theValue(1)];
+      [[theValue([alarm.waketime minute]) should] equal:theValue(5)];
+    });
+    
+    it(@"rounds waketime up to the next hour if necessary", ^{
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:1];
+      [waketime setMinute:58];
+      alarm.waketime = waketime;
+      [[theValue([alarm.waketime hour]) should] equal:theValue(2)];
+      [[theValue([alarm.waketime minute]) should] equal:theValue(0)];
+    });
+    
+    it(@"does not round waketime if not necessary", ^{
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:1];
+      [waketime setMinute:5];
+      alarm.waketime = waketime;
+      [[theValue([alarm.waketime hour]) should] equal:theValue(1)];
+      [[theValue([alarm.waketime minute]) should] equal:theValue(5)];
+    });
+    
+    it(@"sets the seconds to 0", ^{
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setSecond:1];
+      alarm.waketime = waketime;
+      [[theValue([alarm.waketime second]) should] equal:theValue(0)];
+    });
+    
+    it(@"defaults hours and minutes to 0", ^{
+      alarm.waketime = [[NSDateComponents alloc] init];
+      [[theValue([alarm.waketime hour]) should] equal:theValue(0)];
+      [[theValue([alarm.waketime minute]) should] equal:theValue(0)];
+    });
+    
+    it(@"stores a nil waketime", ^{
+      alarm.waketime = [[NSDateComponents alloc] init];
+      alarm.waketime = nil;
+      [alarm.waketime shouldBeNil];
     });
   });
   
   describe(@"-waketimeAsString", ^{
-    pending(@"prints a 12-hour time correctly", ^{});
+    it(@"creates a localized hour:minute string", ^{
+      NSCalendar *calendar = [NSCalendar currentCalendar];
+      alarm.waketime = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
+      NSString *expected = [NSDateFormatter localizedStringFromDate:[calendar dateFromComponents:alarm.waketime]
+                                                          dateStyle:NSDateFormatterNoStyle
+                                                          timeStyle:NSDateFormatterShortStyle];
+      [[[alarm waketimeAsString] should] equal:expected];
+    });
     
-    pending(@"prints a 24-hour time correctly", ^{});
+    it(@"returns an empty string if no waketime exists", ^{
+      alarm.waketime = nil;
+      [[[alarm waketimeAsString] should] equal:@""];
+    });
+  });
+  
+  describe(@"-nextWakeDate", ^{
+    it(@"returns the next day if waketime is before now", ^{
+      NSCalendar *calendar = [NSCalendar currentCalendar];
+      NSDate *now = [NSDate date];
+      NSDate *past = [now dateByAddingTimeInterval:[alarm minuteInterval] * -60.0];
+      alarm.waketime = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:past];
+      
+      NSUInteger comparableComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit);
+      NSDateComponents *tomorrowAdjustment = [[NSDateComponents alloc] init];
+      [tomorrowAdjustment setDay:1];
+      NSDate *tomorrow = [calendar dateByAddingComponents:tomorrowAdjustment toDate:now options:0];
+      NSDateComponents *tomorrowComponents = [calendar components:comparableComponents fromDate:tomorrow];
+      NSDateComponents *nextWakeDateComponents = [calendar components:comparableComponents
+                                                             fromDate:[alarm nextWakeDate]];
+      [[theValue([nextWakeDateComponents year]) should] equal:theValue([tomorrowComponents year])];
+      [[theValue([nextWakeDateComponents month]) should] equal:theValue([tomorrowComponents month])];
+      [[theValue([nextWakeDateComponents day]) should] equal:theValue([tomorrowComponents day])];
+      [[theValue([nextWakeDateComponents hour]) should] equal:theValue([alarm.waketime hour])];
+      [[theValue([nextWakeDateComponents minute]) should] equal:theValue([alarm.waketime minute])];
+      [[theValue([nextWakeDateComponents second]) should] equal:theValue([alarm.waketime second])];
+    });
+    
+    it(@"returns the correct day if waketime is after now", ^{
+      NSCalendar *calendar = [NSCalendar currentCalendar];
+      NSDate *now = [NSDate date];
+      NSDate *future = [now dateByAddingTimeInterval:[alarm minuteInterval] * 60.0];
+      alarm.waketime = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:future];
+      
+      NSUInteger comparableComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit);
+      NSDate *day = [now dateByAddingTimeInterval:[alarm minuteInterval] * 60.0];
+      NSDateComponents *dayComponents = [calendar components:comparableComponents fromDate:day];
+      NSDateComponents *nextWakeDateComponents = [calendar components:comparableComponents
+                                                             fromDate:[alarm nextWakeDate]];
+      [[theValue([nextWakeDateComponents year]) should] equal:theValue([dayComponents year])];
+      [[theValue([nextWakeDateComponents month]) should] equal:theValue([dayComponents month])];
+      [[theValue([nextWakeDateComponents day]) should] equal:theValue([dayComponents day])];
+      [[theValue([nextWakeDateComponents hour]) should] equal:theValue([alarm.waketime hour])];
+      [[theValue([nextWakeDateComponents minute]) should] equal:theValue([alarm.waketime minute])];
+      [[theValue([nextWakeDateComponents second]) should] equal:theValue([alarm.waketime second])];
+    });
+    
+    it(@"returns the correct day even if waketime is from a different day", ^{
+      NSCalendar *calendar = [NSCalendar currentCalendar];
+      NSDate *now = [NSDate date];
+      NSDateComponents *anotherDayAdjustment = [[NSDateComponents alloc] init];
+      [anotherDayAdjustment setDay:30];
+      [anotherDayAdjustment setMinute:[alarm minuteInterval]];
+      NSDate *anotherDay = [calendar dateByAddingComponents:anotherDayAdjustment
+                                                     toDate:now
+                                                    options:0];
+      alarm.waketime = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:anotherDay];
+      
+      NSUInteger comparableComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit);
+      NSDate *day = [now dateByAddingTimeInterval:[alarm minuteInterval] * 60.0];
+      NSDateComponents *dayComponents = [calendar components:comparableComponents fromDate:day];
+      NSDateComponents *nextWakeDateComponents = [calendar components:comparableComponents
+                                                             fromDate:[alarm nextWakeDate]];
+      [[theValue([nextWakeDateComponents year]) should] equal:theValue([dayComponents year])];
+      [[theValue([nextWakeDateComponents month]) should] equal:theValue([dayComponents month])];
+      [[theValue([nextWakeDateComponents day]) should] equal:theValue([dayComponents day])];
+      [[theValue([nextWakeDateComponents hour]) should] equal:theValue([alarm.waketime hour])];
+      [[theValue([nextWakeDateComponents minute]) should] equal:theValue([alarm.waketime minute])];
+      [[theValue([nextWakeDateComponents second]) should] equal:theValue([alarm.waketime second])];
+    });
+    
+    it(@"returns nil if waketime is nil", ^{
+      alarm.waketime = nil;
+      [[alarm nextWakeDate] shouldBeNil];
+    });
   });
 
   describe(@"-animalType", ^{

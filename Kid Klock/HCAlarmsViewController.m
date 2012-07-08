@@ -20,7 +20,7 @@
 }
 
 - (id <HCAlarm>)newAlarm {
-  NSDictionary *alarmAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSDate date], @"waketime",
+  NSDictionary *alarmAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[[NSDateComponents alloc] init], @"waketime",
                                    NSLocalizedString(@"alarm.name.default", @"Default new alarm name"), @"name",
                                    [NSNumber numberWithInt:HCNoAnimal], @"animalType", nil];
   return [HCDictionaryAlarm alarmWithAttributes:alarmAttributes];

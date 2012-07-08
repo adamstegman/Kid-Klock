@@ -170,10 +170,6 @@
 }
 
 - (void)pickWaketime:(id)sender {
-  if (!self.alarm.waketime) {
-    self.alarm.waketime = [NSDate dateWithTimeIntervalSinceNow:0];
-  }
-
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     [self.waketimePopoverController presentPopoverFromRect:self.waketimeCell.frame
                                                     inView:self.tableView
@@ -345,7 +341,9 @@
 #pragma mark - UIDatePicker events
 
 - (void)waketimeDidUpdate:(id)sender {
-  self.alarm.waketime = ((UIDatePicker *)sender).date;
+  NSCalendar *calendar = [NSCalendar currentCalendar]; // TODO: may be more efficient to use an instance variable and +autoupdatingCurrentCalendar
+  self.alarm.waketime = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
+                                    fromDate:((UIDatePicker *)sender).date];
   self.waketimeCell.textLabel.text = [self.alarm waketimeAsString];
 }
 

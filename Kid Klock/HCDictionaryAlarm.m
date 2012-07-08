@@ -1,7 +1,16 @@
 #import "HCDictionaryAlarm.h"
 #import "HCStaticAssetAnimal.h"
 
+@interface HCDictionaryAlarm()
+/**
+ * \return the given time on the current day
+ */
+- (NSDate *)todayAtTime:(NSDateComponents *)time;
+@end
+
 @implementation HCDictionaryAlarm
+
+#pragma mark - Properties
 
 @dynamic name;
 @dynamic waketime;
@@ -18,34 +27,43 @@
   }
 }
 
-- (NSDate *)waketime {
-  return [_attributes objectForKey:@"waketime"];
+- (NSDateComponents *)waketime {
+  return [[_attributes objectForKey:@"waketime"] copy];
 }
 
-- (NSString *)waketimeAsString {
-  if (self.waketime) {
-    return [NSDateFormatter localizedStringFromDate:self.waketime dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterShortStyle];
-  } else {
-    return @"";
-  }
-}
-
-- (void)setWaketime:(NSDate *)waketime {
-  // FIXME: this is not rounding correctly?
+- (void)setWaketime:(NSDateComponents *)waketime {
   if (waketime) {
+    // default components
+    if ([waketime hour] == NSUndefinedDateComponent) {
+      [waketime setHour:0];
+    }
+    if ([waketime minute] == NSUndefinedDateComponent) {
+      [waketime setMinute:0];
+    }
+    
     // round to nearest minute interval
-    NSDateComponents *waketimeComponents = [[NSCalendar currentCalendar] components:NSMinuteCalendarUnit fromDate:waketime];
-    NSInteger minutes = [waketimeComponents minute];
+    NSInteger minutes = [waketime minute];
     NSInteger minuteInterval = [self minuteInterval];
     NSInteger minuteRemainder = minutes % minuteInterval;
-    if (minuteRemainder < minuteInterval / 2) {
-      // round down
-      waketime = [waketime dateByAddingTimeInterval:(-60 * minuteRemainder)];
-    } else {
-      // round up
-      waketime = [waketime dateByAddingTimeInterval:(60 * (minuteInterval - minuteRemainder))];
+    if (minuteRemainder != 0) {
+      NSCalendar *calendar = [NSCalendar currentCalendar];
+      NSDate *todayWaketime = [self todayAtTime:waketime];
+      NSInteger roundingAdjustment;
+      if (minuteRemainder < minuteInterval / 2.0) {
+        // round down
+        roundingAdjustment = -60.0 * minuteRemainder;
+      } else {
+        // round up
+        roundingAdjustment = 60.0 * (minuteInterval - minuteRemainder);
+      }
+      waketime = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
+                             fromDate:[todayWaketime dateByAddingTimeInterval:roundingAdjustment]];
     }
+    
+    [waketime setSecond:0];
     [_attributes setObject:waketime forKey:@"waketime"];
+  } else {
+    [_attributes removeObjectForKey:@"waketime"];
   }
 }
 
@@ -61,12 +79,30 @@
   return [HCStaticAssetAnimal animalWithType:self.animalType];
 }
 
+- (NSArray *)repeat {
+  return [_attributes objectForKey:@"repeat"];
+}
+
 - (void)setRepeat:(NSArray *)days {
   if ([days count] == 7U) [_attributes setObject:[days copy] forKey:@"repeat"];
 }
 
-- (NSArray *)repeat {
-  return [_attributes objectForKey:@"repeat"];
+#pragma mark - Methods
+
+- (NSDictionary *)attributes {
+  return _attributes;
+}
+
+- (NSInteger)minuteInterval {
+  return 5;
+}
+
+- (NSDate *)nextWakeDate {
+  NSDate *waketimeToday = [self todayAtTime:self.waketime];
+  if (waketimeToday && [[NSDate date] earlierDate:waketimeToday] == waketimeToday) {
+    return [waketimeToday dateByAddingTimeInterval:86400];
+  }
+  return waketimeToday;
 }
 
 - (NSString *)repeatAsString {
@@ -80,6 +116,19 @@
   }];
   return repeatString;
 }
+
+- (NSString *)waketimeAsString {
+  if (self.waketime) {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    return [NSDateFormatter localizedStringFromDate:[calendar dateFromComponents:self.waketime]
+                                          dateStyle:NSDateFormatterNoStyle
+                                          timeStyle:NSDateFormatterShortStyle];
+  } else {
+    return @"";
+  }
+}
+
+#pragma mark - Constructors
 
 + (id)alarmWithAttributes:(NSDictionary *)attributes {
   return [[self alloc] initWithAttributes:attributes];
@@ -103,12 +152,20 @@
   return [self initWithAttributes:nil];
 }
 
-- (NSDictionary *)attributes {
-  return _attributes;
-}
+#pragma mark - Private methods
 
-- (NSInteger)minuteInterval {
-  return 5;
+- (NSDate *)todayAtTime:(NSDateComponents *)time {
+  if (time) {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *nowComponents = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
+                                                  fromDate:[NSDate date]];
+    [nowComponents setHour:[time hour]];
+    [nowComponents setMinute:[time minute]];
+    [nowComponents setSecond:[time second]];
+    return [calendar dateFromComponents:nowComponents];
+  } else {
+    return nil;
+  }
 }
 
 @end

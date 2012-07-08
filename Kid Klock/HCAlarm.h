@@ -6,9 +6,25 @@
  */
 @protocol HCAlarm <NSObject>
 
+/**
+ * The user-specified alarm name.
+ */
 @property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSDate *waketime;
+
+/**
+ * Returns the time of day this alarm should wake up. Only the hour and minute sections are in this value, the other
+ * date sections should not be used.
+ */
+@property (strong, nonatomic) NSDateComponents *waketime;
+
+/**
+ * The type of animal used for this alarm.
+ */
 @property (assign, nonatomic) HCAnimalType animalType;
+
+/**
+ * \return the animal object for this alarm
+ */
 @property (strong, nonatomic, readonly) id <HCAnimal> animal;
 
 /**
@@ -17,6 +33,11 @@
  * \param days BOOL values indexed to correspond to [NSDateFormatter -veryShortWeekdaySymbols].
  */
 @property (copy, nonatomic) NSArray *repeat;
+
+/**
+ * \return the next date and time this alarm should go off
+ */
+- (NSDate *)nextWakeDate;
 
 /**
  * \return a string appropriate for the user interface representing the waketime for this alarm

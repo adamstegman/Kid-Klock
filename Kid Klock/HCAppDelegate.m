@@ -3,13 +3,16 @@
 
 @implementation HCAppDelegate
 
+#pragma mark - Properties
+
 @synthesize window = _window;
+
+#pragma mark - UIApplicationDelegate
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
   // notify main view
-  // FIXME: what happens if another view is visible on iPad? on iPhone?
   HCMainViewController *mainViewController = (HCMainViewController *)[[self window] rootViewController];
-  [mainViewController wakeAlarm];
+  [mainViewController updateAlarm];
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {

@@ -43,6 +43,7 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="alarmImage" destination="e2X-oi-EKJ" id="3SF-eh-YhA"/>
+                        <outlet property="settingsButton" destination="QBv-Zb-lSr" id="zh5-Gz-XrB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
@@ -321,7 +322,9 @@
         <class className="HCMainViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HCMainViewController.h"/>
             <relationships>
+                <relationship kind="action" name="togglePopover:"/>
                 <relationship kind="outlet" name="alarmImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="settingsButton" candidateClass="UIButton"/>
             </relationships>
         </class>
         <class className="HCRepeatViewController" superclassName="UITableViewController">

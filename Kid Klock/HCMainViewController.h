@@ -4,6 +4,7 @@
 
 @property (strong, nonatomic) UIPopoverController *settingsPopoverController;
 @property (strong, nonatomic) IBOutlet UIImageView *alarmImage;
+@property (strong, nonatomic) IBOutlet UIButton *settingsButton;
 
 /**
  * Displays the correct alarm image.

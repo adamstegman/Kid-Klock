@@ -32,6 +32,7 @@ static NSString *hcBrightnessKey = @"brightness";
 
 @synthesize settingsPopoverController = _settingsPopoverController;
 @synthesize alarmImage = _alarmImage;
+@synthesize settingsButton = _settingsButton;
 
 #pragma mark - Methods
 
@@ -54,6 +55,13 @@ static NSString *hcBrightnessKey = @"brightness";
 - (void)viewWillAppear:(BOOL)animated {
   [UIApplication sharedApplication].idleTimerDisabled = YES;
   [self updateAlarm];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+  if (!self.currentAlarm) {
+    // go to alarms view if there are no alarms
+    [self performSegueWithIdentifier:@"showSettings" sender:self.settingsButton];
+  }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -98,15 +106,6 @@ static NSString *hcBrightnessKey = @"brightness";
   self.settingsPopoverController = nil;
 }
 
-- (IBAction)togglePopover:(id)sender {
-  if (self.settingsPopoverController) {
-    [self.settingsPopoverController dismissPopoverAnimated:YES];
-    self.settingsPopoverController = nil;
-  } else {
-    [self performSegueWithIdentifier:@"showSettings" sender:sender];
-  }
-}
-
 #pragma mark - Private methods
 
 - (void)alarmSleep {
@@ -141,7 +140,6 @@ static NSString *hcBrightnessKey = @"brightness";
   if ([alarms count] > 0) {
     return [alarms objectAtIndex:0U];
   } else {
-    // TODO: return something if there are no alarms, or go to alarms view?
     return nil;
   }
 }

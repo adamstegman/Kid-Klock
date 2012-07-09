@@ -6,14 +6,19 @@
 
 @interface HCAlarmsViewController ()
 - (id <HCAlarm>)alarmForIndex:(NSUInteger)index;
+- (id <HCAlarm>)newAlarm;
 @end
 
 @implementation HCAlarmsViewController
+
+#pragma mark - Properties
 
 @synthesize alarmsDelegate = _alarmsDelegate;
 @synthesize tableView = _tableView;
 @synthesize settingsNavigationItem = _settingsNavigationItem;
 @synthesize doneButtonItem = _doneButtonItem;
+
+#pragma mark - Methods
 
 - (id <HCAlarm>)alarmForIndex:(NSUInteger)index {
   return [[HCUserDefaultsPersistence fetchAlarms] objectAtIndex:index];
@@ -33,16 +38,17 @@
   [super awakeFromNib];
 }
 
-- (void)viewDidLoad {
+- (void)viewWillAppear:(BOOL)animated {
   self.settingsNavigationItem.rightBarButtonItem = self.editButtonItem;
-  [super viewDidLoad];
+  _selectedAlarm = nil;
+  [super viewWillAppear:animated];
 }
 
-- (void)viewDidUnload {
-  self.tableView = nil;
-  self.settingsNavigationItem = nil;
-  self.doneButtonItem = nil;
-  [super viewDidUnload];
+- (void)viewDidAppear:(BOOL)animated {
+  // go to new alarm page if no alarms exist
+  if ([[HCUserDefaultsPersistence fetchAlarms] count] == 0) {
+    [self performSegueWithIdentifier:@"editAlarm" sender:self.tableView];
+  }
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {

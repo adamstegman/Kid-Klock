@@ -145,9 +145,9 @@
                                     <rect key="frame" x="10" y="1" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <textField hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="10" text="Alarm Name" id="BIh-QU-xj0">
+                                        <textField hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" text="Alarm Name" id="BIh-QU-xj0">
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="43" id="p6L-EO-ftG"/>
+                                                <constraint firstAttribute="height" constant="43" type="user" id="p6L-EO-ftG"/>
                                             </constraints>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -157,8 +157,8 @@
                                         </textField>
                                         <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" tag="1" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" text="Alarm Name" autoshrinkMode="minimumFontSize" id="OyW-P6-iW1">
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="280" id="83K-5Z-b4A"/>
-                                                <constraint firstAttribute="height" constant="39" id="jd7-qd-x2o"/>
+                                                <constraint firstAttribute="width" constant="280" type="user" id="5ax-fY-BER"/>
+                                                <constraint firstAttribute="height" constant="39" type="user" id="jd7-qd-x2o"/>
                                             </constraints>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -168,11 +168,11 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
-                                    <constraint firstItem="BIh-QU-xj0" firstAttribute="top" secondItem="vC5-9s-Ldd" secondAttribute="top" type="default" id="0qL-fJ-7LQ"/>
-                                    <constraint firstItem="OyW-P6-iW1" firstAttribute="top" secondItem="vC5-9s-Ldd" secondAttribute="top" type="default" id="4zy-Ec-ZZB"/>
-                                    <constraint firstItem="OyW-P6-iW1" firstAttribute="trailing" secondItem="BIh-QU-xj0" secondAttribute="trailing" type="default" id="DIJ-4j-qWB"/>
-                                    <constraint firstItem="OyW-P6-iW1" firstAttribute="leading" secondItem="vC5-9s-Ldd" secondAttribute="leading" constant="10" id="jTZ-Pm-wAE"/>
-                                    <constraint firstItem="BIh-QU-xj0" firstAttribute="leading" secondItem="OyW-P6-iW1" secondAttribute="leading" type="default" id="s9r-1E-7gN"/>
+                                    <constraint firstItem="BIh-QU-xj0" firstAttribute="top" secondItem="vC5-9s-Ldd" secondAttribute="top" type="user" id="0qL-fJ-7LQ"/>
+                                    <constraint firstItem="OyW-P6-iW1" firstAttribute="leading" secondItem="vC5-9s-Ldd" secondAttribute="leading" constant="20" type="user" id="0z2-lZ-M2P"/>
+                                    <constraint firstItem="BIh-QU-xj0" firstAttribute="leading" secondItem="vC5-9s-Ldd" secondAttribute="leading" constant="10" type="user" id="3ws-0L-NCB"/>
+                                    <constraint firstItem="OyW-P6-iW1" firstAttribute="top" secondItem="vC5-9s-Ldd" secondAttribute="top" type="user" id="4zy-Ec-ZZB"/>
+                                    <constraint firstAttribute="trailing" secondItem="BIh-QU-xj0" secondAttribute="trailing" constant="20" type="default" id="T3E-ef-d9K"/>
                                 </constraints>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="waketime" textLabel="nHp-tv-y03" style="IBUITableViewCellStyleDefault" id="Pd8-HN-3Rl" customClass="HCResponderCell">

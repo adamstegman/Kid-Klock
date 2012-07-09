@@ -149,7 +149,6 @@
                                     <subviews>
                                         <textField hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="10" text="Alarm Name" id="eZa-nE-yom">
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="458" id="8O8-dI-QgI"/>
                                                 <constraint firstAttribute="height" constant="31" id="oki-es-J2J"/>
                                             </constraints>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
@@ -170,11 +169,12 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
+                                    <constraint firstItem="nub-MA-49W" firstAttribute="centerX" secondItem="ff1-s7-TxW" secondAttribute="centerX" type="default" id="80L-Nj-MDq"/>
                                     <constraint firstItem="eZa-nE-yom" firstAttribute="top" secondItem="ff1-s7-TxW" secondAttribute="top" constant="6" id="9hH-mZ-xXX"/>
                                     <constraint firstItem="nub-MA-49W" firstAttribute="top" secondItem="ff1-s7-TxW" secondAttribute="top" type="default" id="Fmj-PK-42A"/>
-                                    <constraint firstItem="eZa-nE-yom" firstAttribute="leading" secondItem="nub-MA-49W" secondAttribute="leading" type="default" id="JXw-uC-1Ul"/>
                                     <constraint firstItem="nub-MA-49W" firstAttribute="trailing" secondItem="eZa-nE-yom" secondAttribute="trailing" type="default" id="X0o-65-NRt"/>
-                                    <constraint firstItem="nub-MA-49W" firstAttribute="leading" secondItem="ff1-s7-TxW" secondAttribute="leading" constant="10" id="kto-Xo-KP3"/>
+                                    <constraint firstItem="nub-MA-49W" firstAttribute="leading" secondItem="ff1-s7-TxW" secondAttribute="leading" constant="41" type="user" id="guL-It-PfH"/>
+                                    <constraint firstItem="eZa-nE-yom" firstAttribute="leading" secondItem="ff1-s7-TxW" secondAttribute="leading" constant="41" type="user" id="zG0-rx-cp7"/>
                                 </constraints>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="waketime" textLabel="7qy-JA-kh7" style="IBUITableViewCellStyleDefault" id="ct7-HD-zE4">
@@ -321,7 +321,6 @@
         <class className="HCMainViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HCMainViewController.h"/>
             <relationships>
-                <relationship kind="action" name="togglePopover:"/>
                 <relationship kind="outlet" name="alarmImage" candidateClass="UIImageView"/>
             </relationships>
         </class>

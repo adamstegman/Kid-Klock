@@ -7,6 +7,13 @@
 @property (strong, nonatomic) IBOutlet UIButton *settingsButton;
 
 /**
+ * Restore the saved brightness of the screen and remove the saved setting.
+ *
+ * Does nothing if no brightness setting is saved.
+ */
+- (void)restoreBrightness;
+
+/**
  * Displays the correct alarm image.
  *
  * If the current time is not within the previous alarm's maximum awake image interval, the current alarm's sleep image

@@ -18,7 +18,6 @@ static NSString *hcBrightnessKey = @"brightness";
 - (id <HCAlarm>)currentAlarm;
 - (void)dimForSleep;
 - (NSDate *)previousAlarmWakeDate;
-- (void)restoreBrightness;
 /**
  * \return all persisted alarms, sorted by their next occurring waketime
  */
@@ -35,6 +34,14 @@ static NSString *hcBrightnessKey = @"brightness";
 @synthesize settingsButton = _settingsButton;
 
 #pragma mark - Methods
+
+- (void)restoreBrightness {
+  NSNumber *oldBrightness = [HCUserDefaultsPersistence settingsForKey:hcBrightnessKey];
+  [HCUserDefaultsPersistence setSettingsValue:nil forKey:hcBrightnessKey];
+  if (oldBrightness) {
+    [UIScreen mainScreen].brightness = [oldBrightness floatValue];
+  }
+}
 
 - (void)updateAlarm {
   NSDate *now = [NSDate date];
@@ -162,14 +169,6 @@ static NSString *hcBrightnessKey = @"brightness";
     return [[previousAlarm nextWakeDate] dateByAddingTimeInterval:-86400.0];
   } else {
     return nil;
-  }
-}
-
-- (void)restoreBrightness {
-  NSNumber *oldBrightness = [HCUserDefaultsPersistence settingsForKey:hcBrightnessKey];
-  [HCUserDefaultsPersistence setSettingsValue:nil forKey:hcBrightnessKey];
-  if (oldBrightness) {
-    [UIScreen mainScreen].brightness = [oldBrightness floatValue];
   }
 }
 

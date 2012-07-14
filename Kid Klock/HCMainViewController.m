@@ -1,13 +1,19 @@
 #import "HCMainViewController.h"
 #import "HCUserDefaultsPersistence+HCAlarm.h"
 
+// The brightness percentage to display the sleeping image at
 #define DIM_BRIGHTNESS 0.01f
 
 // Sometimes, notifications come a split-second too early, so -updateAlarm doesn't think it's time to wake up yet.
-// This is a kludge to get around that by delaying the notification.
+// This is a kludge to get around that by delaying the notification by a certain number of seconds.
 #define SLEEP_TIME_FUDGE 5.0
 
+// How long to wait (in seconds) until increasing the brightness while the awake image is shown
+#define BRIGHTNESS_DURATION 300.0
+
+// The maximum amount of time (in seconds) to display the awake image for an alarm
 #define MAXIMUM_AWAKE_IMAGE_DURATION 3600.0
+// The minimum buffer time (in seconds) before an alarm's waketime that the alarm's sleeping image should be shown
 #define MINIMUM_SLEEP_IMAGE_DURATION 3600.0
 
 static NSString *hcBrightnessKey = @"brightness";
@@ -35,11 +41,16 @@ static NSString *hcBrightnessKey = @"brightness";
 
 #pragma mark - Methods
 
-- (void)restoreBrightness {
+- (void)restoreBrightness:(double)percentage {
   NSNumber *oldBrightness = [HCUserDefaultsPersistence settingsForKey:hcBrightnessKey];
-  [HCUserDefaultsPersistence setSettingsValue:nil forKey:hcBrightnessKey];
+
+  // espilon of 0.001, because let's not get ridiculous with preciseness
+  if (percentage > 0.999) {
+    [HCUserDefaultsPersistence setSettingsValue:nil forKey:hcBrightnessKey];
+  }
+
   if (oldBrightness) {
-    [UIScreen mainScreen].brightness = [oldBrightness floatValue];
+    [UIScreen mainScreen].brightness = [oldBrightness floatValue] * percentage;
   }
 }
 
@@ -72,9 +83,8 @@ static NSString *hcBrightnessKey = @"brightness";
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-  // TODO: is this called when quitting, background, etc.?
   [UIApplication sharedApplication].idleTimerDisabled = NO;
-  [self restoreBrightness];
+  [self restoreBrightness:1.0];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -131,14 +141,29 @@ static NSString *hcBrightnessKey = @"brightness";
 - (void)alarmWake {
   [[UIApplication sharedApplication] cancelAllLocalNotifications];
   if (self.currentAlarm) {
-    // TODO: slowly increase brightness, over time
+    NSDate *now = [NSDate date];
+    NSDate *sleepTime = [self sleepTime];
+
+    // slowly increase brightness, over time
+    double percentage = [now timeIntervalSinceDate:[self previousAlarmWakeDate]] / [sleepTime timeIntervalSinceDate:now];
+    [self restoreBrightness:percentage];
+
     self.alarmImage.image = self.currentAlarm.animal.awakeImage;
-    
-    // schedule notification to go to sleep image for next alarm
-    UILocalNotification *sleepNotification = [[UILocalNotification alloc] init];
-    sleepNotification.fireDate = [self sleepTime];
-    sleepNotification.timeZone = [NSTimeZone localTimeZone];
-    [[UIApplication sharedApplication] scheduleLocalNotification:sleepNotification];
+
+    NSDate *brightnessIncrementTime = [now dateByAddingTimeInterval:BRIGHTNESS_DURATION];
+    if ([brightnessIncrementTime earlierDate:sleepTime] == brightnessIncrementTime) {
+      // schedule notification to increase brightness
+      UILocalNotification *brightenNotification = [[UILocalNotification alloc] init];
+      brightenNotification.fireDate = [now dateByAddingTimeInterval:BRIGHTNESS_DURATION];
+      brightenNotification.timeZone = [NSTimeZone localTimeZone];
+      [[UIApplication sharedApplication] scheduleLocalNotification:brightenNotification];
+    } else {
+      // schedule notification to go to sleep image for next alarm
+      UILocalNotification *sleepNotification = [[UILocalNotification alloc] init];
+      sleepNotification.fireDate = sleepTime;
+      sleepNotification.timeZone = [NSTimeZone localTimeZone];
+      [[UIApplication sharedApplication] scheduleLocalNotification:sleepNotification];
+    }
   }
 }
 

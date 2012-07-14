@@ -7,11 +7,16 @@
 @property (strong, nonatomic) IBOutlet UIButton *settingsButton;
 
 /**
- * Restore the saved brightness of the screen and remove the saved setting.
+ * Restore the saved brightness of the screen to the specified percentage of the original setting when the app was
+ * opened.
+ *
+ * If percentage is 1.0, the saved setting will be removed after restoring it.
  *
  * Does nothing if no brightness setting is saved.
+ *
+ * \param the percentage of the saved brightness setting to restore, between 0.0 and 1.0.
  */
-- (void)restoreBrightness;
+- (void)restoreBrightness:(double)percentage;
 
 /**
  * Displays the correct alarm image.

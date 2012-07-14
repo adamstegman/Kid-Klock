@@ -22,12 +22,25 @@
 #pragma mark - Actions
 - (void)dismissAnimalType:(id)sender;
 - (void)pickAnimalType:(id)sender;
+- (void)dismissName:(id)sender;
 - (void)dismissWaketime:(id)sender;
 - (void)pickWaketime:(id)sender;
 #pragma mark - Methods
 - (void)setTableViewCell:(UITableViewCell *)cell editing:(BOOL)editing;
 - (void)rotateAnimalTypePicker;
 - (void)rotateWaketimePicker;
+@end
+
+// allow dismissal of the keyboard from this modal view
+@implementation UINavigationController(KeyboardDismiss)
+- (BOOL)disablesAutomaticKeyboardDismissal {
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    // allow the iPad to dismiss the keyboard so that the popovers are easier to use.
+    return NO;
+  } else {
+    return YES;
+  }
+}
 @end
 
 @implementation HCAlarmViewController
@@ -149,6 +162,9 @@
   }
 
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"UIKeyboardDidHideNotification"
+                                                  object:nil];
     [self.animalTypePopoverController presentPopoverFromRect:self.animalTypeCell.frame
                                                       inView:self.tableView
                                     permittedArrowDirections:UIPopoverArrowDirectionAny
@@ -164,6 +180,10 @@
   }
 }
 
+- (void)dismissName:(id)sender {
+  [self setTableViewCell:self.editingCell editing:NO];
+}
+
 - (void)dismissWaketime:(id)sender {
   [self.waketimeCell resignFirstResponder];
   [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
@@ -171,6 +191,9 @@
 
 - (void)pickWaketime:(id)sender {
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"UIKeyboardDidHideNotification"
+                                                  object:nil];
     [self.waketimePopoverController presentPopoverFromRect:self.waketimeCell.frame
                                                     inView:self.tableView
                                   permittedArrowDirections:UIPopoverArrowDirectionAny
@@ -212,14 +235,21 @@
       UITextField *textField = (UITextField *)[cell viewWithTag:HCALARM_TEXT_VIEW_TAG];
       textField.hidden = NO;
       textLabel.hidden = YES;
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(dismissName:)
+                                                   name:@"UIKeyboardWillHideNotification"
+                                                 object:nil];
       [textField becomeFirstResponder];
     }
-  } else if (!editing && cell == self.editingCell) {
+  } else if (!editing && self.editingCell && cell == self.editingCell) {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"UIKeyboardWillHideNotification"
+                                                  object:nil];
     self.editingCell = nil;
     if ([cell.reuseIdentifier isEqualToString:@"name"]) {
       UILabel *textLabel = (UILabel *)[cell viewWithTag:HCALARM_TEXT_LABEL_TAG];
       UITextField *textField = (UITextField *)[cell viewWithTag:HCALARM_TEXT_VIEW_TAG];
-      [textField resignFirstResponder];
+      [cell endEditing:NO];
       textLabel.hidden = NO;
       textField.hidden = YES;
     }
@@ -321,19 +351,42 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  switch (indexPath.row) {
-    case NAME_ROW: {
-      [tableView deselectRowAtIndexPath:indexPath animated:YES];
-      [self setTableViewCell:[tableView cellForRowAtIndexPath:indexPath] editing:YES];
-      break;
+  UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+  if (indexPath.row == NAME_ROW) {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self setTableViewCell:selectedCell editing:YES];
+  } else {
+    // If there is a cell currently being edited, the keyboard must be dismissed TODO: only on iPad.
+    BOOL dismissingKeyboard = NO;
+    if (self.editingCell) {
+      dismissingKeyboard = YES;
+      [self setTableViewCell:self.editingCell editing:NO];
     }
-    case WAKETIME_ROW: {
-      [self pickWaketime:[tableView cellForRowAtIndexPath:indexPath]];
-      break;
-    }
-    case ANIMAL_ROW: {
-      [self pickAnimalType:[tableView cellForRowAtIndexPath:indexPath]];
-      break;
+
+    // The next cell should not be selected until the keyboard is done being dismissed.
+    switch (indexPath.row) {
+      case WAKETIME_ROW: {
+        if (dismissingKeyboard && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+          [[NSNotificationCenter defaultCenter] addObserver:self
+                                                   selector:@selector(pickWaketime:)
+                                                       name:@"UIKeyboardDidHideNotification"
+                                                     object:selectedCell];
+        } else {
+          [self pickWaketime:selectedCell];
+        }
+        break;
+      }
+      case ANIMAL_ROW: {
+        if (dismissingKeyboard && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+          [[NSNotificationCenter defaultCenter] addObserver:self
+                                                   selector:@selector(pickAnimalType:)
+                                                       name:@"UIKeyboardDidHideNotification"
+                                                     object:selectedCell];
+        } else {
+          [self pickAnimalType:selectedCell];
+        }
+        break;
+      }
     }
   }
 }
@@ -422,10 +475,15 @@
   return YES;
 }
 
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+  [self setTableViewCell:self.editingCell editing:NO];
+  return YES;
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-  [self setTableViewCell:_editingCell editing:NO];
-  // TODO: move to next cell
-  return NO;
+  // move to next cell
+  [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:NAME_ROW + 1 inSection:1]];
+  return YES;
 }
 
 @end

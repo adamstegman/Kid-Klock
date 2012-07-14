@@ -171,8 +171,8 @@
                                 <constraints>
                                     <constraint firstItem="BIh-QU-xj0" firstAttribute="top" secondItem="vC5-9s-Ldd" secondAttribute="top" type="user" id="0qL-fJ-7LQ"/>
                                     <constraint firstItem="OyW-P6-iW1" firstAttribute="leading" secondItem="vC5-9s-Ldd" secondAttribute="leading" constant="20" type="user" id="0z2-lZ-M2P"/>
-                                    <constraint firstItem="BIh-QU-xj0" firstAttribute="leading" secondItem="vC5-9s-Ldd" secondAttribute="leading" constant="10" type="user" id="3ws-0L-NCB"/>
                                     <constraint firstItem="OyW-P6-iW1" firstAttribute="top" secondItem="vC5-9s-Ldd" secondAttribute="top" type="user" id="4zy-Ec-ZZB"/>
+                                    <constraint firstItem="BIh-QU-xj0" firstAttribute="leading" secondItem="vC5-9s-Ldd" secondAttribute="leading" constant="20" type="default" id="A6T-JG-V5Y"/>
                                     <constraint firstAttribute="trailing" secondItem="BIh-QU-xj0" secondAttribute="trailing" constant="20" type="default" id="T3E-ef-d9K"/>
                                 </constraints>
                             </tableViewCell>
@@ -316,8 +316,8 @@
         <class className="HCMainViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HCMainViewController.h"/>
             <relationships>
-                <relationship kind="action" name="togglePopover:"/>
                 <relationship kind="outlet" name="alarmImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="settingsButton" candidateClass="UIButton"/>
             </relationships>
         </class>
         <class className="HCRepeatViewController" superclassName="UITableViewController">

@@ -302,6 +302,7 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  [self.tableView endEditing:YES];
   if ([segue.identifier isEqualToString:@"repeat"]) {
     id <HCAlarmSettings> alarmSettingsViewController = (id <HCAlarmSettings>)[segue destinationViewController];
     alarmSettingsViewController.alarm = self.alarm;

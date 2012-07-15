@@ -12,7 +12,7 @@
 
 // IB view tags
 #define HCALARM_TEXT_LABEL_TAG 1
-#define HCALARM_TEXT_VIEW_TAG 2
+#define HCALARM_TEXT_FIELD_TAG 2
 
 // Dimensions
 #define ANIMAL_TYPE_PICKER_ROW_HEIGHT 68.0f
@@ -23,12 +23,16 @@
 - (void)dismissAnimalType:(id)sender;
 - (void)pickAnimalType:(id)sender;
 - (void)dismissName:(id)sender;
+- (void)editName:(id)sender;
+- (void)nameDidReturn:(id)sender;
 - (void)dismissWaketime:(id)sender;
 - (void)pickWaketime:(id)sender;
+- (void)waketimeDidReturn:(id)sender;
 #pragma mark - Methods
-- (void)setTableViewCell:(UITableViewCell *)cell editing:(BOOL)editing;
+- (SEL)nextFieldSelector:(NSInteger)row;
 - (void)rotateAnimalTypePicker;
 - (void)rotateWaketimePicker;
+- (void)selectRow:(NSInteger)row;
 @end
 
 // allow dismissal of the keyboard from this modal view
@@ -49,32 +53,81 @@
 
 @synthesize alarm = _alarm;
 @synthesize alarmDelegate = _alarmDelegate;
-@synthesize editingCell = _editingCell;
+@dynamic nextAccessoryView;
+@dynamic doneAccessoryView;
+@dynamic nameCell;
+@dynamic nameField;
+@dynamic nameLabel;
 @dynamic waketimeCell;
-@dynamic waketimeAccessoryView;
 @dynamic waketimePicker;
 @dynamic waketimePopoverController;
 @dynamic animalTypeCell;
-@dynamic animalTypeAccessoryView;
 @dynamic animalTypePicker;
 @dynamic animalTypePopoverController;
+
+- (UIToolbar *)nextAccessoryView {
+  NSInteger row = [self.tableView indexPathForSelectedRow].row;
+  if (!_nextAccessoryView) {
+    _nextAccessoryView = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 32.0f)];
+    _nextAccessoryView.barStyle = UIBarStyleBlack;
+    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                            target:nil
+                                                                            action:nil];
+    UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"alarm.field.next", @"Go to next alarm field")
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:[self nextFieldSelector:row]];
+    _nextAccessoryView.items = [NSArray arrayWithObjects:spacer, nextButton, nil];
+  } else {
+    // update next button action based on which row is selected
+    UIBarButtonItem *nextButton = [[_nextAccessoryView items] objectAtIndex:1U];
+    nextButton.action = [self nextFieldSelector:row];
+  }
+  return _nextAccessoryView;
+}
+
+- (UIToolbar *)doneAccessoryView {
+  if (!_doneAccessoryView) {
+    _doneAccessoryView = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.animalTypePicker.frame.size.width, 32.0f)];
+    _doneAccessoryView.barStyle = UIBarStyleBlack;
+    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                            target:nil
+                                                                            action:nil];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                                target:self
+                                                                                action:@selector(dismissAnimalType:)];
+    _doneAccessoryView.items = [NSArray arrayWithObjects:spacer, doneButton, nil];
+  }
+  return _doneAccessoryView;
+}
+
+- (UITableViewCell *)nameCell {
+  if (!_nameCell) {
+    _nameCell = [self.tableView dequeueReusableCellWithIdentifier:@"name"];
+  }
+  return _nameCell;
+}
+
+- (UITextField *)nameField {
+  if (!_nameField) {
+    _nameField = (UITextField *)[self.nameCell viewWithTag:HCALARM_TEXT_FIELD_TAG];
+    _nameField.delegate = self;
+  }
+  return _nameField;
+}
+
+- (UILabel *)nameLabel {
+  if (!_nameLabel) {
+    _nameLabel = (UILabel *)[self.nameCell viewWithTag:HCALARM_TEXT_LABEL_TAG];
+  }
+  return _nameLabel;
+}
 
 - (HCResponderCell *)waketimeCell {
   if (!_waketimeCell) {
     _waketimeCell = [self.tableView dequeueReusableCellWithIdentifier:@"waketime"];
   }
   return _waketimeCell;
-}
-
-- (UIToolbar *)waketimeAccessoryView {
-  if (!_waketimeAccessoryView) {
-    _waketimeAccessoryView = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.waketimePicker.frame.size.width, 32.0f)];
-    _waketimeAccessoryView.barStyle = UIBarStyleBlack;
-    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissWaketime:)];
-    _waketimeAccessoryView.items = [NSArray arrayWithObjects:spacer, doneButton, nil];
-  }
-  return _waketimeAccessoryView;
 }
 
 - (UIDatePicker *)waketimePicker {
@@ -106,17 +159,6 @@
     _animalTypeCell = [self.tableView dequeueReusableCellWithIdentifier:@"animalType"];
   }
   return _animalTypeCell;
-}
-
-- (UIToolbar *)animalTypeAccessoryView {
-  if (!_animalTypeAccessoryView) {
-    _animalTypeAccessoryView = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.animalTypePicker.frame.size.width, 32.0f)];
-    _animalTypeAccessoryView.barStyle = UIBarStyleBlack;
-    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAnimalType:)];
-    _animalTypeAccessoryView.items = [NSArray arrayWithObjects:spacer, doneButton, nil];
-  }
-  return _animalTypeAccessoryView;
 }
 
 - (UIPickerView *)animalTypePicker {
@@ -153,7 +195,7 @@
 
 - (void)dismissAnimalType:(id)sender {
   [self.animalTypeCell resignFirstResponder];
-  [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+  [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForCell:self.animalTypeCell] animated:YES];
 }
 
 - (void)pickAnimalType:(id)sender {
@@ -174,19 +216,39 @@
       self.animalTypeCell.inputView = self.animalTypePicker;
     }
     if (!self.animalTypeCell.inputAccessoryView) {
-      self.animalTypeCell.inputAccessoryView = self.animalTypeAccessoryView;
+      self.animalTypeCell.inputAccessoryView = self.doneAccessoryView;
     }
     [self.animalTypeCell becomeFirstResponder];
   }
 }
 
 - (void)dismissName:(id)sender {
-  [self setTableViewCell:self.editingCell editing:NO];
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:@"UIKeyboardWillHideNotification"
+                                                object:nil];
+  [self.nameField resignFirstResponder];
+  self.nameLabel.hidden = NO;
+  self.nameField.hidden = YES;
+}
+
+- (void)editName:(id)sender {
+  self.nameField.hidden = NO;
+  self.nameLabel.hidden = YES;
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(dismissName:)
+                                               name:@"UIKeyboardWillHideNotification"
+                                             object:nil];
+  [self.nameField becomeFirstResponder];
+}
+
+- (void)nameDidReturn:(id)sender {
+  // move to next cell
+  [self selectRow:NAME_ROW + 1];
 }
 
 - (void)dismissWaketime:(id)sender {
   [self.waketimeCell resignFirstResponder];
-  [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+  [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForCell:self.waketimeCell] animated:YES];
 }
 
 - (void)pickWaketime:(id)sender {
@@ -203,13 +265,29 @@
       self.waketimeCell.inputView = self.waketimePicker;
     }
     if (!self.waketimeCell.inputAccessoryView) {
-      self.waketimeCell.inputAccessoryView = self.waketimeAccessoryView;
+      self.waketimeCell.inputAccessoryView = self.nextAccessoryView;
     }
     [self.waketimeCell becomeFirstResponder];
   }
 }
 
+- (void)waketimeDidReturn:(id)sender {
+  // move to next cell
+  [self selectRow:WAKETIME_ROW + 1];
+}
+
 #pragma mark - Methods
+
+- (SEL)nextFieldSelector:(NSInteger)row {
+  switch (row) {
+    case NAME_ROW:
+      return @selector(nameDidReturn:);
+    case WAKETIME_ROW:
+      return @selector(waketimeDidReturn:);
+    default:
+      return nil;
+  }
+}
 
 - (void)rotateAnimalTypePicker {
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -223,59 +301,30 @@
   }
 }
 
-- (void)setTableViewCell:(UITableViewCell *)cell editing:(BOOL)editing {
-  // TODO: move to an alarm name cell class
-  if (editing && cell != self.editingCell) {
-    if (self.editingCell) {
-      [self setTableViewCell:self.editingCell editing:NO];
-    }
-    self.editingCell = cell;
-    if ([cell.reuseIdentifier isEqualToString:@"name"]) {
-      UILabel *textLabel = (UILabel *)[cell viewWithTag:HCALARM_TEXT_LABEL_TAG];
-      UITextField *textField = (UITextField *)[cell viewWithTag:HCALARM_TEXT_VIEW_TAG];
-      textField.hidden = NO;
-      textLabel.hidden = YES;
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(dismissName:)
-                                                   name:@"UIKeyboardWillHideNotification"
-                                                 object:nil];
-      [textField becomeFirstResponder];
-    }
-  } else if (!editing && self.editingCell && cell == self.editingCell) {
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"UIKeyboardWillHideNotification"
-                                                  object:nil];
-    self.editingCell = nil;
-    if ([cell.reuseIdentifier isEqualToString:@"name"]) {
-      UILabel *textLabel = (UILabel *)[cell viewWithTag:HCALARM_TEXT_LABEL_TAG];
-      UITextField *textField = (UITextField *)[cell viewWithTag:HCALARM_TEXT_VIEW_TAG];
-      [cell endEditing:NO];
-      textLabel.hidden = NO;
-      textField.hidden = YES;
-    }
-  }
+- (void)selectRow:(NSInteger)row {
+  NSIndexPath *newRow = [NSIndexPath indexPathForItem:row inSection:0];
+  [self.tableView selectRowAtIndexPath:newRow animated:YES scrollPosition:UITableViewScrollPositionTop];
+  [self tableView:self.tableView didSelectRowAtIndexPath:newRow];
 }
 
 #pragma mark - View lifecycle
 
 - (void)didReceiveMemoryWarning {
   // TODO: test these
-  if (!self.tableView.editing) {
-    self.editingCell = nil;
-  }
-
-  if (_animalTypeAccessoryView && ![self.animalTypeCell isFirstResponder]) {
-    _animalTypeAccessoryView = nil;
+  if (_doneAccessoryView && ![self.animalTypeCell isFirstResponder]) {
     _animalTypePicker = nil;
+    _doneAccessoryView = nil;
   }
   if (_animalTypePopoverController && !self.animalTypePopoverController.popoverVisible) {
     _animalTypePopoverController = nil;
     _animalTypePicker = nil;
   }
 
-  if (_waketimeAccessoryView && ![self.waketimeCell isFirstResponder]) {
-    _waketimeAccessoryView = nil;
+  if (_nextAccessoryView && ![self.waketimeCell isFirstResponder]) {
     _waketimePicker = nil;
+    if (![self.nameField isFirstResponder]) {
+      _nextAccessoryView = nil;
+    }
   }
   if (_waketimePopoverController && !self.waketimePopoverController.popoverVisible) {
     _waketimePopoverController = nil;
@@ -285,7 +334,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   self.title = self.alarm.name;
-  self.editingCell = nil;
   [self.tableView reloadData];
   [super viewWillAppear:animated];
 }
@@ -323,10 +371,9 @@
   UITableViewCell *cell = nil;
   switch (indexPath.row) {
     case NAME_ROW: {
-      cell = [tableView dequeueReusableCellWithIdentifier:@"name"];
-      [[cell.contentView subviews] enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop) {
-        [obj setText:self.alarm.name];
-      }];
+      cell = self.nameCell;
+      self.nameField.text = self.alarm.name;
+      self.nameLabel.text = self.alarm.name;
       break;
     }
     case WAKETIME_ROW: {
@@ -355,23 +402,23 @@
   UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
   if (indexPath.row == NAME_ROW) {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self setTableViewCell:selectedCell editing:YES];
+    [self editName:selectedCell];
   } else {
-    // If there is a cell currently being edited, the keyboard must be dismissed TODO: only on iPad.
+    // If the name field is currently being edited, the keyboard must be dismissed before moving to another cell
     BOOL dismissingKeyboard = NO;
-    if (self.editingCell) {
+    if ([self.nameField isFirstResponder]) {
       dismissingKeyboard = YES;
-      [self setTableViewCell:self.editingCell editing:NO];
+      [self dismissName:selectedCell];
     }
 
-    // The next cell should not be selected until the keyboard is done being dismissed.
+    // The next cell should not be selected until the keyboard is done being dismissed
     switch (indexPath.row) {
       case WAKETIME_ROW: {
         if (dismissingKeyboard && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
           [[NSNotificationCenter defaultCenter] addObserver:self
                                                    selector:@selector(pickWaketime:)
                                                        name:@"UIKeyboardDidHideNotification"
-                                                     object:selectedCell];
+                                                     object:nil];
         } else {
           [self pickWaketime:selectedCell];
         }
@@ -382,7 +429,7 @@
           [[NSNotificationCenter defaultCenter] addObserver:self
                                                    selector:@selector(pickAnimalType:)
                                                        name:@"UIKeyboardDidHideNotification"
-                                                     object:selectedCell];
+                                                     object:nil];
         } else {
           [self pickAnimalType:selectedCell];
         }
@@ -477,13 +524,12 @@
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-  [self setTableViewCell:self.editingCell editing:NO];
+  [self dismissName:textField];
   return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-  // move to next cell
-  [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:NAME_ROW + 1 inSection:1]];
+  [self nameDidReturn:textField];
   return YES;
 }
 

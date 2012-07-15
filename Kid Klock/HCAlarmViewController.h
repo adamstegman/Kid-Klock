@@ -9,13 +9,18 @@
 @end
 
 @interface HCAlarmViewController : UITableViewController <UIPickerViewDataSource, UIPickerViewDelegate, UIPopoverControllerDelegate, UITextFieldDelegate> {
+  UIToolbar *_nextAccessoryView;
+  UIToolbar *_doneAccessoryView;
+
+  UITableViewCell *_nameCell;
+  UITextField *_nameField;
+  UILabel *_nameLabel;
+
   HCResponderCell *_waketimeCell;
-  UIToolbar *_waketimeAccessoryView;
   UIDatePicker *_waketimePicker;
   UIPopoverController *_waketimePopoverController;
 
   HCResponderCell *_animalTypeCell;
-  UIToolbar *_animalTypeAccessoryView;
   UIPickerView *_animalTypePicker;
   UIPopoverController *_animalTypePopoverController;
 }
@@ -24,13 +29,15 @@
 @property (strong, nonatomic) id <HCAlarmViewControllerDelegate> alarmDelegate;
 
 #pragma mark - Internal properties
-@property (strong, nonatomic) UITableViewCell *editingCell;
+@property (strong, nonatomic, readonly) UIToolbar *nextAccessoryView;
+@property (strong, nonatomic, readonly) UIToolbar *doneAccessoryView;
+@property (strong, nonatomic, readonly) UITableViewCell *nameCell;
+@property (strong, nonatomic, readonly) UITextField *nameField;
+@property (strong, nonatomic, readonly) UILabel *nameLabel;
 @property (strong, nonatomic, readonly) HCResponderCell *waketimeCell;
-@property (strong, nonatomic, readonly) UIToolbar *waketimeAccessoryView;
 @property (strong, nonatomic, readonly) UIDatePicker *waketimePicker;
 @property (strong, nonatomic, readonly) UIPopoverController *waketimePopoverController;
 @property (strong, nonatomic, readonly) HCResponderCell *animalTypeCell;
-@property (strong, nonatomic, readonly) UIToolbar *animalTypeAccessoryView;
 @property (strong, nonatomic, readonly) UIPickerView *animalTypePicker;
 @property (strong, nonatomic, readonly) UIPopoverController *animalTypePopoverController;
 

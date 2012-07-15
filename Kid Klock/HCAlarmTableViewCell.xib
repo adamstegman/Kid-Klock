@@ -138,7 +138,6 @@
 								<string key="NSFrame">{{97, 71}, {126, 21}}</string>
 								<reference key="NSSuperview" ref="669682726"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -260,7 +259,7 @@
 							<object class="IBNSLayoutConstraint" id="877239525">
 								<reference key="firstItem" ref="303323618"/>
 								<int key="firstAttribute">5</int>
-								<int key="relation">0</int>
+								<int key="relation">1</int>
 								<reference key="secondItem" ref="1030381338"/>
 								<int key="secondAttribute">6</int>
 								<float key="multiplier">1</float>
@@ -269,14 +268,14 @@
 								</object>
 								<float key="priority">1000</float>
 								<reference key="containingView" ref="284320084"/>
-								<int key="scoringType">6</int>
-								<float key="scoringTypeFloat">24</float>
+								<int key="scoringType">9</int>
+								<float key="scoringTypeFloat">40</float>
 								<int key="contentType">3</int>
 							</object>
 							<object class="IBNSLayoutConstraint" id="253003345">
 								<reference key="firstItem" ref="284320084"/>
 								<int key="firstAttribute">6</int>
-								<int key="relation">1</int>
+								<int key="relation">0</int>
 								<reference key="secondItem" ref="303323618"/>
 								<int key="secondAttribute">6</int>
 								<float key="multiplier">1</float>
@@ -420,7 +419,7 @@
 							<object class="IBNSLayoutConstraint" id="657245443">
 								<reference key="firstItem" ref="8016639"/>
 								<int key="firstAttribute">5</int>
-								<int key="relation">1</int>
+								<int key="relation">0</int>
 								<reference key="secondItem" ref="284320084"/>
 								<int key="secondAttribute">5</int>
 								<float key="multiplier">1</float>
@@ -436,7 +435,7 @@
 							<object class="IBNSLayoutConstraint" id="267599063">
 								<reference key="firstItem" ref="284320084"/>
 								<int key="firstAttribute">6</int>
-								<int key="relation">1</int>
+								<int key="relation">0</int>
 								<reference key="secondItem" ref="784189544"/>
 								<int key="secondAttribute">6</int>
 								<float key="multiplier">1</float>
@@ -465,26 +464,10 @@
 								<float key="scoringTypeFloat">40</float>
 								<int key="contentType">2</int>
 							</object>
-							<object class="IBNSLayoutConstraint" id="615428700">
-								<reference key="firstItem" ref="784189544"/>
-								<int key="firstAttribute">5</int>
-								<int key="relation">0</int>
-								<reference key="secondItem" ref="8016639"/>
-								<int key="secondAttribute">5</int>
-								<float key="multiplier">1</float>
-								<object class="IBLayoutConstant" key="constant">
-									<double key="value">0.0</double>
-								</object>
-								<float key="priority">1000</float>
-								<reference key="containingView" ref="284320084"/>
-								<int key="scoringType">6</int>
-								<float key="scoringTypeFloat">24</float>
-								<int key="contentType">2</int>
-							</object>
 							<object class="IBNSLayoutConstraint" id="569011926">
 								<reference key="firstItem" ref="784189544"/>
 								<int key="firstAttribute">5</int>
-								<int key="relation">1</int>
+								<int key="relation">0</int>
 								<reference key="secondItem" ref="284320084"/>
 								<int key="secondAttribute">5</int>
 								<float key="multiplier">1</float>
@@ -661,11 +644,6 @@
 						<reference key="parent" ref="284320084"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">54</int>
-						<reference key="object" ref="615428700"/>
-						<reference key="parent" ref="284320084"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">56</int>
 						<reference key="object" ref="267599063"/>
 						<reference key="parent" ref="284320084"/>
@@ -749,7 +727,6 @@
 				<array key="2.IBViewMetadataConstraints">
 					<reference ref="359050311"/>
 					<reference ref="569011926"/>
-					<reference ref="615428700"/>
 					<reference ref="301978668"/>
 					<reference ref="267599063"/>
 					<reference ref="657245443"/>
@@ -790,7 +767,6 @@
 				<boolean value="NO" key="5.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="50.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="52.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="54.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="55.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="59.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -811,7 +787,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">80</int>
+			<int key="maxID">81</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -821,7 +797,8 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="animalImageView">UIImageView</string>
 						<string key="enabledSwitch">UISwitch</string>
-						<string key="labelLabel">UILabel</string>
+						<string key="nameLabel">UILabel</string>
+						<string key="repeatLabel">UILabel</string>
 						<string key="timeLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -833,8 +810,12 @@
 							<string key="name">enabledSwitch</string>
 							<string key="candidateClassName">UISwitch</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="labelLabel">
-							<string key="name">labelLabel</string>
+						<object class="IBToOneOutletInfo" key="nameLabel">
+							<string key="name">nameLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="repeatLabel">
+							<string key="name">repeatLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="timeLabel">

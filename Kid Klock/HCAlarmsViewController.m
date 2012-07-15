@@ -108,9 +108,7 @@
   }
 
   // if editing, deselect the row being edited
-  if (_selectedAlarm) {
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-  }
+  [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 #pragma mark - UITableViewDelegate

@@ -40,6 +40,11 @@
 @property (copy, nonatomic) NSArray *repeat;
 
 /**
+ * Whether the alarm is currently enabled.
+ */
+@property (assign, nonatomic) BOOL enabled;
+
+/**
  * \return the next date and time this alarm should go off
  */
 - (NSDate *)nextWakeDate;

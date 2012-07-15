@@ -5,6 +5,9 @@
 #import "HCAlarmTableViewCell.h"
 
 @interface HCAlarmsViewController ()
+#pragma mark - Actions
+- (void)toggleAlarm:(id)sender;
+#pragma mark - Methods
 - (id <HCAlarm>)alarmForIndex:(NSUInteger)index;
 - (id <HCAlarm>)newAlarm;
 @end
@@ -17,6 +20,15 @@
 @synthesize tableView = _tableView;
 @synthesize settingsNavigationItem = _settingsNavigationItem;
 @synthesize doneButtonItem = _doneButtonItem;
+
+#pragma mark - Actions
+
+- (void)toggleAlarm:(id)sender {
+  UITableViewCell *alarmCell = (UITableViewCell *)[[sender superview] superview];
+  id <HCAlarm> alarm = [self alarmForIndex:[self.tableView indexPathForCell:alarmCell].row];
+  alarm.enabled = !alarm.enabled;
+  [HCUserDefaultsPersistence upsertAlarm:alarm];
+}
 
 #pragma mark - Methods
 
@@ -135,8 +147,12 @@
   cell.nameLabel.text = alarm.name;
   cell.animalImageView.image = alarm.animal.icon;
   cell.timeLabel.text = [alarm waketimeAsString];
-  cell.enabledSwitch.enabled = YES; // TODO
+  cell.enabledSwitch.on = alarm.enabled;
   cell.repeatLabel.text = [alarm repeatAsString];
+
+  // switches do not have delegates, so force its hand
+  [cell.enabledSwitch addTarget:self action:@selector(toggleAlarm:) forControlEvents:UIControlEventValueChanged];
+
   return cell;
 }
 

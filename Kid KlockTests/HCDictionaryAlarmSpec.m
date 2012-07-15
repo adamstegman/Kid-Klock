@@ -23,12 +23,14 @@ describe(@"HCDictionaryAlarm", ^{
                                   [NSDate dateWithTimeIntervalSinceReferenceDate:5.0], @"bedtime",
                                   waketime, @"waketime",
                                   [NSNumber numberWithInt:HCBunny], @"animalType",
-                                  repeat, @"repeat", nil];
+                                  repeat, @"repeat",
+                                  yes, @"enabled", nil];
       alarm = [HCDictionaryAlarm alarmWithAttributes:attributes];
       [[alarm.name should] equal:@"testing"];
       [[alarm.waketime should] equal:waketime];
       [[theValue(alarm.animalType) should] equal:theValue(HCBunny)];
       [[alarm.repeat should] equal:repeat];
+      [[theValue(alarm.enabled) should] equal:theValue(YES)];
     });
   });
 
@@ -43,12 +45,14 @@ describe(@"HCDictionaryAlarm", ^{
       NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:@"testing", @"name",
                                   waketime, @"waketime",
                                   [NSNumber numberWithInt:HCBunny], @"animalType",
-                                  repeat, @"repeat", nil];
+                                  repeat, @"repeat",
+                                  yes, @"enabled", nil];
       alarm = [[HCDictionaryAlarm alloc] initWithAttributes:attributes];
       [[alarm.name should] equal:@"testing"];
       [[alarm.waketime should] equal:waketime];
       [[theValue(alarm.animalType) should] equal:theValue(HCBunny)];
       [[alarm.repeat should] equal:repeat];
+      [[theValue(alarm.enabled) should] equal:theValue(YES)];
     });
 
     it(@"handles nil gracefully", ^{
@@ -60,6 +64,7 @@ describe(@"HCDictionaryAlarm", ^{
       [alarm.repeat enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [[obj should] beTrue];
       }];
+      [[theValue(alarm.enabled) should] equal:theValue(YES)];
     });
   });
 
@@ -251,6 +256,12 @@ describe(@"HCDictionaryAlarm", ^{
     it(@"returns nil if there are no repeat days", ^{
       NSNumber *no = [NSNumber numberWithBool:NO];
       alarm.repeat = [NSArray arrayWithObjects:no, no, no, no, no, no, no, nil];
+      alarm.waketime = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
+      [[alarm nextWakeDate] shouldBeNil];
+    });
+
+    it(@"returns nil if enabled is false", ^{
+      alarm.enabled = NO;
       alarm.waketime = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
       [[alarm nextWakeDate] shouldBeNil];
     });

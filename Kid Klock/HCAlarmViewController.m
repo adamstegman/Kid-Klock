@@ -134,10 +134,17 @@
     _waketimePicker.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     _waketimePicker.datePickerMode = UIDatePickerModeTime;
     _waketimePicker.minuteInterval = [self.alarm minuteInterval];
-    _waketimePicker.date = [self.alarm nextWakeDate];
+
     // date pickers do not have delegates, so force its hand
     [_waketimePicker addTarget:self action:@selector(waketimeDidUpdate:) forControlEvents:UIControlEventValueChanged];
   }
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSDateComponents *nowComponents = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
+                                                fromDate:[NSDate date]];
+  [nowComponents setHour:[self.alarm.waketime hour]];
+  [nowComponents setMinute:[self.alarm.waketime minute]];
+  [nowComponents setSecond:[self.alarm.waketime second]];
+  _waketimePicker.date = [calendar dateFromComponents:nowComponents];
   return _waketimePicker;
 }
 

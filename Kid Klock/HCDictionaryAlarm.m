@@ -17,6 +17,7 @@
 @dynamic waketime;
 @dynamic animal;
 @dynamic repeat;
+@dynamic enabled;
 
 - (NSString *)name {
   return [_attributes objectForKey:@"name"];
@@ -90,6 +91,14 @@
   }
 }
 
+- (BOOL)enabled {
+  return [[_attributes objectForKey:@"enabled"] boolValue];
+}
+
+- (void)setEnabled:(BOOL)enabled {
+  [_attributes setObject:[NSNumber numberWithBool:enabled] forKey:@"enabled"];
+}
+
 #pragma mark - Methods
 
 - (NSDictionary *)attributes {
@@ -101,6 +110,10 @@
 }
 
 - (NSDate *)nextWakeDate {
+  if (!self.enabled) {
+    return nil;
+  }
+
   NSDate *nextWakeDate = [self todayAtTime:self.waketime];
   if (nextWakeDate && [[NSDate date] earlierDate:nextWakeDate] == nextWakeDate) {
     nextWakeDate = [nextWakeDate dateByAddingTimeInterval:86400];
@@ -163,15 +176,25 @@
       [self setName:[attributes objectForKey:@"name"]];
       [self setWaketime:[attributes objectForKey:@"waketime"]];
       [self setAnimalType:[[attributes objectForKey:@"animalType"] intValue]];
-      [self setRepeat:[attributes objectForKey:@"repeat"]];
-    }
-    if (![_attributes objectForKey:@"repeat"]) {
-      NSNumber *yes = [NSNumber numberWithBool:YES];
-      NSMutableArray *repeat = [NSMutableArray array];
-      for (NSInteger i = 0, len = [[NSCalendar currentCalendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length; i < len; i++) {
-        [repeat setObject:yes atIndexedSubscript:i];
+
+      NSArray *repeat = [attributes objectForKey:@"repeat"];
+      if (repeat) {
+        [self setRepeat:repeat];
+      } else {
+        NSNumber *yes = [NSNumber numberWithBool:YES];
+        NSMutableArray *repeat = [NSMutableArray array];
+        for (NSInteger i = 0, len = [[NSCalendar currentCalendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length; i < len; i++) {
+          [repeat setObject:yes atIndexedSubscript:i];
+        }
+        [self setRepeat:repeat];
       }
-      [self setRepeat:repeat];
+
+      NSNumber *enabled = [attributes objectForKey:@"enabled"];
+      if (enabled) {
+        [self setEnabled:[[attributes objectForKey:@"enabled"] boolValue]];
+      } else {
+        [self setEnabled:YES];
+      }
     }
   }
   return self;

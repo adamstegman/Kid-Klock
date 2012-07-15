@@ -31,7 +31,6 @@ static NSString *bundleIdentifier;
 + (NSMutableDictionary *)settings {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   NSDictionary *settings = [userDefaults persistentDomainForName:[self domain]];
-  // FIXME: test
   if (!settings) {
     settings = [NSDictionary dictionary];
   }

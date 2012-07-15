@@ -5,14 +5,16 @@ static NSString *hcAlarmSettingsKey = @"alarms";
 @implementation HCUserDefaultsPersistence (HCAlarm)
 
 + (NSArray *)fetchAlarms {
-  NSArray *alarmAttributes = [[self settingsForKey:hcAlarmSettingsKey] allValues];
+  NSDictionary *alarmsAttributes = [self settingsForKey:hcAlarmSettingsKey];
   NSMutableArray *alarms = [NSMutableArray array];
-  if (alarmAttributes) {
-    [alarmAttributes enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop) {
+  if (alarmsAttributes) {
+    [alarmsAttributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
       NSMutableDictionary *alarmAttributes = [(NSDictionary *)obj mutableCopy];
       NSData *decodedWaketime = [NSKeyedUnarchiver unarchiveObjectWithData:[alarmAttributes objectForKey:@"waketime"]];
       [alarmAttributes setValue:decodedWaketime forKey:@"waketime"];
-      [alarms addObject:[HCDictionaryAlarm alarmWithAttributes:alarmAttributes]];
+      HCDictionaryAlarm *alarm = [HCDictionaryAlarm alarmWithAttributes:alarmAttributes];
+      alarm.id = key;
+      [alarms addObject:alarm];
     }];
   }
   return alarms;
@@ -22,27 +24,34 @@ static NSString *hcAlarmSettingsKey = @"alarms";
   [self setSettingsValue:nil forKey:hcAlarmSettingsKey];
 }
 
-+ (void)removeAlarm:(NSString *)alarmName {
++ (void)removeAlarm:(NSString *)alarmId {
   NSMutableDictionary *alarms = [[self settingsForKey:hcAlarmSettingsKey] mutableCopy];
   if (!alarms) {
     alarms = [NSMutableDictionary dictionary];
   }
-  if ([alarms objectForKey:alarmName]) {
-    [alarms removeObjectForKey:alarmName];
+  if ([alarms objectForKey:alarmId]) {
+    [alarms removeObjectForKey:alarmId];
     [self setSettingsValue:alarms forKey:hcAlarmSettingsKey];
   }
 }
 
 + (void)upsertAlarm:(HCDictionaryAlarm *)alarm {
-  NSMutableDictionary *alarms = [[self settingsForKey:hcAlarmSettingsKey] mutableCopy];
-  if (!alarms) {
-    alarms = [NSMutableDictionary dictionary];
+  if (alarm) {
+    NSMutableDictionary *alarms = [[self settingsForKey:hcAlarmSettingsKey] mutableCopy];
+    if (!alarms) {
+      alarms = [NSMutableDictionary dictionary];
+    }
+    NSMutableDictionary *alarmAttributes = [alarm.attributes mutableCopy];
+    if (alarm.waketime) {
+      NSData *encodedWaketime = [NSKeyedArchiver archivedDataWithRootObject:[alarmAttributes objectForKey:@"waketime"]];
+      [alarmAttributes setValue:encodedWaketime forKey:@"waketime"];
+    }
+    if (!alarm.id) {
+      alarm.id = [NSString stringWithFormat:@"%u", [alarms count], nil];
+    }
+    [alarms setObject:alarmAttributes forKey:alarm.id];
+    [self setSettingsValue:alarms forKey:hcAlarmSettingsKey];
   }
-  NSMutableDictionary *alarmAttributes = [alarm.attributes mutableCopy];
-  NSData *encodedWaketime = [NSKeyedArchiver archivedDataWithRootObject:[alarmAttributes objectForKey:@"waketime"]];
-  [alarmAttributes setValue:encodedWaketime forKey:@"waketime"];
-  [alarms setObject:alarmAttributes forKey:alarm.name];
-  [self setSettingsValue:alarms forKey:hcAlarmSettingsKey];
 }
 
 @end

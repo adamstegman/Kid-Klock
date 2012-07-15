@@ -12,6 +12,7 @@
 
 #pragma mark - Properties
 
+@synthesize id = _id;
 @dynamic name;
 @dynamic waketime;
 @dynamic animal;

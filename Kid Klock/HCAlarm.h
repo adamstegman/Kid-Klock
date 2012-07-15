@@ -7,6 +7,11 @@
 @protocol HCAlarm <NSObject>
 
 /**
+ * The persistence identifier for this alarm.
+ */
+@property (strong, nonatomic) NSString *id;
+
+/**
  * The user-specified alarm name.
  */
 @property (strong, nonatomic) NSString *name;

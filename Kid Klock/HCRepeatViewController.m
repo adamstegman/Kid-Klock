@@ -33,8 +33,7 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  // TODO
-	return YES;
+  return YES;
 }
 
 #pragma mark - Table view data source

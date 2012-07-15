@@ -74,6 +74,11 @@
       alarmViewController.alarm = [self newAlarm];
     }
     alarmViewController.alarmDelegate = self;
+
+    // hide this popover to avoid conflicts with the modal alarm view
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+      [self.alarmsDelegate hideAlarmsViewController:self];
+    }
   }
 }
 
@@ -98,6 +103,12 @@
     [self.tableView setNeedsDisplay];
   }
   [self dismissModalViewControllerAnimated:YES];
+
+  // show the popover again now that the modal view is gone
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    [self.alarmsDelegate showAlarmsViewController:self];
+  }
+
   // if editing, deselect the row being edited
   if (_selectedAlarm) {
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];

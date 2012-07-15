@@ -5,6 +5,8 @@
 
 @protocol HCAlarmsViewControllerDelegate
 - (void)alarmsViewControllerDidFinish:(HCAlarmsViewController *)controller;
+- (void)hideAlarmsViewController:(HCAlarmsViewController *)controller;
+- (void)showAlarmsViewController:(HCAlarmsViewController *)controller;
 @end
 
 @interface HCAlarmsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, HCAlarmViewControllerDelegate> {

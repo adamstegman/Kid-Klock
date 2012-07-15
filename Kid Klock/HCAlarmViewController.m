@@ -30,8 +30,6 @@
 - (void)waketimeDidReturn:(id)sender;
 #pragma mark - Methods
 - (SEL)nextFieldSelector:(NSInteger)row;
-- (void)rotateAnimalTypePicker;
-- (void)rotateWaketimePicker;
 - (void)selectRow:(NSInteger)row;
 @end
 
@@ -133,19 +131,20 @@
 - (UIDatePicker *)waketimePicker {
   if (!_waketimePicker) {
     _waketimePicker = [[UIDatePicker alloc] init];
+    _waketimePicker.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     _waketimePicker.datePickerMode = UIDatePickerModeTime;
     _waketimePicker.minuteInterval = [self.alarm minuteInterval];
     _waketimePicker.date = [self.alarm nextWakeDate];
     // date pickers do not have delegates, so force its hand
     [_waketimePicker addTarget:self action:@selector(waketimeDidUpdate:) forControlEvents:UIControlEventValueChanged];
   }
-  [self rotateWaketimePicker];
   return _waketimePicker;
 }
 
 - (UIPopoverController *)waketimePopoverController {
   if (!_waketimePopoverController) {
     UIViewController *waketimePickerViewController = [[UIViewController alloc] init];
+    self.waketimePicker.autoresizingMask = UIViewAutoresizingNone;
     UIView *waketimePickerView = [[UIView alloc] initWithFrame:self.waketimePicker.frame];
     [waketimePickerView addSubview:self.waketimePicker];
     waketimePickerViewController.view = waketimePickerView;
@@ -168,14 +167,15 @@
     _animalTypePicker = [[UIPickerView alloc] init];
     _animalTypePicker.dataSource = self;
     _animalTypePicker.delegate = self;
+    _animalTypePicker.autoresizingMask = UIViewAutoresizingFlexibleHeight;
   }
-  [self rotateAnimalTypePicker];
   return _animalTypePicker;
 }
 
 - (UIPopoverController *)animalTypePopoverController {
   if (!_animalTypePopoverController) {
     UIViewController *animalTypePickerViewController = [[UIViewController alloc] init];
+    self.animalTypePicker.autoresizingMask = UIViewAutoresizingNone;
     UIView *animalTypePickerView = [[UIView alloc] initWithFrame:self.animalTypePicker.frame];
     [animalTypePickerView addSubview:self.animalTypePicker];
     animalTypePickerViewController.view = animalTypePickerView;
@@ -297,18 +297,6 @@
   }
 }
 
-- (void)rotateAnimalTypePicker {
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-    // TODO: adjust inputView frame to orientation if necessary
-  }
-}
-
-- (void)rotateWaketimePicker {
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-    // TODO: adjust inputView frame to orientation if necessary
-  }
-}
-
 - (void)selectRow:(NSInteger)row {
   NSIndexPath *newRow = [NSIndexPath indexPathForItem:row inSection:0];
   [self.tableView selectRowAtIndexPath:newRow animated:YES scrollPosition:UITableViewScrollPositionTop];
@@ -350,11 +338,26 @@
   return YES;
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-  // rotate stored views
-  [self rotateAnimalTypePicker];
-  [self rotateWaketimePicker];
-  [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    // dismiss popovers; reshow them afterward
+    if (_waketimePopoverController && [self.waketimePopoverController isPopoverVisible]) {
+      [self.waketimePopoverController dismissPopoverAnimated:YES];
+    }
+    if (_animalTypePopoverController && [self.animalTypePopoverController isPopoverVisible]) {
+      [self.animalTypePopoverController dismissPopoverAnimated:YES];
+    }
+  }
+  [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+  UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
+  if (selectedCell == self.waketimeCell) {
+    [self pickWaketime:nil];
+  } else if (selectedCell == self.animalTypeCell) {
+    [self pickAnimalType:nil];
+  }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

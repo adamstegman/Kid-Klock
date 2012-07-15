@@ -70,6 +70,14 @@ static NSString *hcBrightnessKey = @"brightness";
   return YES;
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+  if ([self.settingsPopoverController isPopoverVisible]) {
+    [self.settingsPopoverController dismissPopoverAnimated:YES];
+    [self performSegueWithIdentifier:@"showSettings" sender:self.settingsButton];
+  }
+  [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
   [UIApplication sharedApplication].idleTimerDisabled = YES;
   [self updateAlarm];
@@ -114,6 +122,18 @@ static NSString *hcBrightnessKey = @"brightness";
   } else {
     [self.settingsPopoverController dismissPopoverAnimated:YES];
     self.settingsPopoverController = nil;
+  }
+}
+
+- (void)hideAlarmsViewController:(HCAlarmsViewController *)controller {
+  if ([self.settingsPopoverController isPopoverVisible]) {
+    [self.settingsPopoverController dismissPopoverAnimated:YES];
+  }
+}
+
+- (void)showAlarmsViewController:(HCAlarmsViewController *)controller {
+  if (self.settingsPopoverController) {
+    [self performSegueWithIdentifier:@"showSettings" sender:self.settingsButton];
   }
 }
 

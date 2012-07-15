@@ -11,9 +11,10 @@
 
 @implementation HCAlarmTableViewCell
 
-@synthesize labelLabel = _labelLabel;
+@synthesize nameLabel = _nameLabel;
 @synthesize animalImageView = _animalImageView;
 @synthesize timeLabel = _timeLabel;
+@synthesize repeatLabel = _repeatLabel;
 @synthesize enabledSwitch = _enabledSwitch;
 
 - (void)drawRect:(CGRect)rect {
@@ -39,7 +40,7 @@
   if (editing) {
     // setup constraints
     if (!_editLabelHorizontalConstraint) {
-      UIView *label = self.labelLabel;
+      UIView *label = self.nameLabel;
       _editLabelHorizontalConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[label]"
                                                                                options:0
                                                                                metrics:nil

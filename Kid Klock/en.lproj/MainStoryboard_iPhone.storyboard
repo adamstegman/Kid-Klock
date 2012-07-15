@@ -212,7 +212,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="repeat" textLabel="iRI-Q1-srI" style="IBUITableViewCellStyleDefault" id="80B-fI-Qxd">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="repeat" textLabel="iRI-Q1-srI" detailTextLabel="Rum-DH-jGJ" style="IBUITableViewCellStyleValue1" id="80B-fI-Qxd">
                                 <rect key="frame" x="0.0" y="179" width="320" height="45"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -220,11 +220,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Repeat" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="iRI-Q1-srI">
-                                            <rect key="frame" x="10" y="0.0" width="260" height="43"/>
+                                            <rect key="frame" x="10" y="11" width="57" height="21"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        </label>
+                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Detail" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="Rum-DH-jGJ">
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.2196078431372549" green="0.32941176470588235" blue="0.52941176470588236" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

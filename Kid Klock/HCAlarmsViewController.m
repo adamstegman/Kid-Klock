@@ -83,7 +83,6 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  // TODO
   return YES;
 }
 
@@ -135,11 +134,11 @@
     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HCAlarmTableViewCell" owner:self options:nil];
     cell = [nib objectAtIndex:0];
   }
-  cell.labelLabel.text = alarm.name;
+  cell.nameLabel.text = alarm.name;
   cell.animalImageView.image = alarm.animal.icon;
   cell.timeLabel.text = [alarm waketimeAsString];
   cell.enabledSwitch.enabled = YES; // TODO
-  // TODO: repeats
+  cell.repeatLabel.text = [alarm repeatAsString];
   return cell;
 }
 

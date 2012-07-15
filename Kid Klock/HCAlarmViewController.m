@@ -399,8 +399,8 @@
       break;
     }
     case REPEAT_ROW: {
-      // TODO: set text to repeatAsString when appropriate
       cell = [tableView dequeueReusableCellWithIdentifier:@"repeat"];
+      cell.detailTextLabel.text = [self.alarm repeatAsString];
       break;
     }
   }

@@ -85,7 +85,9 @@
 }
 
 - (void)setRepeat:(NSArray *)days {
-  if ([days count] == 7U) [_attributes setObject:[days copy] forKey:@"repeat"];
+  if ([days count] == [[NSCalendar currentCalendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length) {
+    [_attributes setObject:[days copy] forKey:@"repeat"];
+  }
 }
 
 #pragma mark - Methods
@@ -99,11 +101,29 @@
 }
 
 - (NSDate *)nextWakeDate {
-  NSDate *waketimeToday = [self todayAtTime:self.waketime];
-  if (waketimeToday && [[NSDate date] earlierDate:waketimeToday] == waketimeToday) {
-    return [waketimeToday dateByAddingTimeInterval:86400];
+  NSDate *nextWakeDate = [self todayAtTime:self.waketime];
+  if (nextWakeDate && [[NSDate date] earlierDate:nextWakeDate] == nextWakeDate) {
+    nextWakeDate = [nextWakeDate dateByAddingTimeInterval:86400];
   }
-  return waketimeToday;
+  NSInteger nextWakeWeekday = [[[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit
+                                                               fromDate:nextWakeDate]
+                               weekday] - 1;
+  if (![[self.repeat objectAtIndex:nextWakeWeekday] boolValue]) {
+    // increment nextWakeDate day until repeat allows it
+    NSInteger weekdayModification = 0,
+              numWeekdays = [[NSCalendar currentCalendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length - 1;
+    do {
+      weekdayModification++;
+    } while (![[self.repeat objectAtIndex:((nextWakeWeekday + weekdayModification) % [self.repeat count])] boolValue] &&
+             weekdayModification < numWeekdays);
+    if (weekdayModification == numWeekdays) {
+      // repeat is all false, the alarm should not go off
+      return nil;
+    } else {
+      nextWakeDate = [nextWakeDate dateByAddingTimeInterval:86400 * weekdayModification];
+    }
+  }
+  return nextWakeDate;
 }
 
 - (NSString *)repeatAsString {
@@ -111,7 +131,7 @@
   NSArray *repeat = [_attributes objectForKey:@"repeat"];
   if (!repeat) return repeatString;
   NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-  dateFormatter.locale = [NSLocale autoupdatingCurrentLocale];
+  dateFormatter.locale = [NSLocale currentLocale];
   [[dateFormatter veryShortWeekdaySymbols] enumerateObjectsUsingBlock:^(id weekday, NSUInteger index, BOOL *stop){
     if ([[repeat objectAtIndex:index] boolValue]) [repeatString appendString:weekday];
   }];
@@ -144,6 +164,14 @@
       [self setWaketime:[attributes objectForKey:@"waketime"]];
       [self setAnimalType:[[attributes objectForKey:@"animalType"] intValue]];
       [self setRepeat:[attributes objectForKey:@"repeat"]];
+    }
+    if (![_attributes objectForKey:@"repeat"]) {
+      NSNumber *yes = [NSNumber numberWithBool:YES];
+      NSMutableArray *repeat = [NSMutableArray array];
+      for (NSInteger i = 0, len = [[NSCalendar currentCalendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length; i < len; i++) {
+        [repeat setObject:yes atIndexedSubscript:i];
+      }
+      [self setRepeat:repeat];
     }
   }
   return self;

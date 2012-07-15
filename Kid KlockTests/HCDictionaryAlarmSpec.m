@@ -53,22 +53,26 @@ describe(@"HCDictionaryAlarm", ^{
 
     it(@"handles nil gracefully", ^{
       alarm = [[HCDictionaryAlarm alloc] initWithAttributes:nil];
-      [[alarm.attributes should] beEmpty];
       [alarm.name shouldBeNil];
       [alarm.waketime shouldBeNil];
       [[theValue(alarm.animalType) should] equal:theValue(0)];
-      [[alarm.repeatAsString should] equal:@""];
+      [[alarm.repeat should] haveCountOf:7U];
+      [alarm.repeat enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [[obj should] beTrue];
+      }];
     });
   });
 
   describe(@"-init", ^{
     it(@"stores empty attributes", ^{
       alarm = [[HCDictionaryAlarm alloc] init];
-      [[alarm.attributes should] beEmpty];
       [alarm.name shouldBeNil];
       [alarm.waketime shouldBeNil];
       [[theValue(alarm.animalType) should] equal:theValue(0)];
-      [[alarm.repeatAsString should] equal:@""];
+      [[alarm.repeat should] haveCountOf:7U];
+      [alarm.repeat enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [[obj should] beTrue];
+      }];
     });
   });
 
@@ -219,6 +223,38 @@ describe(@"HCDictionaryAlarm", ^{
       [[theValue([nextWakeDateComponents second]) should] equal:theValue([alarm.waketime second])];
     });
     
+    it(@"considers repeat days", ^{
+      NSCalendar *calendar = [NSCalendar currentCalendar];
+      NSDate *now = [NSDate date];
+      NSDate *future = [now dateByAddingTimeInterval:[alarm minuteInterval] * 60.0];
+      alarm.waketime = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:future];
+
+      NSUInteger comparableComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit);
+      NSDateComponents *nowComponents = [calendar components:(NSWeekdayCalendarUnit) fromDate:now];
+      NSNumber *yes = [NSNumber numberWithBool:YES];
+      NSNumber *no = [NSNumber numberWithBool:NO];
+      NSMutableArray *repeat = [NSMutableArray arrayWithObjects:yes, yes, yes, yes, yes, yes, yes, nil];
+      [repeat setObject:no atIndexedSubscript:[nowComponents weekday] - 1];
+      alarm.repeat = repeat;
+      NSDate *day = [[now dateByAddingTimeInterval:[alarm minuteInterval] * 60.0] dateByAddingTimeInterval:86400];
+      NSDateComponents *dayComponents = [calendar components:comparableComponents fromDate:day];
+      NSDateComponents *nextWakeDateComponents = [calendar components:comparableComponents
+                                                             fromDate:[alarm nextWakeDate]];
+      [[theValue([nextWakeDateComponents year]) should] equal:theValue([dayComponents year])];
+      [[theValue([nextWakeDateComponents month]) should] equal:theValue([dayComponents month])];
+      [[theValue([nextWakeDateComponents day]) should] equal:theValue([dayComponents day])];
+      [[theValue([nextWakeDateComponents hour]) should] equal:theValue([alarm.waketime hour])];
+      [[theValue([nextWakeDateComponents minute]) should] equal:theValue([alarm.waketime minute])];
+      [[theValue([nextWakeDateComponents second]) should] equal:theValue([alarm.waketime second])];
+    });
+
+    it(@"returns nil if there are no repeat days", ^{
+      NSNumber *no = [NSNumber numberWithBool:NO];
+      alarm.repeat = [NSArray arrayWithObjects:no, no, no, no, no, no, no, nil];
+      alarm.waketime = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
+      [[alarm nextWakeDate] shouldBeNil];
+    });
+
     it(@"returns nil if waketime is nil", ^{
       alarm.waketime = nil;
       [[alarm nextWakeDate] shouldBeNil];
@@ -252,10 +288,11 @@ describe(@"HCDictionaryAlarm", ^{
     });
 
     it(@"ignores the argument if does not have seven elements", ^{
+      NSArray *expected = alarm.repeat;
       alarm.repeat = [NSArray arrayWithObjects:@"", @"", @"", @"", @"", @"", nil];
-      [alarm.repeat shouldBeNil];
+      [[alarm.repeat should] equal:expected];
       alarm.repeat = [NSArray arrayWithObjects:@"", @"", @"", @"", @"", @"", @"", @"", nil];
-      [alarm.repeat shouldBeNil];
+      [[alarm.repeat should] equal:expected];
     });
   });
 
@@ -279,16 +316,6 @@ describe(@"HCDictionaryAlarm", ^{
       NSNumber *no = [NSNumber numberWithBool:NO];
       alarm.repeat = [NSArray arrayWithObjects:no, no, yes, no, no, no, no, nil];
       [[[alarm repeatAsString] should] equal:[weekdaySymbols objectAtIndex:2]];
-    });
-
-    it(@"prints an empty string if no days are selected", ^{
-      alarm.repeat = [NSArray array];
-      [[[alarm repeatAsString] should] equal:@""];
-    });
-
-    it(@"prints an empty string if repeat is nil", ^{
-      alarm.repeat = nil;
-      [[[alarm repeatAsString] should] equal:@""];
     });
   });
 });

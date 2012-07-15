@@ -16,7 +16,8 @@
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {
-  // TODO: daylight savings, time update, etc.
+  // TODO: handle changes in # of days per week in persisted alarms
+  // TODO: change notifications for daylight savings, time update, etc.
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

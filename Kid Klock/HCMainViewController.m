@@ -236,7 +236,9 @@ static NSString *hcBrightnessKey = @"brightness";
 }
 
 - (NSArray *)sortedAlarms {
-  return [[HCUserDefaultsPersistence fetchAlarms] sortedArrayUsingComparator:^NSComparisonResult(id l, id r) {
+  NSArray *allAlarms = [HCUserDefaultsPersistence fetchAlarms];
+  allAlarms = [allAlarms filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%K != NIL", @"nextWakeDate"]];
+  return [allAlarms sortedArrayUsingComparator:^NSComparisonResult(id l, id r) {
     return [[(id <HCAlarm>)l nextWakeDate] compare:[(id <HCAlarm>)r nextWakeDate]];
   }];
 }

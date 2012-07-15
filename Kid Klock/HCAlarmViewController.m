@@ -135,6 +135,7 @@
     _waketimePicker = [[UIDatePicker alloc] init];
     _waketimePicker.datePickerMode = UIDatePickerModeTime;
     _waketimePicker.minuteInterval = [self.alarm minuteInterval];
+    _waketimePicker.date = [self.alarm nextWakeDate];
     // date pickers do not have delegates, so force its hand
     [_waketimePicker addTarget:self action:@selector(waketimeDidUpdate:) forControlEvents:UIControlEventValueChanged];
   }
@@ -254,6 +255,11 @@
 }
 
 - (void)pickWaketime:(id)sender {
+  if (!self.alarm.waketime) {
+    self.alarm.waketime = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
+                                                          fromDate:[NSDate date]];
+  }
+
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:@"UIKeyboardDidHideNotification"

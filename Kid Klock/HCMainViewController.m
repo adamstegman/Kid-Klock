@@ -21,9 +21,9 @@ static NSString *hcBrightnessKey = @"brightness";
 @interface HCMainViewController()
 - (void)alarmSleep;
 - (void)alarmWake;
-- (id <HCAlarm>)currentAlarm;
+- (id <HCAlarm>)nextAlarm;
+- (id <HCAlarm>)previousAlarm;
 - (void)dimForSleep;
-- (NSDate *)previousAlarmWakeDate;
 /**
  * \return all persisted alarms, sorted by their next occurring waketime
  */
@@ -84,7 +84,7 @@ static NSString *hcBrightnessKey = @"brightness";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-  if (!self.currentAlarm) {
+  if (![self nextAlarm]) {
     // go to alarms view if there are no alarms
     [self performSegueWithIdentifier:@"showSettings" sender:self.settingsButton];
   }
@@ -147,12 +147,12 @@ static NSString *hcBrightnessKey = @"brightness";
 
 - (void)alarmSleep {
   [[UIApplication sharedApplication] cancelAllLocalNotifications];
-  if (self.currentAlarm) {
+  if ([self nextAlarm]) {
     [self dimForSleep];
-    self.alarmImage.image = self.currentAlarm.animal.sleepImage;
+    self.alarmImage.image = [self nextAlarm].animal.sleepImage;
     // change to awakeImage on waketime
     UILocalNotification *wakeNotification = [[UILocalNotification alloc] init];
-    wakeNotification.fireDate = [[self.currentAlarm nextWakeDate] dateByAddingTimeInterval:SLEEP_TIME_FUDGE];
+    wakeNotification.fireDate = [[[self nextAlarm] nextWakeDate] dateByAddingTimeInterval:SLEEP_TIME_FUDGE];
     wakeNotification.timeZone = [NSTimeZone localTimeZone];
     [[UIApplication sharedApplication] scheduleLocalNotification:wakeNotification];
   }
@@ -160,15 +160,15 @@ static NSString *hcBrightnessKey = @"brightness";
 
 - (void)alarmWake {
   [[UIApplication sharedApplication] cancelAllLocalNotifications];
-  if (self.currentAlarm) {
+  if ([self previousAlarm]) {
     NSDate *now = [NSDate date];
     NSDate *sleepTime = [self sleepTime];
 
     // slowly increase brightness, over time
-    double percentage = [now timeIntervalSinceDate:[self previousAlarmWakeDate]] / [sleepTime timeIntervalSinceDate:now];
+    double percentage = [now timeIntervalSinceDate:[[self previousAlarm] previousWakeDate]] / [sleepTime timeIntervalSinceDate:now];
     [self restoreBrightness:percentage];
 
-    self.alarmImage.image = self.currentAlarm.animal.awakeImage;
+    self.alarmImage.image = [self previousAlarm].animal.awakeImage;
 
     NSDate *brightnessIncrementTime = [now dateByAddingTimeInterval:BRIGHTNESS_DURATION];
     if ([brightnessIncrementTime earlierDate:sleepTime] == brightnessIncrementTime) {
@@ -187,10 +187,20 @@ static NSString *hcBrightnessKey = @"brightness";
   }
 }
 
-- (id <HCAlarm>)currentAlarm {
+- (id <HCAlarm>)nextAlarm {
   NSArray *alarms = [self sortedAlarms];
   if ([alarms count] > 0) {
     return [alarms objectAtIndex:0U];
+  } else {
+    return nil;
+  }
+}
+
+- (id <HCAlarm>)previousAlarm {
+  NSArray *alarms = [self sortedAlarms];
+  NSUInteger alarmCount = [alarms count];
+  if (alarmCount > 0) {
+    return [alarms objectAtIndex:alarmCount - 1];
   } else {
     return nil;
   }
@@ -205,20 +215,9 @@ static NSString *hcBrightnessKey = @"brightness";
   [UIScreen mainScreen].brightness = DIM_BRIGHTNESS;
 }
 
-- (NSDate *)previousAlarmWakeDate {
-  NSArray *alarms = [self sortedAlarms];
-  NSUInteger alarmCount = [alarms count];
-  if (alarmCount > 0) {
-    id <HCAlarm> previousAlarm = [alarms objectAtIndex:alarmCount - 1];
-    return [previousAlarm previousWakeDate];
-  } else {
-    return nil;
-  }
-}
-
 - (NSDate *)sleepTime {
-  NSDate *currentAlarmLatestSleepTime = [[self.currentAlarm nextWakeDate] dateByAddingTimeInterval:-MINIMUM_SLEEP_IMAGE_DURATION];
-  NSDate *previousAlarmWakeDate = [self previousAlarmWakeDate];
+  NSDate *currentAlarmLatestSleepTime = [[[self nextAlarm] nextWakeDate] dateByAddingTimeInterval:-MINIMUM_SLEEP_IMAGE_DURATION];
+  NSDate *previousAlarmWakeDate = [[self previousAlarm] previousWakeDate];
   NSDate *previousAlarmEarliestSleepTime;
   if (previousAlarmWakeDate) {
     previousAlarmEarliestSleepTime = [previousAlarmWakeDate dateByAddingTimeInterval:MAXIMUM_AWAKE_IMAGE_DURATION];

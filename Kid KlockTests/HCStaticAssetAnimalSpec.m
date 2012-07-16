@@ -53,6 +53,12 @@ describe(@"HCStaticAssetAnimal", ^{
       [[animal.name should] equal:NSLocalizedString(@"animal.name.bunny", @"Bunny animal name")];
       [[theValue(animal.type) should] equal:theValue(HCBunny)];
     });
+
+    it(@"assigns the type and dog name for the dog type", ^{
+      animal.type = HCDog;
+      [[animal.name should] equal:NSLocalizedString(@"animal.name.dog", @"Dog animal name")];
+      [[theValue(animal.type) should] equal:theValue(HCDog)];
+    });
   });
 
 });

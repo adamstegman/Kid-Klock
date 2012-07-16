@@ -13,6 +13,10 @@
 		6629A0AF1562254300BDAA3C /* HCStaticAssetAnimalSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0AE1562254300BDAA3C /* HCStaticAssetAnimalSpec.m */; };
 		665AF5A3157DB913009464DA /* HCNoAnimal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 665AF5A1157DB913009464DA /* HCNoAnimal@2x.png */; };
 		665AF5A5157DBA4B009464DA /* HCNoAnimal.png in Resources */ = {isa = PBXBuildFile; fileRef = 665AF5A4157DBA4B009464DA /* HCNoAnimal.png */; };
+		66674BC715B3B07400167ECA /* HCDog-Day.png in Resources */ = {isa = PBXBuildFile; fileRef = 66674BC315B3B07400167ECA /* HCDog-Day.png */; };
+		66674BC815B3B07500167ECA /* HCDog-Day@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66674BC415B3B07400167ECA /* HCDog-Day@2x.png */; };
+		66674BC915B3B07500167ECA /* HCDog-Night.png in Resources */ = {isa = PBXBuildFile; fileRef = 66674BC515B3B07400167ECA /* HCDog-Night.png */; };
+		66674BCA15B3B07500167ECA /* HCDog-Night@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66674BC615B3B07400167ECA /* HCDog-Night@2x.png */; };
 		6680D8A7155F5D45008D3581 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A6155F5D45008D3581 /* UIKit.framework */; };
 		6680D8A9155F5D45008D3581 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8A8155F5D45008D3581 /* Foundation.framework */; };
 		6680D8AB155F5D45008D3581 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6680D8AA155F5D45008D3581 /* CoreGraphics.framework */; };
@@ -62,6 +66,10 @@
 		6629A0AE1562254300BDAA3C /* HCStaticAssetAnimalSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCStaticAssetAnimalSpec.m; sourceTree = "<group>"; };
 		665AF5A1157DB913009464DA /* HCNoAnimal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCNoAnimal@2x.png"; sourceTree = "<group>"; };
 		665AF5A4157DBA4B009464DA /* HCNoAnimal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HCNoAnimal.png; sourceTree = "<group>"; };
+		66674BC315B3B07400167ECA /* HCDog-Day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCDog-Day.png"; sourceTree = "<group>"; };
+		66674BC415B3B07400167ECA /* HCDog-Day@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCDog-Day@2x.png"; sourceTree = "<group>"; };
+		66674BC515B3B07400167ECA /* HCDog-Night.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCDog-Night.png"; sourceTree = "<group>"; };
+		66674BC615B3B07400167ECA /* HCDog-Night@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCDog-Night@2x.png"; sourceTree = "<group>"; };
 		6680D8A2155F5D45008D3581 /* Kid Klock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kid Klock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6680D8A6155F5D45008D3581 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6680D8A8155F5D45008D3581 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -246,6 +254,10 @@
 		66859D7C157C407A00C0788E /* Animals */ = {
 			isa = PBXGroup;
 			children = (
+				66674BC315B3B07400167ECA /* HCDog-Day.png */,
+				66674BC415B3B07400167ECA /* HCDog-Day@2x.png */,
+				66674BC515B3B07400167ECA /* HCDog-Night.png */,
+				66674BC615B3B07400167ECA /* HCDog-Night@2x.png */,
 				66927D6E15A5708600CDC780 /* HCBunny-Day.png */,
 				66927D6F15A5708600CDC780 /* HCBunny-Night.png */,
 				66927D6A15A5700200CDC780 /* HCBunny-Day@2x.png */,
@@ -339,6 +351,10 @@
 				66927D6D15A5700200CDC780 /* HCBunny-Night@2x.png in Resources */,
 				66927D7015A5708600CDC780 /* HCBunny-Day.png in Resources */,
 				66927D7115A5708600CDC780 /* HCBunny-Night.png in Resources */,
+				66674BC715B3B07400167ECA /* HCDog-Day.png in Resources */,
+				66674BC815B3B07500167ECA /* HCDog-Day@2x.png in Resources */,
+				66674BC915B3B07500167ECA /* HCDog-Night.png in Resources */,
+				66674BCA15B3B07500167ECA /* HCDog-Night@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

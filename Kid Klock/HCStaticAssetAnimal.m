@@ -29,18 +29,26 @@
 - (void)setType:(HCAnimalType)type {
   _type = type;
   switch (_type) {
-    case HCNoAnimal:
+    case HCNoAnimal: {
       _name = NSLocalizedString(@"animal.name.none", @"Name of no animal");
       _resourceName = @"HCNoAnimal";
       break;
-    case HCClock:
+    }
+    case HCClock: {
       _name = NSLocalizedString(@"animal.name.clock", @"Clock (instead of an animal) name");
       _resourceName = @"HCClock";
       break;
-    case HCBunny:
+    }
+    case HCBunny: {
       _name = NSLocalizedString(@"animal.name.bunny", @"Bunny animal name");
       _resourceName = @"HCBunny";
       break;
+    }
+    case HCDog: {
+      _name = NSLocalizedString(@"animal.name.dog", @"Dog animal name");
+      _resourceName = @"HCDog";
+      break;
+    }
   }
 }
 

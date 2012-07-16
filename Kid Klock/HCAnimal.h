@@ -1,11 +1,12 @@
 #import <Foundation/Foundation.h>
 
-#define HC_ANIMAL_TYPE_COUNT 3
+#define HC_ANIMAL_TYPE_COUNT 4
 
 typedef enum {
   HCNoAnimal,
   HCClock,
-  HCBunny
+  HCBunny,
+  HCDog
 } HCAnimalType;
 
 /**

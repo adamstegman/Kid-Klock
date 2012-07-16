@@ -272,6 +272,92 @@ describe(@"HCDictionaryAlarm", ^{
     });
   });
 
+  describe(@"-previousWakeDate", ^{
+    it(@"returns the current day if waketime is before now", ^{
+      NSCalendar *calendar = [NSCalendar currentCalendar];
+      NSDate *now = [NSDate date];
+      NSDate *past = [now dateByAddingTimeInterval:[alarm minuteInterval] * -60.0];
+      alarm.waketime = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:past];
+
+      NSUInteger comparableComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit);
+      NSDate *day = [now dateByAddingTimeInterval:[alarm minuteInterval] * 60.0];
+      NSDateComponents *dayComponents = [calendar components:comparableComponents fromDate:day];
+      NSDateComponents *previousWakeDateComponents = [calendar components:comparableComponents
+                                                                 fromDate:[alarm previousWakeDate]];
+      [[theValue([previousWakeDateComponents year]) should] equal:theValue([dayComponents year])];
+      [[theValue([previousWakeDateComponents month]) should] equal:theValue([dayComponents month])];
+      [[theValue([previousWakeDateComponents day]) should] equal:theValue([dayComponents day])];
+      [[theValue([previousWakeDateComponents hour]) should] equal:theValue([alarm.waketime hour])];
+      [[theValue([previousWakeDateComponents minute]) should] equal:theValue([alarm.waketime minute])];
+      [[theValue([previousWakeDateComponents second]) should] equal:theValue([alarm.waketime second])];
+    });
+
+    it(@"returns the previous day if waketime is after now", ^{
+      NSCalendar *calendar = [NSCalendar currentCalendar];
+      NSDate *now = [NSDate date];
+      NSDate *future = [now dateByAddingTimeInterval:[alarm minuteInterval] * 60.0];
+      alarm.waketime = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:future];
+
+      NSUInteger comparableComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit);
+      NSDateComponents *yesterdayAdjustment = [[NSDateComponents alloc] init];
+      [yesterdayAdjustment setDay:-1];
+      NSDate *yesterday = [calendar dateByAddingComponents:yesterdayAdjustment toDate:now options:0];
+      NSDateComponents *yesterdayComponents = [calendar components:comparableComponents fromDate:yesterday];
+      NSDateComponents *previousWakeDateComponents = [calendar components:comparableComponents
+                                                                 fromDate:[alarm previousWakeDate]];
+      [[theValue([previousWakeDateComponents year]) should] equal:theValue([yesterdayComponents year])];
+      [[theValue([previousWakeDateComponents month]) should] equal:theValue([yesterdayComponents month])];
+      [[theValue([previousWakeDateComponents day]) should] equal:theValue([yesterdayComponents day])];
+      [[theValue([previousWakeDateComponents hour]) should] equal:theValue([alarm.waketime hour])];
+      [[theValue([previousWakeDateComponents minute]) should] equal:theValue([alarm.waketime minute])];
+      [[theValue([previousWakeDateComponents second]) should] equal:theValue([alarm.waketime second])];
+    });
+
+    it(@"considers repeat days", ^{
+      NSCalendar *calendar = [NSCalendar currentCalendar];
+      NSDate *now = [NSDate date];
+      NSDate *past = [now dateByAddingTimeInterval:[alarm minuteInterval] * -60.0];
+      alarm.waketime = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:past];
+
+      NSDateComponents *nowComponents = [calendar components:(NSWeekdayCalendarUnit) fromDate:now];
+      NSNumber *yes = [NSNumber numberWithBool:YES];
+      NSNumber *no = [NSNumber numberWithBool:NO];
+      NSMutableArray *repeat = [NSMutableArray arrayWithObjects:yes, yes, yes, yes, yes, yes, yes, nil];
+      [repeat setObject:no atIndexedSubscript:[nowComponents weekday] - 1];
+      alarm.repeat = repeat;
+
+      NSUInteger comparableComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit);
+      NSDate *day = [[now dateByAddingTimeInterval:[alarm minuteInterval] * -60.0] dateByAddingTimeInterval:-86400];
+      NSDateComponents *dayComponents = [calendar components:comparableComponents fromDate:day];
+      NSDateComponents *previousWakeDateComponents = [calendar components:comparableComponents
+                                                                 fromDate:[alarm previousWakeDate]];
+      [[theValue([previousWakeDateComponents year]) should] equal:theValue([dayComponents year])];
+      [[theValue([previousWakeDateComponents month]) should] equal:theValue([dayComponents month])];
+      [[theValue([previousWakeDateComponents day]) should] equal:theValue([dayComponents day])];
+      [[theValue([previousWakeDateComponents hour]) should] equal:theValue([alarm.waketime hour])];
+      [[theValue([previousWakeDateComponents minute]) should] equal:theValue([alarm.waketime minute])];
+      [[theValue([previousWakeDateComponents second]) should] equal:theValue([alarm.waketime second])];
+    });
+
+    it(@"returns nil if there are no repeat days", ^{
+      NSNumber *no = [NSNumber numberWithBool:NO];
+      alarm.repeat = [NSArray arrayWithObjects:no, no, no, no, no, no, no, nil];
+      alarm.waketime = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
+      [[alarm previousWakeDate] shouldBeNil];
+    });
+
+    it(@"returns nil if enabled is false", ^{
+      alarm.enabled = NO;
+      alarm.waketime = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
+      [[alarm previousWakeDate] shouldBeNil];
+    });
+
+    it(@"returns nil if waketime is nil", ^{
+      alarm.waketime = nil;
+      [[alarm previousWakeDate] shouldBeNil];
+    });
+  });
+
   describe(@"-animalType", ^{
     it(@"assigns an animal type", ^{
       alarm.animalType = HCClock;

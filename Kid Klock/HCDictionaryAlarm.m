@@ -110,7 +110,7 @@
 }
 
 - (NSDate *)nextWakeDate {
-  if (!self.enabled) {
+  if (!self.enabled || !self.waketime) {
     return nil;
   }
 
@@ -137,6 +137,27 @@
     }
   }
   return nextWakeDate;
+}
+
+- (NSDate *)previousWakeDate {
+  NSDate *previousWakeDate = [[self nextWakeDate] dateByAddingTimeInterval:-86400];
+  if (previousWakeDate) {
+    NSInteger previousWakeWeekday = [[[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit
+                                                                     fromDate:previousWakeDate]
+                                     weekday] - 1;
+    if (![[self.repeat objectAtIndex:previousWakeWeekday] boolValue]) {
+      // increment nextWakeDate day until repeat allows it
+      NSInteger weekdayModification = 0,
+                weekdayIndex = previousWakeWeekday;
+      do {
+        weekdayModification++;
+        weekdayIndex = previousWakeWeekday - weekdayModification;
+        if (weekdayIndex < 0) weekdayIndex = (NSInteger)[self.repeat count] + weekdayIndex; // wrap around
+      } while (![[self.repeat objectAtIndex:weekdayIndex] boolValue]);
+      previousWakeDate = [previousWakeDate dateByAddingTimeInterval:-86400 * weekdayModification];
+    }
+  }
+  return previousWakeDate;
 }
 
 - (NSString *)repeatAsString {
@@ -172,29 +193,30 @@
   self = [super init];
   if (self) {
     _attributes = [NSMutableDictionary dictionary];
-    if (attributes) {
-      [self setName:[attributes objectForKey:@"name"]];
-      [self setWaketime:[attributes objectForKey:@"waketime"]];
-      [self setAnimalType:[[attributes objectForKey:@"animalType"] intValue]];
+    if (!attributes) {
+      attributes = [NSDictionary dictionary];
+    }
+    [self setName:[attributes objectForKey:@"name"]];
+    [self setWaketime:[attributes objectForKey:@"waketime"]];
+    [self setAnimalType:[[attributes objectForKey:@"animalType"] intValue]];
 
-      NSArray *repeat = [attributes objectForKey:@"repeat"];
-      if (repeat) {
-        [self setRepeat:repeat];
-      } else {
-        NSNumber *yes = [NSNumber numberWithBool:YES];
-        NSMutableArray *repeat = [NSMutableArray array];
-        for (NSInteger i = 0, len = [[NSCalendar currentCalendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length; i < len; i++) {
-          [repeat setObject:yes atIndexedSubscript:i];
-        }
-        [self setRepeat:repeat];
+    NSArray *repeat = [attributes objectForKey:@"repeat"];
+    if (repeat) {
+      [self setRepeat:repeat];
+    } else {
+      NSNumber *yes = [NSNumber numberWithBool:YES];
+      NSMutableArray *repeat = [NSMutableArray array];
+      for (NSInteger i = 0, len = [[NSCalendar currentCalendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length; i < len; i++) {
+        [repeat setObject:yes atIndexedSubscript:i];
       }
+      [self setRepeat:repeat];
+    }
 
-      NSNumber *enabled = [attributes objectForKey:@"enabled"];
-      if (enabled) {
-        [self setEnabled:[[attributes objectForKey:@"enabled"] boolValue]];
-      } else {
-        [self setEnabled:YES];
-      }
+    NSNumber *enabled = [attributes objectForKey:@"enabled"];
+    if (enabled) {
+      [self setEnabled:[[attributes objectForKey:@"enabled"] boolValue]];
+    } else {
+      [self setEnabled:YES];
     }
   }
   return self;

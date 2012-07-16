@@ -208,10 +208,9 @@ static NSString *hcBrightnessKey = @"brightness";
 - (NSDate *)previousAlarmWakeDate {
   NSArray *alarms = [self sortedAlarms];
   NSUInteger alarmCount = [alarms count];
-  if ([alarms count] > 0) {
+  if (alarmCount > 0) {
     id <HCAlarm> previousAlarm = [alarms objectAtIndex:alarmCount - 1];
-    // subtract a day to get the previous wake date
-    return [[previousAlarm nextWakeDate] dateByAddingTimeInterval:-86400.0];
+    return [previousAlarm previousWakeDate];
   } else {
     return nil;
   }

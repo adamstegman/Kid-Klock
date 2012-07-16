@@ -50,6 +50,11 @@
 - (NSDate *)nextWakeDate;
 
 /**
+ * \return the last date and time this alarm should have gone off
+ */
+- (NSDate *)previousWakeDate;
+
+/**
  * \return a string appropriate for the user interface representing the waketime for this alarm
  */
 - (NSString *)waketimeAsString;

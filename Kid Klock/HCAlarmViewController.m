@@ -402,6 +402,7 @@
     case ANIMAL_ROW: {
       // TODO: add icon
       cell = self.animalTypeCell;
+      cell.imageView.image = self.alarm.animal.icon;
       cell.textLabel.text = self.alarm.animal.name;
       break;
     }
@@ -520,6 +521,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
   self.alarm.animalType = row;
+  self.animalTypeCell.imageView.image = self.alarm.animal.icon;
   self.animalTypeCell.textLabel.text = self.alarm.animal.name;
 }
 

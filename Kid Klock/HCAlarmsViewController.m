@@ -55,6 +55,7 @@
 - (void)viewWillAppear:(BOOL)animated {
   self.settingsNavigationItem.rightBarButtonItem = self.editButtonItem;
   _selectedAlarm = nil;
+  [self setEditing:NO animated:NO];
   [super viewWillAppear:animated];
 }
 

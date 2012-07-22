@@ -4,15 +4,9 @@
 #import "HCAlarmSettings.h"
 
 // Row for each attribute
-#define ATTRIBUTE_ROWS 4
 #define NAME_ROW 0
 #define WAKETIME_ROW 1
 #define ANIMAL_ROW 2
-#define REPEAT_ROW 3
-
-// IB view tags
-#define HCALARM_TEXT_LABEL_TAG 1
-#define HCALARM_TEXT_FIELD_TAG 2
 
 // Dimensions
 #define ANIMAL_TYPE_PICKER_ROW_HEIGHT 68.0f
@@ -20,6 +14,7 @@
 
 @interface HCAlarmViewController ()
 #pragma mark - Actions
+- (void)dimmerDidUpdate:(id)sender;
 - (void)dismissAnimalType:(id)sender;
 - (void)pickAnimalType:(id)sender;
 - (void)dismissName:(id)sender;
@@ -53,15 +48,16 @@
 @synthesize alarmDelegate = _alarmDelegate;
 @dynamic nextAccessoryView;
 @dynamic doneAccessoryView;
-@dynamic nameCell;
-@dynamic nameField;
-@dynamic nameLabel;
-@dynamic waketimeCell;
+@synthesize nameField = _nameField;
+@synthesize nameLabel = _nameLabel;
+@synthesize waketimeCell = _waketimeCell;
 @dynamic waketimePicker;
 @dynamic waketimePopoverController;
-@dynamic animalTypeCell;
+@synthesize animalTypeCell = _animalTypeCell;
 @dynamic animalTypePicker;
 @dynamic animalTypePopoverController;
+@synthesize repeatCell = _repeatCell;
+@synthesize dimmerSwitch = _dimmerSwitch;
 
 - (UIToolbar *)nextAccessoryView {
   NSInteger row = [self.tableView indexPathForSelectedRow].row;
@@ -99,35 +95,6 @@
   return _doneAccessoryView;
 }
 
-- (UITableViewCell *)nameCell {
-  if (!_nameCell) {
-    _nameCell = [self.tableView dequeueReusableCellWithIdentifier:@"name"];
-  }
-  return _nameCell;
-}
-
-- (UITextField *)nameField {
-  if (!_nameField) {
-    _nameField = (UITextField *)[self.nameCell viewWithTag:HCALARM_TEXT_FIELD_TAG];
-    _nameField.delegate = self;
-  }
-  return _nameField;
-}
-
-- (UILabel *)nameLabel {
-  if (!_nameLabel) {
-    _nameLabel = (UILabel *)[self.nameCell viewWithTag:HCALARM_TEXT_LABEL_TAG];
-  }
-  return _nameLabel;
-}
-
-- (HCResponderCell *)waketimeCell {
-  if (!_waketimeCell) {
-    _waketimeCell = [self.tableView dequeueReusableCellWithIdentifier:@"waketime"];
-  }
-  return _waketimeCell;
-}
-
 - (UIDatePicker *)waketimePicker {
   if (!_waketimePicker) {
     _waketimePicker = [[UIDatePicker alloc] init];
@@ -162,13 +129,6 @@
   return _waketimePopoverController;
 }
 
-- (HCResponderCell *)animalTypeCell {
-  if (!_animalTypeCell) {
-    _animalTypeCell = [self.tableView dequeueReusableCellWithIdentifier:@"animalType"];
-  }
-  return _animalTypeCell;
-}
-
 - (UIPickerView *)animalTypePicker {
   if (!_animalTypePicker) {
     _animalTypePicker = [[UIPickerView alloc] init];
@@ -201,6 +161,10 @@
 
 - (IBAction)done:(id)sender {
   [self.alarmDelegate alarmViewController:self didFinishWithAlarm:self.alarm];
+}
+
+- (void)dimmerDidUpdate:(id)sender {
+  self.alarm.shouldDimDisplay = ((UISwitch *)sender).on;
 }
 
 - (void)dismissAnimalType:(id)sender {
@@ -336,7 +300,13 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-  self.title = self.alarm.name;
+  self.title = self.nameField.text = self.nameLabel.text = self.alarm.name;
+  self.waketimeCell.textLabel.text = [self.alarm waketimeAsString];
+  self.animalTypeCell.imageView.image = self.alarm.animal.icon;
+  self.animalTypeCell.textLabel.text = self.alarm.animal.name;
+  self.repeatCell.detailTextLabel.text = [self.alarm repeatAsString];
+  self.dimmerSwitch.on = self.alarm.shouldDimDisplay;
+  [self.dimmerSwitch addTarget:self action:@selector(dimmerDidUpdate:) forControlEvents:UIControlEventValueChanged];
   [self.tableView reloadData];
   [super viewWillAppear:animated];
 }
@@ -373,46 +343,6 @@
     id <HCAlarmSettings> alarmSettingsViewController = (id <HCAlarmSettings>)[segue destinationViewController];
     alarmSettingsViewController.alarm = self.alarm;
   }
-}
-
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return ATTRIBUTE_ROWS; // number of fields to set on the new alarm
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  UITableViewCell *cell = nil;
-  switch (indexPath.row) {
-    case NAME_ROW: {
-      cell = self.nameCell;
-      self.nameField.text = self.alarm.name;
-      self.nameLabel.text = self.alarm.name;
-      break;
-    }
-    case WAKETIME_ROW: {
-      cell = self.waketimeCell;
-      cell.textLabel.text = [self.alarm waketimeAsString];
-      break;
-    }
-    case ANIMAL_ROW: {
-      // TODO: add icon
-      cell = self.animalTypeCell;
-      cell.imageView.image = self.alarm.animal.icon;
-      cell.textLabel.text = self.alarm.animal.name;
-      break;
-    }
-    case REPEAT_ROW: {
-      cell = [tableView dequeueReusableCellWithIdentifier:@"repeat"];
-      cell.detailTextLabel.text = [self.alarm repeatAsString];
-      break;
-    }
-  }
-  return cell;
 }
 
 #pragma mark - UITableViewDelegate
@@ -538,8 +468,7 @@
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-  UILabel *textLabel = (UILabel *)[[textField superview] viewWithTag:HCALARM_TEXT_LABEL_TAG];
-  self.alarm.name = textLabel.text = [textField.text stringByReplacingCharactersInRange:range withString:string];
+  self.alarm.name = self.nameLabel.text = [textField.text stringByReplacingCharactersInRange:range withString:string];
   return YES;
 }
 

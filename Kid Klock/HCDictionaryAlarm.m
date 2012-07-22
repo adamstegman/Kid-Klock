@@ -17,6 +17,7 @@
 @dynamic waketime;
 @dynamic animal;
 @dynamic repeat;
+@dynamic shouldDimDisplay;
 @dynamic enabled;
 
 - (NSString *)name {
@@ -91,6 +92,14 @@
   }
 }
 
+- (BOOL)shouldDimDisplay {
+  return [[_attributes objectForKey:@"shouldDimDisplay"] boolValue];
+}
+
+- (void)setShouldDimDisplay:(BOOL)shouldDimDisplay {
+  [_attributes setObject:[NSNumber numberWithBool:shouldDimDisplay] forKey:@"shouldDimDisplay"];
+}
+
 - (BOOL)enabled {
   return [[_attributes objectForKey:@"enabled"] boolValue];
 }
@@ -102,7 +111,7 @@
 #pragma mark - Methods
 
 - (NSDictionary *)attributes {
-  return _attributes;
+  return [_attributes copy];
 }
 
 - (NSInteger)minuteInterval {
@@ -214,9 +223,16 @@
 
     NSNumber *enabled = [attributes objectForKey:@"enabled"];
     if (enabled) {
-      [self setEnabled:[[attributes objectForKey:@"enabled"] boolValue]];
+      [self setEnabled:[enabled boolValue]];
     } else {
       [self setEnabled:YES];
+    }
+
+    NSNumber *shouldDimDisplay = [attributes objectForKey:@"shouldDimDisplay"];
+    if (shouldDimDisplay) {
+      [self setShouldDimDisplay:[shouldDimDisplay boolValue]];
+    } else {
+      [self setShouldDimDisplay:YES];
     }
   }
   return self;

@@ -40,7 +40,12 @@
 @property (copy, nonatomic) NSArray *repeat;
 
 /**
- * Whether the alarm is currently enabled.
+ * Whether the display should be dimmed when the alarm is active.
+ */
+@property (assign, nonatomic) BOOL shouldDimDisplay;
+
+/**
+ * Whether the alarm is currently enabled. If false, the alarm should not be activated.
  */
 @property (assign, nonatomic) BOOL enabled;
 

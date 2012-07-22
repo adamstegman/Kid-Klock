@@ -123,6 +123,8 @@ static NSString *hcBrightnessKey = @"brightness";
     [self.settingsPopoverController dismissPopoverAnimated:YES];
     self.settingsPopoverController = nil;
   }
+
+  [self updateAlarm];
 }
 
 - (void)hideAlarmsViewController:(HCAlarmsViewController *)controller {
@@ -138,21 +140,22 @@ static NSString *hcBrightnessKey = @"brightness";
 }
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-  // hide the status bar for the main view
-  [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-  self.settingsPopoverController = nil;
+  [self alarmsViewControllerDidFinish:(HCAlarmsViewController *)popoverController];
 }
 
 #pragma mark - Private methods
 
 - (void)alarmSleep {
   [[UIApplication sharedApplication] cancelAllLocalNotifications];
-  if ([self nextAlarm]) {
-    [self dimForSleep];
-    self.alarmImage.image = [self nextAlarm].animal.sleepImage;
+  id <HCAlarm> nextAlarm = [self nextAlarm];
+  if (nextAlarm) {
+    if (nextAlarm.shouldDimDisplay) {
+      [self dimForSleep];
+    }
+    self.alarmImage.image = nextAlarm.animal.sleepImage;
     // change to awakeImage on waketime
     UILocalNotification *wakeNotification = [[UILocalNotification alloc] init];
-    wakeNotification.fireDate = [[[self nextAlarm] nextWakeDate] dateByAddingTimeInterval:SLEEP_TIME_FUDGE];
+    wakeNotification.fireDate = [[nextAlarm nextWakeDate] dateByAddingTimeInterval:SLEEP_TIME_FUDGE];
     wakeNotification.timeZone = [NSTimeZone localTimeZone];
     [[UIApplication sharedApplication] scheduleLocalNotification:wakeNotification];
   }
@@ -160,29 +163,32 @@ static NSString *hcBrightnessKey = @"brightness";
 
 - (void)alarmWake {
   [[UIApplication sharedApplication] cancelAllLocalNotifications];
-  if ([self previousAlarm]) {
+  id <HCAlarm> previousAlarm = [self previousAlarm];
+  if (previousAlarm) {
     NSDate *now = [NSDate date];
     NSDate *sleepTime = [self sleepTime];
 
-    // slowly increase brightness, over time
-    double percentage = [now timeIntervalSinceDate:[[self previousAlarm] previousWakeDate]] / [sleepTime timeIntervalSinceDate:now];
-    [self restoreBrightness:percentage];
+    self.alarmImage.image = previousAlarm.animal.awakeImage;
 
-    self.alarmImage.image = [self previousAlarm].animal.awakeImage;
+    if (previousAlarm.shouldDimDisplay) {
+      // slowly increase brightness, over time
+      double percentage = [now timeIntervalSinceDate:[previousAlarm previousWakeDate]] / [sleepTime timeIntervalSinceDate:now];
+      [self restoreBrightness:percentage];
+    }
 
-    NSDate *brightnessIncrementTime = [now dateByAddingTimeInterval:BRIGHTNESS_DURATION];
-    if ([brightnessIncrementTime earlierDate:sleepTime] == brightnessIncrementTime) {
-      // schedule notification to increase brightness
-      UILocalNotification *brightenNotification = [[UILocalNotification alloc] init];
-      brightenNotification.fireDate = [now dateByAddingTimeInterval:BRIGHTNESS_DURATION];
-      brightenNotification.timeZone = [NSTimeZone localTimeZone];
-      [[UIApplication sharedApplication] scheduleLocalNotification:brightenNotification];
-    } else {
+    if (!self.previousAlarm.shouldDimDisplay ||
+        [sleepTime earlierDate:[now dateByAddingTimeInterval:BRIGHTNESS_DURATION]] == sleepTime) {
       // schedule notification to go to sleep image for next alarm
       UILocalNotification *sleepNotification = [[UILocalNotification alloc] init];
       sleepNotification.fireDate = sleepTime;
       sleepNotification.timeZone = [NSTimeZone localTimeZone];
       [[UIApplication sharedApplication] scheduleLocalNotification:sleepNotification];
+    } else {
+      // schedule notification to increase brightness
+      UILocalNotification *brightenNotification = [[UILocalNotification alloc] init];
+      brightenNotification.fireDate = [now dateByAddingTimeInterval:BRIGHTNESS_DURATION];
+      brightenNotification.timeZone = [NSTimeZone localTimeZone];
+      [[UIApplication sharedApplication] scheduleLocalNotification:brightenNotification];
     }
   }
 }

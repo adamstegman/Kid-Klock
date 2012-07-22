@@ -20,17 +20,18 @@ describe(@"HCDictionaryAlarm", ^{
       [waketime setMinute:0];
       NSArray *repeat = [NSArray arrayWithObjects:no, no, yes, no, no, no, no, nil];
       NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:@"testing", @"name",
-                                  [NSDate dateWithTimeIntervalSinceReferenceDate:5.0], @"bedtime",
                                   waketime, @"waketime",
                                   [NSNumber numberWithInt:HCBunny], @"animalType",
                                   repeat, @"repeat",
-                                  yes, @"enabled", nil];
+                                  yes, @"enabled",
+                                  yes, @"shouldDimDisplay", nil];
       alarm = [HCDictionaryAlarm alarmWithAttributes:attributes];
       [[alarm.name should] equal:@"testing"];
       [[alarm.waketime should] equal:waketime];
       [[theValue(alarm.animalType) should] equal:theValue(HCBunny)];
       [[alarm.repeat should] equal:repeat];
       [[theValue(alarm.enabled) should] equal:theValue(YES)];
+      [[theValue(alarm.shouldDimDisplay) should] equal:theValue(YES)];
     });
   });
 
@@ -46,13 +47,15 @@ describe(@"HCDictionaryAlarm", ^{
                                   waketime, @"waketime",
                                   [NSNumber numberWithInt:HCBunny], @"animalType",
                                   repeat, @"repeat",
-                                  yes, @"enabled", nil];
+                                  yes, @"enabled",
+                                  yes, @"shouldDimDisplay", nil];
       alarm = [[HCDictionaryAlarm alloc] initWithAttributes:attributes];
       [[alarm.name should] equal:@"testing"];
       [[alarm.waketime should] equal:waketime];
       [[theValue(alarm.animalType) should] equal:theValue(HCBunny)];
       [[alarm.repeat should] equal:repeat];
       [[theValue(alarm.enabled) should] equal:theValue(YES)];
+      [[theValue(alarm.shouldDimDisplay) should] equal:theValue(YES)];
     });
 
     it(@"handles nil gracefully", ^{
@@ -65,6 +68,7 @@ describe(@"HCDictionaryAlarm", ^{
         [[obj should] beTrue];
       }];
       [[theValue(alarm.enabled) should] equal:theValue(YES)];
+      [[theValue(alarm.shouldDimDisplay) should] equal:theValue(YES)];
     });
   });
 
@@ -78,6 +82,8 @@ describe(@"HCDictionaryAlarm", ^{
       [alarm.repeat enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [[obj should] beTrue];
       }];
+      [[theValue(alarm.enabled) should] equal:theValue(YES)];
+      [[theValue(alarm.shouldDimDisplay) should] equal:theValue(YES)];
     });
   });
 
@@ -413,6 +419,50 @@ describe(@"HCDictionaryAlarm", ^{
       NSNumber *no = [NSNumber numberWithBool:NO];
       alarm.repeat = [NSArray arrayWithObjects:no, no, yes, no, no, no, no, nil];
       [[[alarm repeatAsString] should] equal:[weekdaySymbols objectAtIndex:2]];
+    });
+  });
+
+  describe(@"-enabled", ^{
+    it(@"stores the given value", ^{
+      alarm.enabled = NO;
+      [[theValue(alarm.enabled) should] equal:theValue(NO)];
+      alarm.enabled = YES;
+      [[theValue(alarm.enabled) should] equal:theValue(YES)];
+    });
+  });
+
+  describe(@"-shouldDimDisplay", ^{
+    it(@"stores the given value", ^{
+      alarm.shouldDimDisplay = NO;
+      [[theValue(alarm.shouldDimDisplay) should] equal:theValue(NO)];
+      alarm.shouldDimDisplay = YES;
+      [[theValue(alarm.shouldDimDisplay) should] equal:theValue(YES)];
+    });
+  });
+
+  describe(@"-attributes:", ^{
+    it(@"returns a dictionary with each attribute", ^{
+      NSNumber *yes = [NSNumber numberWithBool:YES];
+      NSNumber *no = [NSNumber numberWithBool:NO];
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:1];
+      [waketime setMinute:0];
+      NSArray *repeat = [NSArray arrayWithObjects:no, no, yes, no, no, no, no, nil];
+      NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:@"testing", @"name",
+                                  waketime, @"waketime",
+                                  [NSNumber numberWithInt:HCBunny], @"animalType",
+                                  repeat, @"repeat",
+                                  yes, @"enabled",
+                                  yes, @"shouldDimDisplay", nil];
+      alarm = [HCDictionaryAlarm alarmWithAttributes:attributes];
+      NSDictionary *actualAttributes = [alarm attributes];
+      [[theValue([actualAttributes count]) should] equal:theValue([attributes count])];
+      [[[actualAttributes objectForKey:@"name"] should] equal:@"testing"];
+      [[[actualAttributes objectForKey:@"waketime"] should] equal:waketime];
+      [[[actualAttributes objectForKey:@"animalType"] should] equal:[NSNumber numberWithInt:HCBunny]];
+      [[[actualAttributes objectForKey:@"repeat"] should] equal:repeat];
+      [[[actualAttributes objectForKey:@"enabled"] should] equal:yes];
+      [[[actualAttributes objectForKey:@"shouldDimDisplay"] should] equal:yes];
     });
   });
 });

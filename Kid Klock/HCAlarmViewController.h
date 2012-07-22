@@ -12,15 +12,8 @@
   UIToolbar *_nextAccessoryView;
   UIToolbar *_doneAccessoryView;
 
-  UITableViewCell *_nameCell;
-  UITextField *_nameField;
-  UILabel *_nameLabel;
-
-  HCResponderCell *_waketimeCell;
   UIDatePicker *_waketimePicker;
   UIPopoverController *_waketimePopoverController;
-
-  HCResponderCell *_animalTypeCell;
   UIPickerView *_animalTypePicker;
   UIPopoverController *_animalTypePopoverController;
 }
@@ -31,15 +24,16 @@
 #pragma mark - Internal properties
 @property (strong, nonatomic, readonly) UIToolbar *nextAccessoryView;
 @property (strong, nonatomic, readonly) UIToolbar *doneAccessoryView;
-@property (strong, nonatomic, readonly) UITableViewCell *nameCell;
-@property (strong, nonatomic, readonly) UITextField *nameField;
-@property (strong, nonatomic, readonly) UILabel *nameLabel;
-@property (strong, nonatomic, readonly) HCResponderCell *waketimeCell;
+@property (strong, nonatomic) IBOutlet UITextField *nameField;
+@property (strong, nonatomic) IBOutlet UILabel *nameLabel;
+@property (strong, nonatomic) IBOutlet HCResponderCell *waketimeCell;
 @property (strong, nonatomic, readonly) UIDatePicker *waketimePicker;
 @property (strong, nonatomic, readonly) UIPopoverController *waketimePopoverController;
-@property (strong, nonatomic, readonly) HCResponderCell *animalTypeCell;
+@property (strong, nonatomic) IBOutlet HCResponderCell *animalTypeCell;
 @property (strong, nonatomic, readonly) UIPickerView *animalTypePicker;
 @property (strong, nonatomic, readonly) UIPopoverController *animalTypePopoverController;
+@property (strong, nonatomic) IBOutlet UITableViewCell *repeatCell;
+@property (strong, nonatomic) IBOutlet UISwitch *dimmerSwitch;
 
 #pragma mark - Actions
 - (IBAction)cancel:(id)sender;

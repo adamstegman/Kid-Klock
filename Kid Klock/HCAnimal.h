@@ -14,7 +14,6 @@ typedef enum {
  */
 @protocol HCAnimal <NSObject>
 
-@property (strong, nonatomic, readonly) UIImage *icon;
 @property (strong, nonatomic, readonly) UIImage *awakeImage;
 @property (strong, nonatomic, readonly) UIImage *sleepImage;
 @property (strong, nonatomic, readonly) NSString *name;

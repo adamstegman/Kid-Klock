@@ -176,6 +176,8 @@
   if (!self.alarm.animal) {
     self.alarm.animalType = HCNoAnimal;
   }
+  
+  // FIXME: spin picker to the current animal
 
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -302,7 +304,6 @@
 - (void)viewWillAppear:(BOOL)animated {
   self.title = self.nameField.text = self.nameLabel.text = self.alarm.name;
   self.waketimeCell.detailTextLabel.text = [self.alarm waketimeAsString];
-  self.animalTypeCell.imageView.image = self.alarm.animal.icon;
   self.animalTypeCell.detailTextLabel.text = self.alarm.animal.name;
   self.repeatCell.detailTextLabel.text = [self.alarm repeatAsString];
   self.dimmerSwitch.on = self.alarm.shouldDimDisplay;
@@ -417,31 +418,13 @@
   if (view) {
     return view;
   } else {
-    // TODO: subclass UIView for this?
     id <HCAnimal> animal = [HCStaticAssetAnimal animalWithType:row];
     CGRect animalTypeRowFrame = CGRectMake(0.0f, 0.0f, ANIMAL_TYPE_PICKER_COMPONENT_WIDTH, ANIMAL_TYPE_PICKER_ROW_HEIGHT);
-    UIView *animalTypeRow = [[UIView alloc] initWithFrame:animalTypeRowFrame];
-    UIImageView *animalIconView = [[UIImageView alloc] initWithImage:animal.icon];
-    animalIconView.translatesAutoresizingMaskIntoConstraints = NO;
-    [animalTypeRow addSubview:animalIconView];
     UILabel *animalLabel = [[UILabel alloc] initWithFrame:animalTypeRowFrame];
     animalLabel.text = animal.name;
     [animalLabel sizeToFit];
     animalLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [animalTypeRow addSubview:animalLabel];
-    [animalTypeRow addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[animalIconView(48)]-[animalLabel]-10-|"
-                                                                          options:0
-                                                                          metrics:nil
-                                                                            views:NSDictionaryOfVariableBindings(animalIconView, animalLabel)]];
-    [animalTypeRow addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[animalIconView(48)]-10-|"
-                                                                          options:0
-                                                                          metrics:nil
-                                                                            views:NSDictionaryOfVariableBindings(animalIconView)]];
-    [animalTypeRow addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[animalLabel]-|"
-                                                                          options:0
-                                                                          metrics:nil
-                                                                            views:NSDictionaryOfVariableBindings(animalLabel)]];
-    return animalTypeRow;
+    return animalLabel;
   }
 }
 
@@ -451,7 +434,6 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
   self.alarm.animalType = row;
-  self.animalTypeCell.imageView.image = self.alarm.animal.icon;
   self.animalTypeCell.detailTextLabel.text = self.alarm.animal.name;
 }
 

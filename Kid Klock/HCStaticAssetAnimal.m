@@ -4,15 +4,10 @@
 
 #pragma mark - Properties
 
-@dynamic icon;
 @dynamic awakeImage;
 @dynamic sleepImage;
 @synthesize name = _name;
 @dynamic type;
-
-- (UIImage *)icon {
-  return [UIImage imageNamed:_resourceName];
-}
 
 - (UIImage *)awakeImage {
   return [UIImage imageNamed:[_resourceName stringByAppendingString:@"-Day"]];

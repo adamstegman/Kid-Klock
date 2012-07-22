@@ -146,7 +146,6 @@
     cell = [nib objectAtIndex:0];
   }
   cell.nameLabel.text = alarm.name;
-  cell.animalImageView.image = alarm.animal.icon;
   cell.timeLabel.text = [alarm waketimeAsString];
   cell.enabledSwitch.on = alarm.enabled;
   cell.repeatLabel.text = [alarm repeatAsString];
@@ -173,7 +172,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return 99.0f;
+  return 108.0f;
 }
 
 @end

@@ -11,8 +11,6 @@
 		6629A0A71561FFF100BDAA3C /* libKiwi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6629A0A61561FFF100BDAA3C /* libKiwi.a */; };
 		6629A0AA156222BD00BDAA3C /* HCStaticAssetAnimal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0A9156222BD00BDAA3C /* HCStaticAssetAnimal.m */; };
 		6629A0AF1562254300BDAA3C /* HCStaticAssetAnimalSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0AE1562254300BDAA3C /* HCStaticAssetAnimalSpec.m */; };
-		665AF5A3157DB913009464DA /* HCNoAnimal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 665AF5A1157DB913009464DA /* HCNoAnimal@2x.png */; };
-		665AF5A5157DBA4B009464DA /* HCNoAnimal.png in Resources */ = {isa = PBXBuildFile; fileRef = 665AF5A4157DBA4B009464DA /* HCNoAnimal.png */; };
 		66674BC715B3B07400167ECA /* HCDog-Day.png in Resources */ = {isa = PBXBuildFile; fileRef = 66674BC315B3B07400167ECA /* HCDog-Day.png */; };
 		66674BC815B3B07500167ECA /* HCDog-Day@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66674BC415B3B07400167ECA /* HCDog-Day@2x.png */; };
 		66674BC915B3B07500167ECA /* HCDog-Night.png in Resources */ = {isa = PBXBuildFile; fileRef = 66674BC515B3B07400167ECA /* HCDog-Night.png */; };
@@ -64,8 +62,6 @@
 		6629A0A8156222BD00BDAA3C /* HCStaticAssetAnimal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCStaticAssetAnimal.h; sourceTree = "<group>"; };
 		6629A0A9156222BD00BDAA3C /* HCStaticAssetAnimal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCStaticAssetAnimal.m; sourceTree = "<group>"; };
 		6629A0AE1562254300BDAA3C /* HCStaticAssetAnimalSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCStaticAssetAnimalSpec.m; sourceTree = "<group>"; };
-		665AF5A1157DB913009464DA /* HCNoAnimal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCNoAnimal@2x.png"; sourceTree = "<group>"; };
-		665AF5A4157DBA4B009464DA /* HCNoAnimal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HCNoAnimal.png; sourceTree = "<group>"; };
 		66674BC315B3B07400167ECA /* HCDog-Day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCDog-Day.png"; sourceTree = "<group>"; };
 		66674BC415B3B07400167ECA /* HCDog-Day@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCDog-Day@2x.png"; sourceTree = "<group>"; };
 		66674BC515B3B07400167ECA /* HCDog-Night.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HCDog-Night.png"; sourceTree = "<group>"; };
@@ -259,11 +255,9 @@
 				66674BC515B3B07400167ECA /* HCDog-Night.png */,
 				66674BC615B3B07400167ECA /* HCDog-Night@2x.png */,
 				66927D6E15A5708600CDC780 /* HCBunny-Day.png */,
-				66927D6F15A5708600CDC780 /* HCBunny-Night.png */,
 				66927D6A15A5700200CDC780 /* HCBunny-Day@2x.png */,
+				66927D6F15A5708600CDC780 /* HCBunny-Night.png */,
 				66927D6B15A5700200CDC780 /* HCBunny-Night@2x.png */,
-				665AF5A4157DBA4B009464DA /* HCNoAnimal.png */,
-				665AF5A1157DB913009464DA /* HCNoAnimal@2x.png */,
 			);
 			name = Animals;
 			sourceTree = "<group>";
@@ -345,8 +339,6 @@
 				6680D8BD155F5D45008D3581 /* MainStoryboard_iPad.storyboard in Resources */,
 				6692F51515671F28003B3AFA /* Localizable.strings in Resources */,
 				6692F51815674FAD003B3AFA /* HCAlarmTableViewCell.xib in Resources */,
-				665AF5A3157DB913009464DA /* HCNoAnimal@2x.png in Resources */,
-				665AF5A5157DBA4B009464DA /* HCNoAnimal.png in Resources */,
 				66927D6C15A5700200CDC780 /* HCBunny-Day@2x.png in Resources */,
 				66927D6D15A5700200CDC780 /* HCBunny-Night@2x.png in Resources */,
 				66927D7015A5708600CDC780 /* HCBunny-Day.png in Resources */,

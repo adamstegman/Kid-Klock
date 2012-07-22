@@ -301,9 +301,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   self.title = self.nameField.text = self.nameLabel.text = self.alarm.name;
-  self.waketimeCell.textLabel.text = [self.alarm waketimeAsString];
+  self.waketimeCell.detailTextLabel.text = [self.alarm waketimeAsString];
   self.animalTypeCell.imageView.image = self.alarm.animal.icon;
-  self.animalTypeCell.textLabel.text = self.alarm.animal.name;
+  self.animalTypeCell.detailTextLabel.text = self.alarm.animal.name;
   self.repeatCell.detailTextLabel.text = [self.alarm repeatAsString];
   self.dimmerSwitch.on = self.alarm.shouldDimDisplay;
   [self.dimmerSwitch addTarget:self action:@selector(dimmerDidUpdate:) forControlEvents:UIControlEventValueChanged];
@@ -394,7 +394,7 @@
   NSCalendar *calendar = [NSCalendar currentCalendar]; // TODO: may be more efficient to use an instance variable and +autoupdatingCurrentCalendar
   self.alarm.waketime = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
                                     fromDate:((UIDatePicker *)sender).date];
-  self.waketimeCell.textLabel.text = [self.alarm waketimeAsString];
+  self.waketimeCell.detailTextLabel.text = [self.alarm waketimeAsString];
 }
 
 #pragma mark - UIPickerViewDataSource
@@ -452,7 +452,7 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
   self.alarm.animalType = row;
   self.animalTypeCell.imageView.image = self.alarm.animal.icon;
-  self.animalTypeCell.textLabel.text = self.alarm.animal.name;
+  self.animalTypeCell.detailTextLabel.text = self.alarm.animal.name;
 }
 
 #pragma mark - UIPopoverControllerDelegate

@@ -9,6 +9,7 @@
 - (void)toggleAlarm:(id)sender;
 #pragma mark - Methods
 - (id <HCAlarm>)alarmForIndex:(NSUInteger)index;
+- (NSArray *)alarms;
 - (id <HCAlarm>)newAlarm;
 @end
 
@@ -33,7 +34,20 @@
 #pragma mark - Methods
 
 - (id <HCAlarm>)alarmForIndex:(NSUInteger)index {
-  return [[HCUserDefaultsPersistence fetchAlarms] objectAtIndex:index];
+  return [[self alarms] objectAtIndex:index];
+}
+
+- (NSArray *)alarms {
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  if (!_sortedAlarms) {
+    _sortedAlarms = [HCUserDefaultsPersistence fetchAlarms];
+    _sortedAlarms = [_sortedAlarms sortedArrayUsingComparator:^NSComparisonResult(id l, id r) {
+      NSDate *leftWaketime = [calendar dateFromComponents:((id <HCAlarm>)l).waketime];
+      NSDate *rightWaketime = [calendar dateFromComponents:((id <HCAlarm>)r).waketime];
+      return [leftWaketime compare:rightWaketime];
+    }];
+  }
+  return _sortedAlarms;
 }
 
 - (id <HCAlarm>)newAlarm {
@@ -55,13 +69,14 @@
 - (void)viewWillAppear:(BOOL)animated {
   self.settingsNavigationItem.rightBarButtonItem = self.editButtonItem;
   _selectedAlarm = nil;
+  _sortedAlarms = nil;
   [self setEditing:NO animated:NO];
   [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
   // go to new alarm page if no alarms exist
-  if ([[HCUserDefaultsPersistence fetchAlarms] count] == 0) {
+  if ([[self alarms] count] == 0) {
     [self performSegueWithIdentifier:@"editAlarm" sender:self.tableView];
   }
 }
@@ -168,7 +183,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [[HCUserDefaultsPersistence fetchAlarms] count];
+  return [[self alarms] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -11,6 +11,7 @@
 
 @interface HCAlarmsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, HCAlarmViewControllerDelegate> {
   id <HCAlarm> _selectedAlarm;
+  NSArray *_sortedAlarms;
 }
 
 @property (weak, nonatomic) id <HCAlarmsViewControllerDelegate> alarmsDelegate;

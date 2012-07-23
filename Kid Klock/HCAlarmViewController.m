@@ -9,8 +9,10 @@
 #define ANIMAL_ROW 2
 
 // Dimensions
-#define ANIMAL_TYPE_PICKER_ROW_HEIGHT 68.0f
+#define ANIMAL_TYPE_PICKER_ROW_HEIGHT 44.0f
 #define ANIMAL_TYPE_PICKER_COMPONENT_WIDTH 200.0f
+#define ANIMAL_TYPE_PICKER_X_MARGIN 10.0f
+#define ANIMAL_TYPE_PICKER_Y_MARGIN 5.0f
 
 @interface HCAlarmViewController ()
 #pragma mark - Actions
@@ -135,7 +137,9 @@
     _animalTypePicker.dataSource = self;
     _animalTypePicker.delegate = self;
     _animalTypePicker.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    _animalTypePicker.showsSelectionIndicator = YES;
   }
+  [_animalTypePicker selectRow:self.alarm.animalType inComponent:0 animated:NO];
   return _animalTypePicker;
 }
 
@@ -176,8 +180,6 @@
   if (!self.alarm.animal) {
     self.alarm.animalType = HCNoAnimal;
   }
-  
-  // FIXME: spin picker to the current animal
 
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -420,10 +422,16 @@
   } else {
     id <HCAnimal> animal = [HCStaticAssetAnimal animalWithType:row];
     CGRect animalTypeRowFrame = CGRectMake(0.0f, 0.0f, ANIMAL_TYPE_PICKER_COMPONENT_WIDTH, ANIMAL_TYPE_PICKER_ROW_HEIGHT);
-    UILabel *animalLabel = [[UILabel alloc] initWithFrame:animalTypeRowFrame];
+    CGRect animalTypeLabelFrame = CGRectMake(ANIMAL_TYPE_PICKER_X_MARGIN, ANIMAL_TYPE_PICKER_Y_MARGIN,
+                                             ANIMAL_TYPE_PICKER_COMPONENT_WIDTH - ANIMAL_TYPE_PICKER_X_MARGIN,
+                                             ANIMAL_TYPE_PICKER_ROW_HEIGHT - ANIMAL_TYPE_PICKER_Y_MARGIN);
+    UIView *animalRowView = [[UIView alloc] initWithFrame:animalTypeRowFrame];
+    UILabel *animalLabel = [[UILabel alloc] initWithFrame:animalTypeLabelFrame];
+    animalLabel.backgroundColor = [UIColor clearColor];
+    animalLabel.font = [UIFont boldSystemFontOfSize:17.0f];
     animalLabel.text = animal.name;
     [animalLabel sizeToFit];
-    animalLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [animalRowView addSubview:animalLabel];
     return animalLabel;
   }
 }

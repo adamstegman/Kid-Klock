@@ -28,15 +28,26 @@
                                     <segue destination="6" kind="modal" identifier="showSettings" modalTransitionStyle="flipHorizontal" id="pfs-ON-Tmz"/>
                                 </connections>
                             </button>
+                            <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" text="8:18 PM" textAlignment="center" autoshrinkMode="minimumScaleFactor" id="1R9-SL-ysU">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="DZ4-hD-htq"/>
+                                    <constraint firstAttribute="width" constant="240" id="x5s-zE-iZg"/>
+                                </constraints>
+                                <nil key="highlightedColor"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="24"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="1R9-SL-ysU" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="AvK-Er-gth"/>
                             <constraint firstAttribute="bottom" secondItem="10" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="RaG-jp-Leq"/>
                             <constraint firstItem="do4-L1-w7O" firstAttribute="bottom" secondItem="3" secondAttribute="bottom" type="default" id="XWt-Z9-Oym"/>
                             <constraint firstAttribute="trailing" secondItem="10" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="YwY-4Y-LGS"/>
+                            <constraint firstItem="1R9-SL-ysU" firstAttribute="centerX" secondItem="do4-L1-w7O" secondAttribute="centerX" type="default" id="aiG-Xl-gWX"/>
                             <constraint firstItem="do4-L1-w7O" firstAttribute="top" secondItem="3" secondAttribute="top" type="default" id="kvN-Xk-i8J"/>
-                            <constraint firstItem="do4-L1-w7O" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="mbV-az-2tm"/>
                             <constraint firstItem="do4-L1-w7O" firstAttribute="leading" secondItem="3" secondAttribute="leading" type="default" id="nny-DF-FVg"/>
+                            <constraint firstItem="do4-L1-w7O" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="zQx-wt-UlP"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -46,6 +57,7 @@
                     <connections>
                         <outlet property="alarmImage" destination="do4-L1-w7O" id="bW7-VJ-I1l"/>
                         <outlet property="settingsButton" destination="10" id="7mX-gi-G6a"/>
+                        <outlet property="timeLabel" destination="1R9-SL-ysU" id="X1J-Fc-Yq5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -390,6 +402,7 @@
             <relationships>
                 <relationship kind="outlet" name="alarmImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="settingsButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="timeLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
         <class className="HCRepeatViewController" superclassName="UITableViewController">

@@ -14,6 +14,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="e2X-oi-EKJ"/>
+                            <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" text="8:18 PM" textAlignment="center" autoshrinkMode="minimumScaleFactor" id="vSb-Wd-dbh">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="1we-6D-jQI"/>
+                                    <constraint firstAttribute="width" constant="320" id="eFO-Xm-zCK"/>
+                                </constraints>
+                                <nil key="highlightedColor"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="24"/>
+                            </label>
                             <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="QBv-Zb-lSr">
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -36,14 +45,17 @@
                             <constraint firstItem="e2X-oi-EKJ" firstAttribute="trailing" secondItem="8" secondAttribute="trailing" type="default" id="26s-Fn-4eq"/>
                             <constraint firstItem="e2X-oi-EKJ" firstAttribute="top" secondItem="8" secondAttribute="top" type="default" id="MRe-Z0-ckx"/>
                             <constraint firstAttribute="trailing" secondItem="QBv-Zb-lSr" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Oit-05-Oid"/>
+                            <constraint firstItem="vSb-Wd-dbh" firstAttribute="centerX" secondItem="e2X-oi-EKJ" secondAttribute="centerX" type="default" id="dbo-DS-chh"/>
                             <constraint firstItem="QBv-Zb-lSr" firstAttribute="top" secondItem="8" secondAttribute="top" constant="20" symbolic="YES" type="default" id="ldI-mh-px2"/>
                             <constraint firstItem="e2X-oi-EKJ" firstAttribute="leading" secondItem="8" secondAttribute="leading" type="default" id="qE8-ev-TBx"/>
+                            <constraint firstAttribute="bottom" secondItem="vSb-Wd-dbh" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="u5A-PK-fiA"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="alarmImage" destination="e2X-oi-EKJ" id="3SF-eh-YhA"/>
                         <outlet property="settingsButton" destination="QBv-Zb-lSr" id="zh5-Gz-XrB"/>
+                        <outlet property="timeLabel" destination="vSb-Wd-dbh" id="Gsx-hV-FEx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
@@ -395,6 +407,7 @@
             <relationships>
                 <relationship kind="outlet" name="alarmImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="settingsButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="timeLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
         <class className="HCRepeatViewController" superclassName="UITableViewController">

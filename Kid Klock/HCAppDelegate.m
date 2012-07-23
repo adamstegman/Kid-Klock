@@ -12,7 +12,7 @@
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
   // notify main view
   HCMainViewController *mainViewController = (HCMainViewController *)[[self window] rootViewController];
-  [mainViewController updateAlarm];
+  [mainViewController updateAlarm:NO];
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {
@@ -46,7 +46,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   HCMainViewController *mainViewController = (HCMainViewController *)[[self window] rootViewController];
-  [mainViewController updateAlarm];
+  [mainViewController updateAlarm:NO];
 }
 
 @end

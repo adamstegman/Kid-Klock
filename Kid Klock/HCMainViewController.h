@@ -5,6 +5,7 @@
 @property (strong, nonatomic) UIPopoverController *settingsPopoverController;
 @property (strong, nonatomic) IBOutlet UIImageView *alarmImage;
 @property (strong, nonatomic) IBOutlet UIButton *settingsButton;
+@property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 
 /**
  * Restore the saved brightness of the screen to the specified percentage of the original setting when the app was
@@ -27,7 +28,9 @@
  * If the current time is within the previous alarm's maximum awake image interval, the previous alarm's awake image
  * will be displayed; unless the minimum sleep image interval of the current alarm includes the current time, in which
  * case the current alarm's sleep image will be displayed.
+ *
+ * \param schedule if true, schedule a recurring notification to update the display. Should only be set to YES once.
  */
-- (void)updateAlarm;
+- (void)updateAlarm:(BOOL)schedule;
 
 @end

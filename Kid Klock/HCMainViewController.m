@@ -4,7 +4,7 @@
 // The brightness percentage to display the sleeping image at
 #define DIM_BRIGHTNESS 0.01f
 
-// Sometimes, notifications come a split-second too early, so -updateAlarm doesn't think it's time to wake up yet.
+// Sometimes, notifications come a split-second too early, so -updateAlarm: doesn't think it's time to wake up yet.
 // This is a kludge to get around that by delaying the notification by a certain number of seconds.
 #define SLEEP_TIME_FUDGE 5.0
 
@@ -21,14 +21,15 @@ static NSString *hcBrightnessKey = @"brightness";
 @interface HCMainViewController()
 - (void)alarmSleep;
 - (void)alarmWake;
+- (void)dimForSleep;
 - (id <HCAlarm>)nextAlarm;
 - (id <HCAlarm>)previousAlarm;
-- (void)dimForSleep;
+- (NSDate *)sleepTime;
 /**
  * \return all persisted alarms, sorted by their next occurring waketime
  */
 - (NSArray *)sortedAlarms;
-- (NSDate *)sleepTime;
+- (void)updateTime:(BOOL)schedule;
 @end
 
 @implementation HCMainViewController
@@ -38,13 +39,14 @@ static NSString *hcBrightnessKey = @"brightness";
 @synthesize settingsPopoverController = _settingsPopoverController;
 @synthesize alarmImage = _alarmImage;
 @synthesize settingsButton = _settingsButton;
+@synthesize timeLabel = _timeLabel;
 
 #pragma mark - Methods
 
 - (void)restoreBrightness:(double)percentage {
   NSNumber *oldBrightness = [HCUserDefaultsPersistence settingsForKey:hcBrightnessKey];
 
-  // espilon of 0.001, because let's not get ridiculous with preciseness
+  // epsilon of 0.001, because let's not get ridiculous with preciseness
   if (percentage > 0.999) {
     [HCUserDefaultsPersistence setSettingsValue:nil forKey:hcBrightnessKey];
   }
@@ -54,7 +56,8 @@ static NSString *hcBrightnessKey = @"brightness";
   }
 }
 
-- (void)updateAlarm {
+- (void)updateAlarm:(BOOL)schedule {
+  [self updateTime:schedule];
   NSDate *now = [NSDate date];
   NSDate *earlierDate = [now earlierDate:[self sleepTime]];
   if (earlierDate == now) {
@@ -80,7 +83,7 @@ static NSString *hcBrightnessKey = @"brightness";
 
 - (void)viewWillAppear:(BOOL)animated {
   [UIApplication sharedApplication].idleTimerDisabled = YES;
-  [self updateAlarm];
+  [self updateAlarm:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -124,7 +127,7 @@ static NSString *hcBrightnessKey = @"brightness";
     self.settingsPopoverController = nil;
   }
 
-  [self updateAlarm];
+  [self updateAlarm:NO];
 }
 
 - (void)hideAlarmsViewController:(HCAlarmsViewController *)controller {
@@ -146,28 +149,22 @@ static NSString *hcBrightnessKey = @"brightness";
 #pragma mark - Private methods
 
 - (void)alarmSleep {
-  [[UIApplication sharedApplication] cancelAllLocalNotifications];
+  // FIXME: time label color
   id <HCAlarm> nextAlarm = [self nextAlarm];
   if (nextAlarm) {
     if (nextAlarm.shouldDimDisplay) {
       [self dimForSleep];
     }
     self.alarmImage.image = nextAlarm.animal.sleepImage;
-    // change to awakeImage on waketime
-    UILocalNotification *wakeNotification = [[UILocalNotification alloc] init];
-    wakeNotification.fireDate = [[nextAlarm nextWakeDate] dateByAddingTimeInterval:SLEEP_TIME_FUDGE];
-    wakeNotification.timeZone = [NSTimeZone localTimeZone];
-    [[UIApplication sharedApplication] scheduleLocalNotification:wakeNotification];
   }
 }
 
 - (void)alarmWake {
-  [[UIApplication sharedApplication] cancelAllLocalNotifications];
+  // FIXME: time label color
   id <HCAlarm> previousAlarm = [self previousAlarm];
   if (previousAlarm) {
     NSDate *now = [NSDate date];
     NSDate *sleepTime = [self sleepTime];
-
     self.alarmImage.image = previousAlarm.animal.awakeImage;
 
     if (previousAlarm.shouldDimDisplay) {
@@ -175,22 +172,16 @@ static NSString *hcBrightnessKey = @"brightness";
       double percentage = [now timeIntervalSinceDate:[previousAlarm previousWakeDate]] / [sleepTime timeIntervalSinceDate:now];
       [self restoreBrightness:percentage];
     }
-
-    if (!self.previousAlarm.shouldDimDisplay ||
-        [sleepTime earlierDate:[now dateByAddingTimeInterval:BRIGHTNESS_DURATION]] == sleepTime) {
-      // schedule notification to go to sleep image for next alarm
-      UILocalNotification *sleepNotification = [[UILocalNotification alloc] init];
-      sleepNotification.fireDate = sleepTime;
-      sleepNotification.timeZone = [NSTimeZone localTimeZone];
-      [[UIApplication sharedApplication] scheduleLocalNotification:sleepNotification];
-    } else {
-      // schedule notification to increase brightness
-      UILocalNotification *brightenNotification = [[UILocalNotification alloc] init];
-      brightenNotification.fireDate = [now dateByAddingTimeInterval:BRIGHTNESS_DURATION];
-      brightenNotification.timeZone = [NSTimeZone localTimeZone];
-      [[UIApplication sharedApplication] scheduleLocalNotification:brightenNotification];
-    }
   }
+}
+
+- (void)dimForSleep {
+  NSNumber *oldBrightess = [HCUserDefaultsPersistence settingsForKey:hcBrightnessKey];
+  if (!oldBrightess) {
+    NSNumber *oldBrightness = [NSNumber numberWithFloat:[UIScreen mainScreen].brightness];
+    [HCUserDefaultsPersistence setSettingsValue:oldBrightness forKey:hcBrightnessKey];
+  }
+  [UIScreen mainScreen].brightness = DIM_BRIGHTNESS;
 }
 
 - (id <HCAlarm>)nextAlarm {
@@ -210,15 +201,6 @@ static NSString *hcBrightnessKey = @"brightness";
   } else {
     return nil;
   }
-}
-
-- (void)dimForSleep {
-  NSNumber *oldBrightess = [HCUserDefaultsPersistence settingsForKey:hcBrightnessKey];
-  if (!oldBrightess) {
-    NSNumber *oldBrightness = [NSNumber numberWithFloat:[UIScreen mainScreen].brightness];
-    [HCUserDefaultsPersistence setSettingsValue:oldBrightness forKey:hcBrightnessKey];
-  }
-  [UIScreen mainScreen].brightness = DIM_BRIGHTNESS;
 }
 
 - (NSDate *)sleepTime {
@@ -245,6 +227,29 @@ static NSString *hcBrightnessKey = @"brightness";
   return [allAlarms sortedArrayUsingComparator:^NSComparisonResult(id l, id r) {
     return [[(id <HCAlarm>)l nextWakeDate] compare:[(id <HCAlarm>)r nextWakeDate]];
   }];
+}
+
+- (void)updateTime:(BOOL)schedule {
+  if (schedule) {
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+  }
+  NSDate *now = [NSDate date];
+  self.timeLabel.text = [NSDateFormatter localizedStringFromDate:now
+                                                       dateStyle:NSDateFormatterNoStyle
+                                                       timeStyle:NSDateFormatterShortStyle];
+  if (schedule) {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    // drop seconds from the current date and add one minute
+    NSDateComponents *currentTimeComponents = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit)
+                                                          fromDate:now];
+    NSDate *fireTime = [[calendar dateFromComponents:currentTimeComponents] dateByAddingTimeInterval:60.0];
+    // set up a notification to change the time when it changes next
+    UILocalNotification *timeNotification = [[UILocalNotification alloc] init];
+    timeNotification.fireDate = fireTime;
+    timeNotification.timeZone = [calendar timeZone];
+    timeNotification.repeatInterval = NSMinuteCalendarUnit;
+    [[UIApplication sharedApplication] scheduleLocalNotification:timeNotification];
+  }
 }
 
 @end

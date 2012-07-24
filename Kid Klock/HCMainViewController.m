@@ -98,6 +98,10 @@ static NSString *hcBrightnessKey = @"brightness";
   [self restoreBrightness:1.0];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+  [[UIApplication sharedApplication] cancelAllLocalNotifications];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   if ([[segue identifier] isEqualToString:@"showSettings"]) {
     [(HCAlarmsViewController *)[segue destinationViewController] setAlarmsDelegate:self];

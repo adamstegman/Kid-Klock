@@ -29,6 +29,7 @@
   id <HCAlarm> alarm = [self alarmForIndex:[self.tableView indexPathForCell:alarmCell].row];
   alarm.enabled = !alarm.enabled;
   [HCUserDefaultsPersistence upsertAlarm:alarm];
+  [self.alarmsDelegate alarmsViewControllerDidUpdate:self];
 }
 
 #pragma mark - Methods
@@ -125,6 +126,7 @@
 - (void)alarmViewController:(HCAlarmViewController *)controller didFinishWithAlarm:(id<HCAlarm>)alarm {
   if (alarm) {
     [HCUserDefaultsPersistence upsertAlarm:(HCDictionaryAlarm *)alarm];
+    [self.alarmsDelegate alarmsViewControllerDidUpdate:self];
     [self.tableView reloadData];
     [self.tableView setNeedsDisplay];
   }
@@ -174,6 +176,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
     [HCUserDefaultsPersistence removeAlarm:[self alarmForIndex:indexPath.row].name];
+    [self.alarmsDelegate alarmsViewControllerDidUpdate:self];
     [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
   }
 }

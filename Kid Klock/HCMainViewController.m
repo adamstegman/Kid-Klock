@@ -134,6 +134,10 @@ static NSString *hcBrightnessKey = @"brightness";
   [self updateAlarm:NO];
 }
 
+- (void)alarmsViewControllerDidUpdate:(HCAlarmsViewController *)controller {
+  [self updateAlarm:NO];
+}
+
 - (void)hideAlarmsViewController:(HCAlarmsViewController *)controller {
   if ([self.settingsPopoverController isPopoverVisible]) {
     [self.settingsPopoverController dismissPopoverAnimated:YES];

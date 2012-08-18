@@ -155,7 +155,6 @@
 #pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  // TODO: sorting
   id <HCAlarm> alarm = [self alarmForIndex:indexPath.row];
   HCAlarmTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"alarm"];
   if (!cell) {
@@ -166,6 +165,38 @@
   cell.timeLabel.text = [alarm waketimeAsString];
   cell.enabledSwitch.on = alarm.enabled;
   cell.repeatLabel.text = [alarm repeatAsString];
+
+  // TODO: not clear what's going on and why
+  // compare to previous alarm, highlight if conflicting
+  UIColor *labelColor = [UIColor blackColor];
+  id <HCAlarm> previousAlarm;
+  NSDate *today = [NSDate date];
+  NSDate *previousAlarmWakeday = today;
+  if (indexPath.row > 0) {
+    previousAlarm = [self alarmForIndex:indexPath.row - 1];
+  } else {
+    previousAlarm = [[self alarms] lastObject];
+    previousAlarmWakeday = [today dateByAddingTimeInterval:-86400];
+  }
+  if (alarm != previousAlarm) {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSInteger dayComponentUnits = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit);
+    NSDateComponents *waketimeComponents = [calendar components:dayComponentUnits fromDate:today];
+    [waketimeComponents setHour:[alarm.waketime hour]];
+    [waketimeComponents setMinute:[alarm.waketime minute]];
+    NSDateComponents *previousWaketimeComponents = [calendar components:dayComponentUnits fromDate:previousAlarmWakeday];
+    [previousWaketimeComponents setHour:[previousAlarm.waketime hour]];
+    [previousWaketimeComponents setMinute:[previousAlarm.waketime minute]];
+    NSDate *previousWaketime = [calendar dateFromComponents:previousWaketimeComponents];
+    NSDate *waketime = [calendar dateFromComponents:waketimeComponents];
+    NSTimeInterval alarmInterval = [waketime timeIntervalSinceDate:previousWaketime];
+    if (alarmInterval < MINIMUM_SLEEP_IMAGE_DURATION) {
+      labelColor = [UIColor redColor];
+    }
+  }
+  cell.nameLabel.textColor = labelColor;
+  cell.timeLabel.textColor = labelColor;
+  cell.repeatLabel.textColor = labelColor;
 
   // switches do not have delegates, so force its hand
   [cell.enabledSwitch addTarget:self action:@selector(toggleAlarm:) forControlEvents:UIControlEventValueChanged];

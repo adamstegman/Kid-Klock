@@ -1,6 +1,11 @@
 #import <Foundation/Foundation.h>
 #import "HCAnimal.h"
 
+// The maximum amount of time (in seconds) to display the awake image for an alarm
+#define MAXIMUM_AWAKE_IMAGE_DURATION 3600.0
+// The minimum buffer time (in seconds) before an alarm's waketime that the alarm's sleeping image should be shown
+#define MINIMUM_SLEEP_IMAGE_DURATION 3600.0
+
 /**
  * Alarm data model.
  */

@@ -465,6 +465,94 @@ describe(@"HCDictionaryAlarm", ^{
       [[[actualAttributes objectForKey:@"shouldDimDisplay"] should] equal:yes];
     });
   });
+
+  describe(@"-isTooCloseTo:", ^{
+    it(@"returns false for an alarm with -waketime preceding by more than the minimum sleep duration", ^{
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:12];
+      [waketime setMinute:10];
+      alarm.waketime = waketime;
+      NSDateComponents *otherWaketime = [[NSDateComponents alloc] init];
+      [otherWaketime setHour:11];
+      [otherWaketime setMinute:0];
+      id <HCAlarm> other = [[HCDictionaryAlarm alloc] init];
+      other.waketime = otherWaketime;
+      NSLog(@"12:00 isTooCloseTo 10:59 -- false");
+      [[theValue([alarm isTooCloseTo:other]) should] beFalse];
+    });
+
+    it(@"returns false for an alarm with -waketime preceding by the minimum sleep duration", ^{
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:12];
+      [waketime setMinute:10];
+      alarm.waketime = waketime;
+      NSDateComponents *otherWaketime = [[NSDateComponents alloc] init];
+      [otherWaketime setHour:11];
+      [otherWaketime setMinute:10];
+      id <HCAlarm> other = [[HCDictionaryAlarm alloc] init];
+      other.waketime = otherWaketime;
+      NSLog(@"12:00 isTooCloseTo 11:00 -- false");
+      [[theValue([alarm isTooCloseTo:other]) should] beFalse];
+    });
+
+    it(@"returns true for an alarm with -waketime preceding by less than the minimum sleep duration", ^{
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:12];
+      [waketime setMinute:0];
+      alarm.waketime = waketime;
+      NSDateComponents *otherWaketime = [[NSDateComponents alloc] init];
+      [otherWaketime setHour:11];
+      [otherWaketime setMinute:5];
+      id <HCAlarm> other = [[HCDictionaryAlarm alloc] init];
+      other.waketime = otherWaketime;
+      NSLog(@"12:00 isTooCloseTo 11:01 -- true");
+      [[theValue([alarm isTooCloseTo:other]) should] beTrue];
+    });
+
+    it(@"returns false for an alarm with -waketime following with more than the minimum sleep duration elapsing between the two", ^{
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:0];
+      [waketime setMinute:30];
+      alarm.waketime = waketime;
+      NSDateComponents *otherWaketime = [[NSDateComponents alloc] init];
+      [otherWaketime setHour:23];
+      [otherWaketime setMinute:0];
+      id <HCAlarm> other = [[HCDictionaryAlarm alloc] init];
+      other.waketime = otherWaketime;
+      NSLog(@"TEST self: %@; waketime: %@", [alarm description], [alarm.waketime description]);
+      NSLog(@"TEST alarm: %@; waketime: %@", [other description], [other.waketime description]);
+      NSLog(@"0:30 isTooCloseTo 23:29 -- false");
+      [[theValue([alarm isTooCloseTo:other]) should] beFalse];
+    });
+
+    it(@"returns false for an alarm with -waketime following with the minimum sleep duration elapsing between the two", ^{
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:0];
+      [waketime setMinute:30];
+      alarm.waketime = waketime;
+      NSDateComponents *otherWaketime = [[NSDateComponents alloc] init];
+      [otherWaketime setHour:23];
+      [otherWaketime setMinute:30];
+      id <HCAlarm> other = [[HCDictionaryAlarm alloc] init];
+      other.waketime = otherWaketime;
+      NSLog(@"0:30 isTooCloseTo 23:30 -- false");
+      [[theValue([alarm isTooCloseTo:other]) should] beFalse];
+    });
+
+    it(@"returns true for an alarm with -waketime following with less than the minimum sleep duration elapsing between the two", ^{
+      NSDateComponents *waketime = [[NSDateComponents alloc] init];
+      [waketime setHour:0];
+      [waketime setMinute:0];
+      alarm.waketime = waketime;
+      NSDateComponents *otherWaketime = [[NSDateComponents alloc] init];
+      [otherWaketime setHour:23];
+      [otherWaketime setMinute:5];
+      id <HCAlarm> other = [[HCDictionaryAlarm alloc] init];
+      other.waketime = otherWaketime;
+      NSLog(@"0:30 isTooCloseTo 23:31 -- false");
+      [[theValue([alarm isTooCloseTo:other]) should] beTrue];
+    });
+  });
 });
 
 SPEC_END

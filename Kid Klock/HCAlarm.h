@@ -55,6 +55,11 @@
 @property (assign, nonatomic) BOOL enabled;
 
 /**
+ * \return true if this alarm is too close after the given alarm such that its sleeping image will not display.
+ */
+- (BOOL)isTooCloseTo:(id <HCAlarm>)alarm;
+
+/**
  * \return the next date and time this alarm should go off
  */
 - (NSDate *)nextWakeDate;

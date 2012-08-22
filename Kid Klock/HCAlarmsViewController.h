@@ -10,7 +10,8 @@
 - (void)showAlarmsViewController:(HCAlarmsViewController *)controller;
 @end
 
-@interface HCAlarmsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, HCAlarmViewControllerDelegate> {
+@interface HCAlarmsViewController : UIViewController
+  <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, HCAlarmViewControllerDelegate> {
   id <HCAlarm> _selectedAlarm;
   NSArray *_sortedAlarms;
 }

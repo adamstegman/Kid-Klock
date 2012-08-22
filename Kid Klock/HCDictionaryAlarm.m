@@ -118,6 +118,25 @@
   return 5;
 }
 
+- (BOOL)isTooCloseTo:(id <HCAlarm>)alarm {
+  BOOL before = ([self.waketime hour] < [alarm.waketime hour] ||
+                 ([self.waketime hour] == [alarm.waketime hour] && [self.waketime minute] < [alarm.waketime minute]));
+  NSInteger minuteDifference = 0;
+  if (before) {
+    // this alarm is before the given one, so need to ensure there is at least the minimum time after the given alarm
+    // and before this one
+    minuteDifference = ((24 - [alarm.waketime hour] + [self.waketime hour]) * 60) + [self.waketime minute];
+  } else {
+    // this alarm is after the given one, so need to ensure there is at least the minimum time between the two
+    minuteDifference = (([self.waketime hour] - [alarm.waketime hour]) * 60) + [self.waketime minute];
+  }
+  if ([alarm.waketime minute] > 0) {
+    // count the minute difference instead of the full hour difference
+    minuteDifference -= [alarm.waketime minute];
+  }
+  return (minuteDifference * 60.0) < MINIMUM_SLEEP_IMAGE_DURATION;
+}
+
 - (NSDate *)nextWakeDate {
   if (!self.enabled || !self.waketime) {
     return nil;

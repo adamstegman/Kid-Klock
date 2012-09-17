@@ -121,15 +121,6 @@
   [self.alarmsDelegate alarmsViewControllerDidFinish:self];
 }
 
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-  if (buttonIndex != [alertView cancelButtonIndex]) {
-    // _selectedAlarm should still be set
-    [self performSegueWithIdentifier:@"editAlarm" sender:self.tableView];
-  }
-}
-
 #pragma mark - HCAlarmViewControllerDelegate
 
 - (void)alarmViewController:(HCAlarmViewController *)controller didFinishWithAlarm:(id <HCAlarm>)alarm {
@@ -149,31 +140,6 @@
 
   // if editing, deselect the row being edited
   [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-
-  // alert if the alarm conflicts
-  if (alarm) {
-    [[self alarms] enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop) {
-      id <HCAlarm> otherAlarm = (id <HCAlarm>) obj;
-      if (alarm.id != otherAlarm.id) {
-        NSString *conflictMessage = nil;
-        if ([alarm isTooCloseTo:otherAlarm]) {
-          conflictMessage = [NSString stringWithFormat:NSLocalizedString(@"alarms.conflict.conflicted", @"Alarm that was just edited does not have sufficient time to show its sleeping image"), alarm.name];
-        } else if ([otherAlarm isTooCloseTo:alarm]) {
-          conflictMessage = [NSString stringWithFormat:NSLocalizedString(@"alarms.conflict.created_conflict", @"Alarm that was just edited conflicts with another alarm's sleeping image"), alarm.name, otherAlarm.name];
-        }
-        if (conflictMessage) {
-          UIAlertView *conflictAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alarms.conflict.title", @"Title for message saying alarm that was just edited conflicts with another alarm")
-                                                                  message:conflictMessage
-                                                                 delegate:self
-                                                        cancelButtonTitle:NSLocalizedString(@"alarms.conflict.ignore", @"Ignore alarm conflict")
-                                                        otherButtonTitles:NSLocalizedString(@"alarms.conflict.edit", @"Go back to alarm editing"), nil];
-          [conflictAlert show];
-          _selectedAlarm = alarm;
-          *stop = YES;
-        }
-      }
-    }];
-  }
 }
 
 #pragma mark - UITableViewDelegate
@@ -209,13 +175,15 @@
   } else {
     previousAlarm = [[self alarms] lastObject];
   }
-  // TODO: remember which ones were ignored? or maybe just use a less severe color
+  // TODO: explain this somehow without interrupting the user with an alert
+  // TODO: use a less severe color
   if ([alarm isTooCloseTo:previousAlarm]) {
     labelColor = [UIColor redColor];
   }
   cell.nameLabel.textColor = labelColor;
   cell.timeLabel.textColor = labelColor;
   cell.repeatLabel.textColor = labelColor;
+  // TODO: highlight nextAlarm too if necessary
 
   // switches do not have delegates, so force its hand
   [cell.enabledSwitch addTarget:self action:@selector(toggleAlarm:) forControlEvents:UIControlEventValueChanged];

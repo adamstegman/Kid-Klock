@@ -10,7 +10,7 @@
 #pragma mark - Methods
 - (id <HCAlarm>)alarmForIndex:(NSUInteger)index;
 - (NSArray *)alarms;
-- (void)markConflictingAlarm:(NSUInteger)alarmIndex ifTooCloseTo:(NSUInteger)otherAlarmIndex;
+- (void)markCell:(HCAlarmTableViewCell *)cell ifAlarm:(id <HCAlarm>)alarm isTooCloseTo:(id <HCAlarm>)otherAlarm;
 - (id <HCAlarm>)newAlarm;
 @end
 
@@ -52,20 +52,12 @@
   return _sortedAlarms;
 }
 
-- (void)markConflictingAlarm:(NSUInteger)alarmIndex ifTooCloseTo:(NSUInteger)otherAlarmIndex {
-  id <HCAlarm> alarm = [self alarmForIndex:alarmIndex];
-  id <HCAlarm> otherAlarm = [self alarmForIndex:otherAlarmIndex];
-  NSIndexPath *alarmIndexPath = [NSIndexPath indexPathForRow:alarmIndex inSection:0];
-  HCAlarmTableViewCell *cell = (HCAlarmTableViewCell *) [self.tableView cellForRowAtIndexPath:alarmIndexPath];
-  UIColor *labelColor = [UIColor blackColor];
+- (void)markCell:(HCAlarmTableViewCell *)cell ifAlarm:(id <HCAlarm>)alarm isTooCloseTo:(id <HCAlarm>)otherAlarm {
   // TODO: explain this somehow without interrupting the user with an alert
   // TODO: use a less severe color
   if ([alarm isTooCloseTo:otherAlarm]) {
-    labelColor = [UIColor redColor];
+    cell.bottomColor = [UIColor redColor];
   }
-  cell.nameLabel.textColor = labelColor;
-  cell.timeLabel.textColor = labelColor;
-  cell.repeatLabel.textColor = labelColor;
 }
 
 - (id <HCAlarm>)newAlarm {
@@ -178,6 +170,9 @@
   if (!cell) {
     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HCAlarmTableViewCell" owner:self options:nil];
     cell = [nib objectAtIndex:0];
+    cell.topColor = [UIColor whiteColor];
+    cell.middleColor = [UIColor whiteColor];
+    cell.bottomColor = [UIColor colorWithRed:0.805f green:0.805f blue:0.805f alpha:1.0f]; // #cecece
   }
   cell.nameLabel.text = alarm.name;
   cell.timeLabel.text = [alarm waketimeAsString];
@@ -186,13 +181,13 @@
 
   // compare to adjacent alarms, highlight if conflicting
   NSUInteger alarmCount = [[self alarms] count];
-  NSUInteger previousAlarmIndex;
+  id <HCAlarm> previousAlarm;
   if (indexPath.row > 0) {
-    previousAlarmIndex = indexPath.row - 1;
+    previousAlarm = [self alarmForIndex:indexPath.row - 1];
   } else {
-    previousAlarmIndex = alarmCount - 1;
+    previousAlarm = [self alarmForIndex:alarmCount - 1];
   }
-  [self markConflictingAlarm:indexPath.row ifTooCloseTo:previousAlarmIndex];
+  [self markCell:cell ifAlarm:alarm isTooCloseTo:previousAlarm];
 
   // switches do not have delegates, so force its hand
   [cell.enabledSwitch addTarget:self action:@selector(toggleAlarm:) forControlEvents:UIControlEventValueChanged];

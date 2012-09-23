@@ -1,15 +1,13 @@
 #import "HCAlarmTableViewCell.h"
 
-#define WHITE 1.0f, 1.0f, 1.0f, 1.0f // #fff
-#define LIGHT_GRAY 0.805f, 0.805f, 0.805f, 1.0f // #cecece
-#define TOP_RGBA WHITE
-#define MIDDLE_RGBA WHITE
-#define BOTTOM_RGBA LIGHT_GRAY
 #define NUM_GRADIENT_PARTS 3
-#define GRADIENT_COLORS (const CGFloat[12]){TOP_RGBA, MIDDLE_RGBA, BOTTOM_RGBA}
 #define GRADIENT_STOPS (const CGFloat[NUM_GRADIENT_PARTS]){0.0f, 0.33f, 1.0f}
 
 @implementation HCAlarmTableViewCell
+
+@synthesize topColor = _topColor;
+@synthesize middleColor = _middleColor;
+@synthesize bottomColor = _bottomColor;
 
 @synthesize nameLabel = _nameLabel;
 @synthesize timeLabel = _timeLabel;
@@ -21,8 +19,10 @@
 
   CGContextSaveGState(context);
   CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-  CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace,
-      GRADIENT_COLORS, GRADIENT_STOPS, NUM_GRADIENT_PARTS);
+  CGColorRef colorArray[] = {self.topColor.CGColor, self.middleColor.CGColor, self.bottomColor.CGColor};
+  CFArrayRef colorList = CFArrayCreate(kCFAllocatorDefault, (const void **) colorArray, NUM_GRADIENT_PARTS, NULL);
+  CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, colorList, GRADIENT_STOPS);
+  CFRelease(colorList);
 
   CGContextDrawLinearGradient(context,
                               gradient,

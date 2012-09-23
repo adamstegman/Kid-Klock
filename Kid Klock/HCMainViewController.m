@@ -11,11 +11,6 @@
 // How long to wait (in seconds) until increasing the brightness while the awake image is shown
 #define BRIGHTNESS_DURATION 300.0
 
-// The maximum amount of time (in seconds) to display the awake image for an alarm
-#define MAXIMUM_AWAKE_IMAGE_DURATION 3600.0
-// The minimum buffer time (in seconds) before an alarm's waketime that the alarm's sleeping image should be shown
-#define MINIMUM_SLEEP_IMAGE_DURATION 3600.0
-
 static NSString *hcBrightnessKey = @"brightness";
 
 @interface HCMainViewController()
@@ -157,7 +152,6 @@ static NSString *hcBrightnessKey = @"brightness";
 #pragma mark - Private methods
 
 - (void)alarmSleep {
-  // FIXME: time label color
   id <HCAlarm> nextAlarm = [self nextAlarm];
   if (nextAlarm) {
     if (nextAlarm.shouldDimDisplay) {
@@ -168,7 +162,6 @@ static NSString *hcBrightnessKey = @"brightness";
 }
 
 - (void)alarmWake {
-  // FIXME: time label color
   id <HCAlarm> previousAlarm = [self previousAlarm];
   if (previousAlarm) {
     NSDate *now = [NSDate date];

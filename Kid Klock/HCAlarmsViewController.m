@@ -8,8 +8,10 @@
 #pragma mark - Actions
 - (void)toggleAlarm:(id)sender;
 #pragma mark - Methods
+- (NSArray *)alarmCellColors;
 - (id <HCAlarm>)alarmForIndex:(NSUInteger)index;
 - (NSArray *)alarms;
+- (NSArray *)conflictingAlarmCellColors;
 - (void)markCell:(HCAlarmTableViewCell *)cell ifAlarm:(id <HCAlarm>)alarm isTooCloseTo:(id <HCAlarm>)otherAlarm;
 - (id <HCAlarm>)newAlarm;
 @end
@@ -35,6 +37,15 @@
 
 #pragma mark - Methods
 
+- (NSArray *)alarmCellColors {
+  if (!_alarmCellColors) {
+    // #fff, #fff, #cecece
+    _alarmCellColors = [NSArray arrayWithObjects:[UIColor whiteColor], [UIColor whiteColor],
+                        [UIColor colorWithRed:0.805f green:0.805f blue:0.805f alpha:1.0f], nil];
+  }
+  return _alarmCellColors;
+}
+
 - (id <HCAlarm>)alarmForIndex:(NSUInteger)index {
   return [[self alarms] objectAtIndex:index];
 }
@@ -52,11 +63,24 @@
   return _sortedAlarms;
 }
 
+- (NSArray *)conflictingAlarmCellColors {
+  if (!_conflictingAlarmCellColors) {
+    // #fff, #fff, #ffc4c6
+    _conflictingAlarmCellColors = [NSArray arrayWithObjects:[[self alarmCellColors] objectAtIndex:0U],
+                                   [[self alarmCellColors] objectAtIndex:1U],
+                                   [UIColor colorWithRed:1.0 green:0.771166 blue:0.777525 alpha:1.0], nil];
+  }
+  return _conflictingAlarmCellColors;
+}
+
 - (void)markCell:(HCAlarmTableViewCell *)cell ifAlarm:(id <HCAlarm>)alarm isTooCloseTo:(id <HCAlarm>)otherAlarm {
-  // TODO: explain this somehow without interrupting the user with an alert
-  // TODO: use a less severe color
   if ([alarm isTooCloseTo:otherAlarm]) {
-    cell.bottomColor = [UIColor redColor];
+    NSString *conflictSuffix = NSLocalizedString(@"alarms.time.conflict",
+                                                 @"Label suffix that designates that the adjacent time conflicts with the previous alarm");
+    cell.timeLabel.text = [cell.timeLabel.text stringByAppendingString:conflictSuffix];
+    cell.topColor = [[self conflictingAlarmCellColors] objectAtIndex:0U];
+    cell.middleColor = [[self conflictingAlarmCellColors] objectAtIndex:1U];
+    cell.bottomColor = [[self conflictingAlarmCellColors] objectAtIndex:2U];
   }
 }
 
@@ -78,6 +102,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   self.settingsNavigationItem.rightBarButtonItem = self.editButtonItem;
+  _alarmCellColors = nil;
+  _conflictingAlarmCellColors = nil;
   _selectedAlarm = nil;
   _sortedAlarms = nil;
   [self setEditing:NO animated:NO];
@@ -170,9 +196,9 @@
   if (!cell) {
     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HCAlarmTableViewCell" owner:self options:nil];
     cell = [nib objectAtIndex:0];
-    cell.topColor = [UIColor whiteColor];
-    cell.middleColor = [UIColor whiteColor];
-    cell.bottomColor = [UIColor colorWithRed:0.805f green:0.805f blue:0.805f alpha:1.0f]; // #cecece
+    cell.topColor = [[self alarmCellColors] objectAtIndex:0U];
+    cell.middleColor = [[self alarmCellColors] objectAtIndex:1U];
+    cell.bottomColor = [[self alarmCellColors] objectAtIndex:2U];
   }
   cell.nameLabel.text = alarm.name;
   cell.timeLabel.text = [alarm waketimeAsString];

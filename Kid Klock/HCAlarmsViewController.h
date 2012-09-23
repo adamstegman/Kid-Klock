@@ -11,7 +11,9 @@
 @end
 
 @interface HCAlarmsViewController : UIViewController
-  <UITableViewDelegate, UITableViewDataSource, HCAlarmViewControllerDelegate> {
+    <UITableViewDelegate, UITableViewDataSource, HCAlarmViewControllerDelegate> {
+  NSArray *_alarmCellColors;
+  NSArray *_conflictingAlarmCellColors;
   id <HCAlarm> _selectedAlarm;
   NSArray *_sortedAlarms;
 }

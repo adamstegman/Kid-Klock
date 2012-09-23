@@ -166,15 +166,15 @@
     [self.tableView setNeedsDisplay];
   }
 
-  [self dismissModalViewControllerAnimated:YES];
+  [self dismissViewControllerAnimated:YES completion:^(void){
+    // show the popover again now that the modal view is gone
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+      [self.alarmsDelegate showAlarmsViewController:self];
+    }
 
-  // show the popover again now that the modal view is gone
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-    [self.alarmsDelegate showAlarmsViewController:self];
-  }
-
-  // if editing, deselect the row being edited
-  [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    // if editing, deselect the row being edited
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+  }];
 }
 
 #pragma mark - UITableViewDelegate

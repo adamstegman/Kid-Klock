@@ -314,10 +314,6 @@
   [super viewWillAppear:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-  // FIXME: show alarm if this alarm conflicts with the previous one
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
 }

@@ -75,6 +75,7 @@
 
 - (void)markCell:(HCAlarmTableViewCell *)cell ifAlarm:(id <HCAlarm>)alarm isTooCloseTo:(id <HCAlarm>)otherAlarm {
   if ([alarm isTooCloseTo:otherAlarm]) {
+    // TODO: use attributed string to color conflictSuffix
     NSString *conflictSuffix = NSLocalizedString(@"alarms.time.conflict",
                                                  @"Label suffix that designates that the adjacent time conflicts with the previous alarm");
     cell.timeLabel.text = [cell.timeLabel.text stringByAppendingString:conflictSuffix];

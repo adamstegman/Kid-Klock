@@ -275,6 +275,7 @@
 				6680D89E155F5D45008D3581 /* Sources */,
 				6680D89F155F5D45008D3581 /* Frameworks */,
 				6680D8A0155F5D45008D3581 /* Resources */,
+				660FB50015EF20480008F297 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -365,6 +366,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		660FB50015EF20480008F297 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "KEYWORDS=\"TODO:|\\?\\?\\?:|\\!\\!\\!:\"\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($KEYWORDS).*\\$\" | perl -p -e \"s/($KEYWORDS)/ error: \\$1/\"\nfi\nif [ \"${CONFIGURATION}\" = \"Debug\" ]; then\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($KEYWORDS).*\\$\" | perl -p -e \"s/($KEYWORDS)/ warning: \\$1/\"\nfi";
+		};
 		6680D8C7155F5D45008D3581 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

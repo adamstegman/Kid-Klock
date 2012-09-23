@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6606B053160ABB1000625F38 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6606B052160ABB1000625F38 /* Default-568h@2x.png */; };
 		6629A0A51561FEC800BDAA3C /* HCDictionaryAlarmSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0A41561FEC800BDAA3C /* HCDictionaryAlarmSpec.m */; };
 		6629A0A71561FFF100BDAA3C /* libKiwi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6629A0A61561FFF100BDAA3C /* libKiwi.a */; };
 		6629A0AA156222BD00BDAA3C /* HCStaticAssetAnimal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0A9156222BD00BDAA3C /* HCStaticAssetAnimal.m */; };
@@ -57,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6606B052160ABB1000625F38 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6629A0A41561FEC800BDAA3C /* HCDictionaryAlarmSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCDictionaryAlarmSpec.m; sourceTree = "<group>"; };
 		6629A0A61561FFF100BDAA3C /* libKiwi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libKiwi.a; path = "Frameworks/Kiwi/build/Release-iphoneos/libKiwi.a"; sourceTree = "<group>"; };
 		6629A0A8156222BD00BDAA3C /* HCStaticAssetAnimal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCStaticAssetAnimal.h; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 		6680D897155F5D45008D3581 = {
 			isa = PBXGroup;
 			children = (
+				6606B052160ABB1000625F38 /* Default-568h@2x.png */,
 				6680D8AC155F5D45008D3581 /* Kid Klock */,
 				6680D8D0155F5D45008D3581 /* Kid KlockTests */,
 				6680D8A5155F5D45008D3581 /* Frameworks */,
@@ -309,7 +312,7 @@
 			attributes = {
 				CLASSPREFIX = HC;
 				LastUpgradeCheck = 0430;
-				ORGANIZATIONNAME = "Cerner Corporation";
+				ORGANIZATIONNAME = "Homemade Concoctions, LLCS";
 			};
 			buildConfigurationList = 6680D89C155F5D45008D3581 /* Build configuration list for PBXProject "Kid Klock" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -347,6 +350,7 @@
 				66674BC815B3B07500167ECA /* HCDog-Day@2x.png in Resources */,
 				66674BC915B3B07500167ECA /* HCDog-Night.png in Resources */,
 				66674BCA15B3B07500167ECA /* HCDog-Night@2x.png in Resources */,
+				6606B053160ABB1000625F38 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,6 +518,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Kid Klock/Kid Klock-Prefix.pch";
 				INFOPLIST_FILE = "Kid Klock/Kid Klock-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -525,6 +530,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Kid Klock/Kid Klock-Prefix.pch";
 				INFOPLIST_FILE = "Kid Klock/Kid Klock-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

@@ -9,8 +9,7 @@
 @end
 
 @interface HCAlarmViewController : UITableViewController <UIPickerViewDataSource, UIPickerViewDelegate, UIPopoverControllerDelegate, UITextFieldDelegate> {
-  UIToolbar *_nextAccessoryView;
-  UIToolbar *_doneAccessoryView;
+  UIToolbar *_accessoryView;
 
   UIDatePicker *_waketimePicker;
   UIPopoverController *_waketimePopoverController;
@@ -22,8 +21,7 @@
 @property (strong, nonatomic) id <HCAlarmViewControllerDelegate> alarmDelegate;
 
 #pragma mark - Internal properties
-@property (strong, nonatomic, readonly) UIToolbar *nextAccessoryView;
-@property (strong, nonatomic, readonly) UIToolbar *doneAccessoryView;
+@property (strong, nonatomic, readonly) UIToolbar *accessoryView;
 @property (strong, nonatomic) IBOutlet UITextField *nameField;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet HCResponderCell *waketimeCell;

@@ -7,6 +7,8 @@
 #define NAME_ROW 0
 #define WAKETIME_ROW 1
 #define ANIMAL_ROW 2
+#define FIRST_INPUT_ROW 0
+#define LAST_INPUT_ROW 2
 
 // Dimensions
 #define ANIMAL_TYPE_PICKER_ROW_HEIGHT 44.0f
@@ -25,8 +27,10 @@
 - (void)dismissWaketime:(id)sender;
 - (void)pickWaketime:(id)sender;
 - (void)waketimeDidReturn:(id)sender;
+- (void)dismissInput:(id)sender;
+- (void)focusNextRow:(id)sender;
+- (void)focusPreviousRow:(id)sender;
 #pragma mark - Methods
-- (SEL)nextFieldSelector:(NSInteger)row;
 - (void)selectRow:(NSInteger)row;
 @end
 
@@ -48,8 +52,7 @@
 
 @synthesize alarm = _alarm;
 @synthesize alarmDelegate = _alarmDelegate;
-@dynamic nextAccessoryView;
-@dynamic doneAccessoryView;
+@dynamic accessoryView;
 @synthesize nameField = _nameField;
 @synthesize nameLabel = _nameLabel;
 @synthesize waketimeCell = _waketimeCell;
@@ -61,40 +64,42 @@
 @synthesize repeatCell = _repeatCell;
 @synthesize dimmerSwitch = _dimmerSwitch;
 
-- (UIToolbar *)nextAccessoryView {
-  NSInteger row = [self.tableView indexPathForSelectedRow].row;
-  if (!_nextAccessoryView) {
-    _nextAccessoryView = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 32.0f)];
-    _nextAccessoryView.barStyle = UIBarStyleBlack;
+- (UIToolbar *)accessoryView {
+  if (!_accessoryView) {
+    _accessoryView = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 32.0f)];
+    _accessoryView.barStyle = UIBarStyleBlack;
     UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                             target:nil
                                                                             action:nil];
+    UIBarButtonItem *previousButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"alarm.field.previous", @"Go to previous alarm field")
+                                                                       style:UIBarButtonItemStyleBordered
+                                                                      target:self
+                                                                      action:@selector(focusPreviousRow:)];
     UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"alarm.field.next", @"Go to next alarm field")
                                                                    style:UIBarButtonItemStyleBordered
                                                                   target:self
-                                                                  action:[self nextFieldSelector:row]];
-    _nextAccessoryView.items = [NSArray arrayWithObjects:spacer, nextButton, nil];
-  } else {
-    // update next button action based on which row is selected
-    UIBarButtonItem *nextButton = [[_nextAccessoryView items] objectAtIndex:1U];
-    nextButton.action = [self nextFieldSelector:row];
-  }
-  return _nextAccessoryView;
-}
-
-- (UIToolbar *)doneAccessoryView {
-  if (!_doneAccessoryView) {
-    _doneAccessoryView = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.animalTypePicker.frame.size.width, 32.0f)];
-    _doneAccessoryView.barStyle = UIBarStyleBlack;
-    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                            target:nil
-                                                                            action:nil];
+                                                                  action:@selector(focusNextRow:)];
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                 target:self
-                                                                                action:@selector(dismissAnimalType:)];
-    _doneAccessoryView.items = [NSArray arrayWithObjects:spacer, doneButton, nil];
+                                                                                action:@selector(dismissInput:)];
+    _accessoryView.items = [NSArray arrayWithObjects:previousButton, nextButton, spacer, doneButton, nil];
   }
-  return _doneAccessoryView;
+
+  NSInteger currentRow = [self.tableView indexPathForSelectedRow].row;
+  UIBarButtonItem *previousButton = [_accessoryView.items objectAtIndex:0U];
+  if (currentRow == FIRST_INPUT_ROW) {
+    previousButton.enabled = NO;
+  } else {
+    previousButton.enabled = YES;
+  }
+  UIBarButtonItem *nextButton = [_accessoryView.items objectAtIndex:1U];
+  if (currentRow == LAST_INPUT_ROW) {
+    nextButton.enabled = NO;
+  } else {
+    nextButton.enabled = YES;
+  }
+
+  return _accessoryView;
 }
 
 - (UIDatePicker *)waketimePicker {
@@ -194,7 +199,7 @@
       self.animalTypeCell.inputView = self.animalTypePicker;
     }
     if (!self.animalTypeCell.inputAccessoryView) {
-      self.animalTypeCell.inputAccessoryView = self.doneAccessoryView;
+      self.animalTypeCell.inputAccessoryView = self.accessoryView;
     }
     [self.animalTypeCell becomeFirstResponder];
   }
@@ -212,6 +217,11 @@
 - (void)editName:(id)sender {
   self.nameField.hidden = NO;
   self.nameLabel.hidden = YES;
+
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    self.nameField.inputAccessoryView = self.accessoryView;
+  }
+
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(dismissName:)
                                                name:@"UIKeyboardWillHideNotification"
@@ -248,7 +258,7 @@
       self.waketimeCell.inputView = self.waketimePicker;
     }
     if (!self.waketimeCell.inputAccessoryView) {
-      self.waketimeCell.inputAccessoryView = self.nextAccessoryView;
+      self.waketimeCell.inputAccessoryView = self.accessoryView;
     }
     [self.waketimeCell becomeFirstResponder];
   }
@@ -259,18 +269,39 @@
   [self selectRow:WAKETIME_ROW + 1];
 }
 
-#pragma mark - Methods
-
-- (SEL)nextFieldSelector:(NSInteger)row {
-  switch (row) {
-    case NAME_ROW:
-      return @selector(nameDidReturn:);
-    case WAKETIME_ROW:
-      return @selector(waketimeDidReturn:);
-    default:
-      return nil;
+- (void)dismissInput:(id)sender {
+  NSInteger currentRow = [self.tableView indexPathForSelectedRow].row;
+  switch (currentRow) {
+    case NAME_ROW: {
+      [self dismissName:sender];
+      break;
+    }
+    case WAKETIME_ROW: {
+      [self dismissWaketime:sender];
+      break;
+    }
+    case ANIMAL_ROW: {
+      [self dismissAnimalType:sender];
+      break;
+    }
   }
 }
+
+- (void)focusNextRow:(id)sender {
+  NSInteger currentRow = [self.tableView indexPathForSelectedRow].row;
+  if (currentRow < LAST_INPUT_ROW) {
+    [self selectRow:currentRow + 1];
+  }
+}
+
+- (void)focusPreviousRow:(id)sender {
+  NSInteger currentRow = [self.tableView indexPathForSelectedRow].row;
+  if (currentRow > FIRST_INPUT_ROW) {
+    [self selectRow:currentRow - 1];
+  }
+}
+
+#pragma mark - Methods
 
 - (void)selectRow:(NSInteger)row {
   NSIndexPath *newRow = [NSIndexPath indexPathForItem:row inSection:0];
@@ -281,21 +312,21 @@
 #pragma mark - View lifecycle
 
 - (void)didReceiveMemoryWarning {
-  // TODO: test these
-  if (_doneAccessoryView && ![self.animalTypeCell isFirstResponder]) {
-    _animalTypePicker = nil;
-    _doneAccessoryView = nil;
+  if (_accessoryView) {
+    if (![self.waketimeCell isFirstResponder]) {
+      _waketimePicker = nil;
+    }
+    if (![self.animalTypeCell isFirstResponder]) {
+      _animalTypePicker = nil;
+    }
+    if (![self.nameField isFirstResponder] && ![self.waketimeCell isFirstResponder] &&
+        ![self.animalTypeCell isFirstResponder]) {
+      _accessoryView = nil;
+    }
   }
   if (_animalTypePopoverController && !self.animalTypePopoverController.popoverVisible) {
     _animalTypePopoverController = nil;
     _animalTypePicker = nil;
-  }
-
-  if (_nextAccessoryView && ![self.waketimeCell isFirstResponder]) {
-    _waketimePicker = nil;
-    if (![self.nameField isFirstResponder]) {
-      _nextAccessoryView = nil;
-    }
   }
   if (_waketimePopoverController && !self.waketimePopoverController.popoverVisible) {
     _waketimePopoverController = nil;

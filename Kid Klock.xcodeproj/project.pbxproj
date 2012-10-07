@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6606B053160ABB1000625F38 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6606B052160ABB1000625F38 /* Default-568h@2x.png */; };
+		661742381621D176005B20D2 /* HCCalendarUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 661742371621D176005B20D2 /* HCCalendarUtil.m */; };
 		6629A0A51561FEC800BDAA3C /* HCDictionaryAlarmSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0A41561FEC800BDAA3C /* HCDictionaryAlarmSpec.m */; };
 		6629A0A71561FFF100BDAA3C /* libKiwi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6629A0A61561FFF100BDAA3C /* libKiwi.a */; };
 		6629A0AA156222BD00BDAA3C /* HCStaticAssetAnimal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6629A0A9156222BD00BDAA3C /* HCStaticAssetAnimal.m */; };
@@ -59,6 +60,8 @@
 
 /* Begin PBXFileReference section */
 		6606B052160ABB1000625F38 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		661742361621D176005B20D2 /* HCCalendarUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCCalendarUtil.h; sourceTree = "<group>"; };
+		661742371621D176005B20D2 /* HCCalendarUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCCalendarUtil.m; sourceTree = "<group>"; };
 		6629A0A41561FEC800BDAA3C /* HCDictionaryAlarmSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCDictionaryAlarmSpec.m; sourceTree = "<group>"; };
 		6629A0A61561FFF100BDAA3C /* libKiwi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libKiwi.a; path = "Frameworks/Kiwi/build/Release-iphoneos/libKiwi.a"; sourceTree = "<group>"; };
 		6629A0A8156222BD00BDAA3C /* HCStaticAssetAnimal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCStaticAssetAnimal.h; sourceTree = "<group>"; };
@@ -140,6 +143,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		661742341621D12B005B20D2 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				661742361621D176005B20D2 /* HCCalendarUtil.h */,
+				661742371621D176005B20D2 /* HCCalendarUtil.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		6680D897155F5D45008D3581 = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +198,7 @@
 				6629A0A8156222BD00BDAA3C /* HCStaticAssetAnimal.h */,
 				6629A0A9156222BD00BDAA3C /* HCStaticAssetAnimal.m */,
 				6680D8E7155FDC93008D3581 /* UI */,
+				661742341621D12B005B20D2 /* Utilities */,
 				6680D8AD155F5D45008D3581 /* Supporting Files */,
 			);
 			path = "Kid Klock";
@@ -411,6 +424,7 @@
 				66859D77156B11F400C0788E /* HCRepeatViewController.m in Sources */,
 				66927D6115A3996A00CDC780 /* HCResponderCell.m in Sources */,
 				66EAFF1815A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.m in Sources */,
+				661742381621D176005B20D2 /* HCCalendarUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,6 +2,7 @@
 #import "HCDictionaryAlarm.h"
 #import "HCStaticAssetAnimal.h"
 #import "HCAlarmSettings.h"
+#import "HCCalendarUtil.h"
 
 // Row for each attribute
 #define NAME_ROW 0
@@ -112,7 +113,7 @@
     // date pickers do not have delegates, so force its hand
     [_waketimePicker addTarget:self action:@selector(waketimeDidUpdate:) forControlEvents:UIControlEventValueChanged];
   }
-  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSCalendar *calendar = [HCCalendarUtil currentCalendar];
   NSDateComponents *nowComponents = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
                                                 fromDate:[NSDate date]];
   [nowComponents setHour:[self.alarm.waketime hour]];
@@ -241,8 +242,8 @@
 
 - (void)pickWaketime:(id)sender {
   if (!self.alarm.waketime) {
-    self.alarm.waketime = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
-                                                          fromDate:[NSDate date]];
+    self.alarm.waketime = [[HCCalendarUtil currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
+                                                              fromDate:[NSDate date]];
   }
 
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -425,9 +426,8 @@
 #pragma mark - UIDatePicker events
 
 - (void)waketimeDidUpdate:(id)sender {
-  NSCalendar *calendar = [NSCalendar currentCalendar]; // TODO: may be more efficient to use an instance variable and +autoupdatingCurrentCalendar
-  self.alarm.waketime = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
-                                    fromDate:((UIDatePicker *)sender).date];
+  self.alarm.waketime = [[HCCalendarUtil currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
+                                                            fromDate:((UIDatePicker *)sender).date];
   self.waketimeCell.detailTextLabel.text = [self.alarm waketimeAsString];
 }
 

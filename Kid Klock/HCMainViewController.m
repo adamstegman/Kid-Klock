@@ -1,5 +1,6 @@
 #import "HCMainViewController.h"
 #import "HCUserDefaultsPersistence+HCAlarm.h"
+#import "HCCalendarUtil.h"
 
 // The brightness percentage to display the sleeping image at
 #define DIM_BRIGHTNESS 0.01f
@@ -239,7 +240,7 @@ static NSString *hcBrightnessKey = @"brightness";
                                                        dateStyle:NSDateFormatterNoStyle
                                                        timeStyle:NSDateFormatterShortStyle];
   if (schedule) {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSCalendar *calendar = [HCCalendarUtil currentCalendar];
     // drop seconds from the current date and add one minute
     NSDateComponents *currentTimeComponents = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit)
                                                           fromDate:now];

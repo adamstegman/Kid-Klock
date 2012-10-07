@@ -1,5 +1,6 @@
 #import "HCDictionaryAlarm.h"
 #import "HCStaticAssetAnimal.h"
+#import "HCCalendarUtil.h"
 
 @interface HCDictionaryAlarm()
 /**
@@ -58,8 +59,8 @@
         // round up
         roundingAdjustment = 60.0 * (minuteInterval - minuteRemainder);
       }
-      waketime = [[self calendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
-                                    fromDate:[todayWaketime dateByAddingTimeInterval:roundingAdjustment]];
+      waketime = [[HCCalendarUtil currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
+                                                     fromDate:[todayWaketime dateByAddingTimeInterval:roundingAdjustment]];
     }
     
     [waketime setSecond:0];
@@ -86,7 +87,7 @@
 }
 
 - (void)setRepeat:(NSArray *)days {
-  if ([days count] == [[self calendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length) {
+  if ([days count] == [[HCCalendarUtil currentCalendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length) {
     [_attributes setObject:[days copy] forKey:@"repeat"];
   }
 }
@@ -145,12 +146,13 @@
   if (nextWakeDate && [[self today] earlierDate:nextWakeDate] == nextWakeDate) {
     nextWakeDate = [nextWakeDate dateByAddingTimeInterval:86400];
   }
-  NSInteger nextWakeWeekday = [[[self calendar] components:NSWeekdayCalendarUnit fromDate:nextWakeDate]
+  NSInteger nextWakeWeekday = [[[HCCalendarUtil currentCalendar] components:NSWeekdayCalendarUnit
+                                                                   fromDate:nextWakeDate]
                                weekday] - 1;
   if (![[self.repeat objectAtIndex:nextWakeWeekday] boolValue]) {
     // increment nextWakeDate day until repeat allows it
     NSInteger weekdayModification = 0,
-              numWeekdays = [[self calendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length - 1;
+              numWeekdays = [[HCCalendarUtil currentCalendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length - 1;
     do {
       weekdayModification++;
     } while (![[self.repeat objectAtIndex:((nextWakeWeekday + weekdayModification) % [self.repeat count])] boolValue] &&
@@ -168,7 +170,8 @@
 - (NSDate *)previousWakeDate {
   NSDate *previousWakeDate = [[self nextWakeDate] dateByAddingTimeInterval:-86400];
   if (previousWakeDate) {
-    NSInteger previousWakeWeekday = [[[self calendar] components:NSWeekdayCalendarUnit fromDate:previousWakeDate]
+    NSInteger previousWakeWeekday = [[[HCCalendarUtil currentCalendar] components:NSWeekdayCalendarUnit
+                                                                         fromDate:previousWakeDate]
                                      weekday] - 1;
     if (![[self.repeat objectAtIndex:previousWakeWeekday] boolValue]) {
       // increment nextWakeDate day until repeat allows it
@@ -199,7 +202,7 @@
 
 - (NSString *)waketimeAsString {
   if (self.waketime) {
-    return [NSDateFormatter localizedStringFromDate:[[self calendar] dateFromComponents:self.waketime]
+    return [NSDateFormatter localizedStringFromDate:[[HCCalendarUtil currentCalendar] dateFromComponents:self.waketime]
                                           dateStyle:NSDateFormatterNoStyle
                                           timeStyle:NSDateFormatterShortStyle];
   } else {
@@ -230,7 +233,8 @@
     } else {
       NSNumber *yes = [NSNumber numberWithBool:YES];
       NSMutableArray *repeat = [NSMutableArray array];
-      for (NSInteger i = 0, len = [[self calendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length; i < len; i++) {
+      for (NSInteger i = 0, len = [[HCCalendarUtil currentCalendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length;
+           i < len; i++) {
         [repeat setObject:yes atIndexedSubscript:i];
       }
       [self setRepeat:repeat];
@@ -259,23 +263,18 @@
 
 #pragma mark - Private methods
 
-- (NSCalendar *)calendar {
-  // TODO: cache autoupdating in an ivar
-  return [NSCalendar currentCalendar];
-}
-
 - (NSDate *)today {
   return [NSDate date];
 }
 
 - (NSDate *)todayAtTime:(NSDateComponents *)time {
   if (time) {
-    NSDateComponents *nowComponents = [[self calendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
-                                                         fromDate:[self today]];
+    NSDateComponents *nowComponents = [[HCCalendarUtil currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
+                                                                          fromDate:[self today]];
     [nowComponents setHour:[time hour]];
     [nowComponents setMinute:[time minute]];
     [nowComponents setSecond:[time second]];
-    return [[self calendar] dateFromComponents:nowComponents];
+    return [[HCCalendarUtil currentCalendar] dateFromComponents:nowComponents];
   } else {
     return nil;
   }

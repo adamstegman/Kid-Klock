@@ -1,4 +1,5 @@
 #import "HCRepeatViewController.h"
+#import "HCCalendarUtil.h"
 
 @interface HCRepeatViewController ()
 - (void)initRepeat;
@@ -43,7 +44,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [[NSCalendar currentCalendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length;
+  return [[HCCalendarUtil currentCalendar] maximumRangeOfUnit:NSWeekdayCalendarUnit].length;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

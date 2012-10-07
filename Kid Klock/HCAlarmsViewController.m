@@ -3,6 +3,7 @@
 #import "HCDictionaryAlarm.h"
 #import "HCUserDefaultsPersistence+HCAlarm.h"
 #import "HCAlarmTableViewCell.h"
+#import "HCCalendarUtil.h"
 
 @interface HCAlarmsViewController ()
 #pragma mark - Actions
@@ -51,7 +52,7 @@
 }
 
 - (NSArray *)alarms {
-  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSCalendar *calendar = [HCCalendarUtil currentCalendar];
   if (!_sortedAlarms) {
     _sortedAlarms = [HCUserDefaultsPersistence fetchAlarms];
     _sortedAlarms = [_sortedAlarms sortedArrayUsingComparator:^NSComparisonResult(id l, id r) {
@@ -86,8 +87,8 @@
 }
 
 - (id <HCAlarm>)newAlarm {
-  NSDateComponents *waketime = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
-                                                               fromDate:[NSDate date]];
+  NSDateComponents *waketime = [[HCCalendarUtil currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
+                                                                   fromDate:[NSDate date]];
   NSDictionary *alarmAttributes = [NSDictionary dictionaryWithObjectsAndKeys:waketime, @"waketime",
                                    NSLocalizedString(@"alarm.name.default", @"Default new alarm name"), @"name",
                                    [NSNumber numberWithInt:HCNoAnimal], @"animalType", nil];

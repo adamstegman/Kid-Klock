@@ -1,6 +1,12 @@
 #import "HCAlarmsViewController.h"
+#import "HCAlarmPersistor.h"
+#import "HCUserDefaultsPersistence.h"
 
-@interface HCMainViewController : UIViewController <HCAlarmsViewControllerDelegate, UIPopoverControllerDelegate>
+@interface HCMainViewController : UIViewController <HCAlarmsViewControllerDelegate, UIPopoverControllerDelegate> {
+  HCUserDefaultsPersistence *_brightnessPersistence; // FIXME: abstract like alarms
+}
+
+@property (strong, nonatomic) HCAlarmPersistor *alarmPersistor;
 
 @property (strong, nonatomic) UIPopoverController *settingsPopoverController;
 @property (strong, nonatomic) IBOutlet UIImageView *alarmImage;

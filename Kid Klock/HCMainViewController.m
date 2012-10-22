@@ -1,5 +1,4 @@
 #import "HCMainViewController.h"
-#import "HCUserDefaultsPersistence+HCAlarm.h"
 #import "HCCalendarUtil.h"
 
 // The brightness percentage to display the sleeping image at
@@ -17,6 +16,7 @@ static NSString *hcBrightnessKey = @"brightness";
 @interface HCMainViewController()
 - (void)alarmSleep;
 - (void)alarmWake;
+- (HCUserDefaultsPersistence *)brightnessPersistence; // FIXME: make into property when abstracted
 - (void)dimForSleep;
 - (id <HCAlarm>)nextAlarm;
 - (id <HCAlarm>)previousAlarm;
@@ -30,21 +30,14 @@ static NSString *hcBrightnessKey = @"brightness";
 
 @implementation HCMainViewController
 
-#pragma mark - Properties
-
-@synthesize settingsPopoverController = _settingsPopoverController;
-@synthesize alarmImage = _alarmImage;
-@synthesize settingsButton = _settingsButton;
-@synthesize timeLabel = _timeLabel;
-
 #pragma mark - Methods
 
 - (void)restoreBrightness:(double)percentage {
-  NSNumber *oldBrightness = [HCUserDefaultsPersistence settingsForKey:hcBrightnessKey];
+  NSNumber *oldBrightness = [[self brightnessPersistence] settingsForKey:hcBrightnessKey];
 
   // epsilon of 0.001, because let's not get ridiculous with preciseness
   if (percentage > 0.999) {
-    [HCUserDefaultsPersistence setSettingsValue:nil forKey:hcBrightnessKey];
+    [[self brightnessPersistence] setSettingsValue:nil forKey:hcBrightnessKey];
   }
 
   if (oldBrightness) {
@@ -100,7 +93,9 @@ static NSString *hcBrightnessKey = @"brightness";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   if ([[segue identifier] isEqualToString:@"showSettings"]) {
-    [(HCAlarmsViewController *)[segue destinationViewController] setAlarmsDelegate:self];
+    HCAlarmsViewController *alarmsController = (HCAlarmsViewController *)[segue destinationViewController];
+    alarmsController.alarmPersistor = self.alarmPersistor;
+    [alarmsController setAlarmsDelegate:self];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
       UIPopoverController *popoverController = [(UIStoryboardPopoverSegue *)segue popoverController];
@@ -121,7 +116,7 @@ static NSString *hcBrightnessKey = @"brightness";
   
   // dismiss the settings view
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissModalViewControllerAnimated:YES]; // TODO: use dismissViewControllerAnimated:completion: instead
   } else {
     [self.settingsPopoverController dismissPopoverAnimated:YES];
     self.settingsPopoverController = nil;
@@ -177,11 +172,18 @@ static NSString *hcBrightnessKey = @"brightness";
   }
 }
 
+- (HCUserDefaultsPersistence *)brightnessPersistence {
+  if (!_brightnessPersistence) {
+    _brightnessPersistence = [HCUserDefaultsPersistence standardUserDefaults];
+  }
+  return _brightnessPersistence;
+}
+
 - (void)dimForSleep {
-  NSNumber *oldBrightess = [HCUserDefaultsPersistence settingsForKey:hcBrightnessKey];
+  NSNumber *oldBrightess = [[self brightnessPersistence] settingsForKey:hcBrightnessKey];
   if (!oldBrightess) {
     NSNumber *oldBrightness = [NSNumber numberWithFloat:[UIScreen mainScreen].brightness];
-    [HCUserDefaultsPersistence setSettingsValue:oldBrightness forKey:hcBrightnessKey];
+    [[self brightnessPersistence] setSettingsValue:oldBrightness forKey:hcBrightnessKey];
   }
   [UIScreen mainScreen].brightness = DIM_BRIGHTNESS;
 }
@@ -224,7 +226,7 @@ static NSString *hcBrightnessKey = @"brightness";
 }
 
 - (NSArray *)sortedAlarms {
-  NSArray *allAlarms = [HCUserDefaultsPersistence fetchAlarms];
+  NSArray *allAlarms = [self.alarmPersistor fetchAlarms];
   allAlarms = [allAlarms filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%K != NIL", @"nextWakeDate"]];
   return [allAlarms sortedArrayUsingComparator:^NSComparisonResult(id l, id r) {
     return [[(id <HCAlarm>)l nextWakeDate] compare:[(id <HCAlarm>)r nextWakeDate]];

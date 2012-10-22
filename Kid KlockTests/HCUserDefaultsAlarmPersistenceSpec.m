@@ -1,10 +1,9 @@
 #import "Kiwi.h"
-#import "HCUserDefaultsPersistence+HCAlarm.h"
-#import "HCDictionaryAlarm.h"
+#import "HCUserDefaultsAlarmPersistence.h"
 
-SPEC_BEGIN(HCUserDefaultsPersistenceHCAlarmSpec)
+SPEC_BEGIN(HCUserDefaultsAlarmPersistenceSpec)
 
-describe(@"HCUserDefaultsPersistence+HCAlarm", ^{
+describe(@"HCUserDefaultsAlarmPersistence", ^{
 
   __block id mockUserDefaults;
 
@@ -17,7 +16,7 @@ describe(@"HCUserDefaultsPersistence+HCAlarm", ^{
 
   describe(@"+fetchAlarms", ^{
     it(@"returns an empty array if no alarms have been upserted", ^{
-      [[[HCUserDefaultsPersistence fetchAlarms] should] beEmpty];
+      [[[HCUserDefaultsAlarmPersistence fetchAlarms] should] beEmpty];
     });
 
     it(@"finds all upserted alarms", ^{
@@ -26,7 +25,7 @@ describe(@"HCUserDefaultsPersistence+HCAlarm", ^{
       NSDictionary *alarms = [NSDictionary dictionaryWithObjectsAndKeys:alarm1.attributes, @"testing",
                               alarm2.attributes, @"another", nil];
       [mockUserDefaults stub:@selector(persistentDomainForName:) andReturn:[NSDictionary dictionaryWithObject:alarms forKey:@"alarms"]];
-      NSArray *fetched = [HCUserDefaultsPersistence fetchAlarms];
+      NSArray *fetched = [HCUserDefaultsAlarmPersistence fetchAlarms];
       [[fetched should] haveCountOf:2];
       id <HCAlarm> alarm = [fetched objectAtIndex:0U];
       [[alarm.id should] equal:@"testing"];
@@ -40,7 +39,7 @@ describe(@"HCUserDefaultsPersistence+HCAlarm", ^{
   describe(@"+clearAlarms", ^{
     it(@"removes all alarms from the user defaults", ^{
       KWCaptureSpy *domainSpy = [mockUserDefaults captureArgument:@selector(setPersistentDomain:forName:) atIndex:0];
-      [HCUserDefaultsPersistence clearAlarms];
+      [HCUserDefaultsAlarmPersistence clearAlarms];
       [[domainSpy.argument should] beEmpty];
     });
   });
@@ -51,7 +50,7 @@ describe(@"HCUserDefaultsPersistence+HCAlarm", ^{
                               [NSDictionary dictionary], @"another", nil];
       [mockUserDefaults stub:@selector(persistentDomainForName:) andReturn:[NSDictionary dictionaryWithObject:alarms forKey:@"alarms"]];
       KWCaptureSpy *domainSpy = [mockUserDefaults captureArgument:@selector(setPersistentDomain:forName:) atIndex:0];
-      [HCUserDefaultsPersistence removeAlarm:@"another"];
+      [HCUserDefaultsAlarmPersistence removeAlarm:@"another"];
       [[domainSpy.argument should] haveCountOf:1U];
       [[[domainSpy.argument objectForKey:@"alarms"] objectForKey:@"testing"] shouldNotBeNil];
     });
@@ -60,20 +59,20 @@ describe(@"HCUserDefaultsPersistence+HCAlarm", ^{
       NSDictionary *alarms = [NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionary], @"testing", nil];
       [mockUserDefaults stub:@selector(persistentDomainForName:) andReturn:[NSDictionary dictionaryWithObject:alarms forKey:@"alarms"]];
       [[mockUserDefaults shouldNot] receive:@selector(setPersistentDomain:forName:)];
-      [HCUserDefaultsPersistence removeAlarm:@"blah"];
+      [HCUserDefaultsAlarmPersistence removeAlarm:@"blah"];
     });
   });
 
   describe(@"+upsertAlarm:", ^{
     it(@"does nothing given nil", ^{
-      [HCUserDefaultsPersistence upsertAlarm:nil];
+      [HCUserDefaultsAlarmPersistence upsertAlarm:nil];
     });
 
     it(@"adds the given alarm to the user defaults", ^{
       HCDictionaryAlarm *alarm = [[HCDictionaryAlarm alloc] init];
       alarm.id = @"testing";
       KWCaptureSpy *domainSpy = [mockUserDefaults captureArgument:@selector(setPersistentDomain:forName:) atIndex:0];
-      [HCUserDefaultsPersistence upsertAlarm:alarm];
+      [HCUserDefaultsAlarmPersistence upsertAlarm:alarm];
       [[domainSpy.argument should] haveCountOf:1U];
       [[[domainSpy.argument objectForKey:@"alarms"] objectForKey:@"testing"] shouldNotBeNil];
     });
@@ -82,7 +81,7 @@ describe(@"HCUserDefaultsPersistence+HCAlarm", ^{
       NSDictionary *alarms = [NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionary], @"testing", nil];
       [mockUserDefaults stub:@selector(persistentDomainForName:) andReturn:[NSDictionary dictionaryWithObject:alarms forKey:@"alarms"]];
       KWCaptureSpy *domainSpy = [mockUserDefaults captureArgument:@selector(setPersistentDomain:forName:) atIndex:0];
-      [HCUserDefaultsPersistence upsertAlarm:[[HCDictionaryAlarm alloc] init]];
+      [HCUserDefaultsAlarmPersistence upsertAlarm:[[HCDictionaryAlarm alloc] init]];
       NSDictionary *newAlarms = [domainSpy.argument objectForKey:@"alarms"];
       [[newAlarms should] haveCountOf:2U];
       [[newAlarms objectForKey:@"testing"] shouldNotBeNil];
@@ -96,7 +95,7 @@ describe(@"HCUserDefaultsPersistence+HCAlarm", ^{
       [mockUserDefaults stub:@selector(persistentDomainForName:) andReturn:[NSDictionary dictionaryWithObject:alarms forKey:@"alarms"]];
       alarm.animalType = HCBunny;
       KWCaptureSpy *domainSpy = [mockUserDefaults captureArgument:@selector(setPersistentDomain:forName:) atIndex:0];
-      [HCUserDefaultsPersistence upsertAlarm:alarm];
+      [HCUserDefaultsAlarmPersistence upsertAlarm:alarm];
       [[domainSpy.argument should] haveCountOf:1U];
       NSDictionary *bunnyAlarmAttributes = [[domainSpy.argument objectForKey:@"alarms"] objectForKey:alarm.id];
       [[[bunnyAlarmAttributes objectForKey:@"name"] should] equal:@"testing"];

@@ -1,11 +1,25 @@
-#import "HCUserDefaultsPersistence+HCAlarm.h"
+#import "HCUserDefaultsAlarmPersistence.h"
 
-static NSString *hcAlarmSettingsKey = @"alarms";
+static NSString *_hcAlarmSettingsKey = @"alarms";
 
-@implementation HCUserDefaultsPersistence (HCAlarm)
+@implementation HCUserDefaultsAlarmPersistence
 
-+ (NSArray *)fetchAlarms {
-  NSDictionary *alarmsAttributes = [self settingsForKey:hcAlarmSettingsKey];
+- (id)initWithUserDefaults:(NSUserDefaults *)userDefaults {
+  self = [super init];
+  if (self) {
+    _userDefaults = [[HCUserDefaultsPersistence alloc] initWithUserDefaults:userDefaults];
+  }
+  return self;
+}
+
++ (id)standardUserDefaults {
+  return [[self alloc] initWithUserDefaults:[NSUserDefaults standardUserDefaults]];
+}
+
+# pragma mark - HCAlarmPersistence protocol
+
+- (NSArray *)fetchAlarms {
+  NSDictionary *alarmsAttributes = [_userDefaults settingsForKey:_hcAlarmSettingsKey];
   NSMutableArray *alarms = [NSMutableArray array];
   if (alarmsAttributes) {
     [alarmsAttributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -20,24 +34,24 @@ static NSString *hcAlarmSettingsKey = @"alarms";
   return alarms;
 }
 
-+ (void)clearAlarms {
-  [self setSettingsValue:nil forKey:hcAlarmSettingsKey];
+- (void)clearAlarms {
+  [_userDefaults setSettingsValue:nil forKey:_hcAlarmSettingsKey];
 }
 
-+ (void)removeAlarm:(NSString *)alarmId {
-  NSMutableDictionary *alarms = [[self settingsForKey:hcAlarmSettingsKey] mutableCopy];
+- (void)removeAlarm:(NSString *)alarmId {
+  NSMutableDictionary *alarms = [[_userDefaults settingsForKey:_hcAlarmSettingsKey] mutableCopy];
   if (!alarms) {
     alarms = [NSMutableDictionary dictionary];
   }
   if ([alarms objectForKey:alarmId]) {
     [alarms removeObjectForKey:alarmId];
-    [self setSettingsValue:alarms forKey:hcAlarmSettingsKey];
+    [_userDefaults setSettingsValue:alarms forKey:_hcAlarmSettingsKey];
   }
 }
 
-+ (void)upsertAlarm:(HCDictionaryAlarm *)alarm {
+- (void)upsertAlarm:(HCDictionaryAlarm *)alarm {
   if (alarm) {
-    NSMutableDictionary *alarms = [[self settingsForKey:hcAlarmSettingsKey] mutableCopy];
+    NSMutableDictionary *alarms = [[_userDefaults settingsForKey:_hcAlarmSettingsKey] mutableCopy];
     if (!alarms) {
       alarms = [NSMutableDictionary dictionary];
     }
@@ -50,7 +64,7 @@ static NSString *hcAlarmSettingsKey = @"alarms";
       alarm.id = [NSString stringWithFormat:@"%u", [alarms count], nil];
     }
     [alarms setObject:alarmAttributes forKey:alarm.id];
-    [self setSettingsValue:alarms forKey:hcAlarmSettingsKey];
+    [_userDefaults setSettingsValue:alarms forKey:_hcAlarmSettingsKey];
   }
 }
 

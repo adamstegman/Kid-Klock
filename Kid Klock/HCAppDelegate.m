@@ -1,11 +1,9 @@
 #import "HCAppDelegate.h"
 #import "HCMainViewController.h"
+#import "HCUserDefaultsAlarmPersistence.h"
+#import "HCUbiquitousAlarmPersistence.h"
 
 @implementation HCAppDelegate
-
-#pragma mark - Properties
-
-@synthesize window = _window;
 
 #pragma mark - UIApplicationDelegate
 
@@ -21,7 +19,21 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  // Override point for customization after application launch.
+  // create alarm persistence
+  HCUserDefaultsAlarmPersistence *userDefaultsAlarmPersistence = [HCUserDefaultsAlarmPersistence standardUserDefaults];
+  // FIXME: disabled for entitlements
+//  HCUbiquitousAlarmPersistence *ubiquitousAlarmPersistence = [HCUbiquitousAlarmPersistence defaultStore];
+  self.alarmPersistor = [[HCAlarmPersistor alloc] initWithPersistenceStores:@[userDefaultsAlarmPersistence/*, ubiquitousAlarmPersistence*/]];
+  // FIXME: pass this to the main view
+
+  // register for iCloud notifications
+  // TODO: this may need to be done when entering foreground? depends if all references to the HCUbiquitousAlarmPersistence object are deallocated
+  // FIXME: disabled for entitlements
+//  [[NSNotificationCenter defaultCenter] addObserver:ubiquitousAlarmPersistence
+//                                           selector:@selector(ubiquitousStoreDidChange:)
+//                                               name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification
+//                                             object:[NSUbiquitousKeyValueStore defaultStore]];
+
   return YES;
 }
 
@@ -46,6 +58,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   HCMainViewController *mainViewController = (HCMainViewController *)[[self window] rootViewController];
+  mainViewController.alarmPersistor = self.alarmPersistor;
   [mainViewController updateAlarm:NO];
 }
 

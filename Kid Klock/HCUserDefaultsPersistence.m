@@ -3,20 +3,38 @@
 static NSString *bundleIdentifier;
 
 @interface HCUserDefaultsPersistence()
+- (NSMutableDictionary *)settings;
+- (void)setSettings:(NSDictionary *)settings;
 + (NSString *)domain;
-+ (NSMutableDictionary *)settings;
-+ (void)setSettings:(NSDictionary *)settings;
 @end
 
 @implementation HCUserDefaultsPersistence
 
+# pragma mark - Initializers
+
+- (id)initWithUserDefaults:(NSUserDefaults *)userDefaults {
+  self = [super init];
+  if (self) {
+    _userDefaults = userDefaults;
+  }
+  return self;
+}
+
+- (id)init {
+  return [self initWithUserDefaults:[NSUserDefaults standardUserDefaults]];
+}
+
++ (id)standardUserDefaults {
+  return [[self alloc] initWithUserDefaults:[NSUserDefaults standardUserDefaults]];
+}
+
 #pragma mark - Methods
 
-+ (id)settingsForKey:(NSString *)key {
+- (id)settingsForKey:(NSString *)key {
   return [[self settings] objectForKey:key];
 }
 
-+ (void)setSettingsValue:(id)value forKey:(NSString *)key {
+- (void)setSettingsValue:(id)value forKey:(NSString *)key {
   NSMutableDictionary *settings = [self settings];
   if (value) {
     [settings setValue:value forKey:key];
@@ -28,18 +46,16 @@ static NSString *bundleIdentifier;
 
 #pragma mark - Private methods
 
-+ (NSMutableDictionary *)settings {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  NSDictionary *settings = [userDefaults persistentDomainForName:[self domain]];
+- (NSMutableDictionary *)settings {
+  NSDictionary *settings = [_userDefaults persistentDomainForName:[[self class] domain]];
   if (!settings) {
     settings = [NSDictionary dictionary];
   }
   return [settings mutableCopy];
 }
 
-+ (void)setSettings:(NSDictionary *)settings {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  [userDefaults setPersistentDomain:settings forName:[self domain]];
+- (void)setSettings:(NSDictionary *)settings {
+  [_userDefaults setPersistentDomain:settings forName:[[self class] domain]];
 }
 
 + (NSString *)domain {

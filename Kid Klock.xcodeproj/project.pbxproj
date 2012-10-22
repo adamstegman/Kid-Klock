@@ -43,9 +43,12 @@
 		6692F51515671F28003B3AFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51315671F28003B3AFA /* Localizable.strings */; };
 		6692F51815674FAD003B3AFA /* HCAlarmTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */; };
 		6692F51B15674FD9003B3AFA /* HCAlarmTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6692F51A15674FD9003B3AFA /* HCAlarmTableViewCell.m */; };
-		66EAFF1815A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EAFF1715A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.m */; };
-		66EAFF1A15A751AA00E4EA9C /* HCUserDefaultsPersistenceHCAlarmSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EAFF1915A751AA00E4EA9C /* HCUserDefaultsPersistenceHCAlarmSpec.m */; };
+		66B13A95162D4D4800910136 /* HCUbiquitousAlarmPersistenceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B13A94162D4D4800910136 /* HCUbiquitousAlarmPersistenceSpec.m */; };
+		66D5BC88162533C300AB9400 /* HCUserDefaultsAlarmPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D5BC87162533C300AB9400 /* HCUserDefaultsAlarmPersistence.m */; };
+		66D8DFA71625323F0071D748 /* HCUbiquitousAlarmPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D8DFA61625323F0071D748 /* HCUbiquitousAlarmPersistence.m */; };
+		66EAFF1A15A751AA00E4EA9C /* HCUserDefaultsAlarmPersistenceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EAFF1915A751AA00E4EA9C /* HCUserDefaultsAlarmPersistenceSpec.m */; };
 		66EAFF1C15A757F700E4EA9C /* HCUserDefaultsPersistenceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EAFF1B15A757F700E4EA9C /* HCUserDefaultsPersistenceSpec.m */; };
+		66F9F0D2162EF2CB00043B25 /* HCAlarmPersistor.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F9F0D1162EF2CB00043B25 /* HCAlarmPersistor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,10 +115,16 @@
 		6692F51715674FAD003B3AFA /* HCAlarmTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HCAlarmTableViewCell.xib; sourceTree = "<group>"; };
 		6692F51915674FD9003B3AFA /* HCAlarmTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCAlarmTableViewCell.h; sourceTree = "<group>"; };
 		6692F51A15674FD9003B3AFA /* HCAlarmTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCAlarmTableViewCell.m; sourceTree = "<group>"; };
-		66EAFF1615A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HCUserDefaultsPersistence+HCAlarm.h"; sourceTree = "<group>"; };
-		66EAFF1715A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HCUserDefaultsPersistence+HCAlarm.m"; sourceTree = "<group>"; };
-		66EAFF1915A751AA00E4EA9C /* HCUserDefaultsPersistenceHCAlarmSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCUserDefaultsPersistenceHCAlarmSpec.m; sourceTree = "<group>"; };
+		66B13A94162D4D4800910136 /* HCUbiquitousAlarmPersistenceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCUbiquitousAlarmPersistenceSpec.m; sourceTree = "<group>"; };
+		66D5BC86162533C300AB9400 /* HCUserDefaultsAlarmPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCUserDefaultsAlarmPersistence.h; sourceTree = "<group>"; };
+		66D5BC87162533C300AB9400 /* HCUserDefaultsAlarmPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCUserDefaultsAlarmPersistence.m; sourceTree = "<group>"; };
+		66D5BC891625341500AB9400 /* HCAlarmPersistence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCAlarmPersistence.h; sourceTree = "<group>"; };
+		66D8DFA51625323F0071D748 /* HCUbiquitousAlarmPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCUbiquitousAlarmPersistence.h; sourceTree = "<group>"; };
+		66D8DFA61625323F0071D748 /* HCUbiquitousAlarmPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCUbiquitousAlarmPersistence.m; sourceTree = "<group>"; };
+		66EAFF1915A751AA00E4EA9C /* HCUserDefaultsAlarmPersistenceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCUserDefaultsAlarmPersistenceSpec.m; sourceTree = "<group>"; };
 		66EAFF1B15A757F700E4EA9C /* HCUserDefaultsPersistenceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCUserDefaultsPersistenceSpec.m; sourceTree = "<group>"; };
+		66F9F0D0162EF2CB00043B25 /* HCAlarmPersistor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCAlarmPersistor.h; sourceTree = "<group>"; };
+		66F9F0D1162EF2CB00043B25 /* HCAlarmPersistor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCAlarmPersistor.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,8 +198,13 @@
 			children = (
 				6680D8EF155FE5D1008D3581 /* HCUserDefaultsPersistence.h */,
 				6680D8F0155FE5D1008D3581 /* HCUserDefaultsPersistence.m */,
-				66EAFF1615A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.h */,
-				66EAFF1715A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.m */,
+				66D5BC891625341500AB9400 /* HCAlarmPersistence.h */,
+				66F9F0D0162EF2CB00043B25 /* HCAlarmPersistor.h */,
+				66F9F0D1162EF2CB00043B25 /* HCAlarmPersistor.m */,
+				66D8DFA51625323F0071D748 /* HCUbiquitousAlarmPersistence.h */,
+				66D8DFA61625323F0071D748 /* HCUbiquitousAlarmPersistence.m */,
+				66D5BC86162533C300AB9400 /* HCUserDefaultsAlarmPersistence.h */,
+				66D5BC87162533C300AB9400 /* HCUserDefaultsAlarmPersistence.m */,
 				6680D8E4155FDC84008D3581 /* HCAlarm.h */,
 				6680D8F2155FFA0D008D3581 /* HCDictionaryAlarm.h */,
 				6680D8F3155FFA0D008D3581 /* HCDictionaryAlarm.m */,
@@ -223,7 +237,8 @@
 				6680D8D1155F5D45008D3581 /* Supporting Files */,
 				6629A0A41561FEC800BDAA3C /* HCDictionaryAlarmSpec.m */,
 				6629A0AE1562254300BDAA3C /* HCStaticAssetAnimalSpec.m */,
-				66EAFF1915A751AA00E4EA9C /* HCUserDefaultsPersistenceHCAlarmSpec.m */,
+				66B13A94162D4D4800910136 /* HCUbiquitousAlarmPersistenceSpec.m */,
+				66EAFF1915A751AA00E4EA9C /* HCUserDefaultsAlarmPersistenceSpec.m */,
 				66EAFF1B15A757F700E4EA9C /* HCUserDefaultsPersistenceSpec.m */,
 			);
 			path = "Kid KlockTests";
@@ -423,8 +438,10 @@
 				66859D731568B31000C0788E /* HCAlarmViewController.m in Sources */,
 				66859D77156B11F400C0788E /* HCRepeatViewController.m in Sources */,
 				66927D6115A3996A00CDC780 /* HCResponderCell.m in Sources */,
-				66EAFF1815A74F1400E4EA9C /* HCUserDefaultsPersistence+HCAlarm.m in Sources */,
 				661742381621D176005B20D2 /* HCCalendarUtil.m in Sources */,
+				66D8DFA71625323F0071D748 /* HCUbiquitousAlarmPersistence.m in Sources */,
+				66D5BC88162533C300AB9400 /* HCUserDefaultsAlarmPersistence.m in Sources */,
+				66F9F0D2162EF2CB00043B25 /* HCAlarmPersistor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,8 +451,9 @@
 			files = (
 				6629A0A51561FEC800BDAA3C /* HCDictionaryAlarmSpec.m in Sources */,
 				6629A0AF1562254300BDAA3C /* HCStaticAssetAnimalSpec.m in Sources */,
-				66EAFF1A15A751AA00E4EA9C /* HCUserDefaultsPersistenceHCAlarmSpec.m in Sources */,
+				66EAFF1A15A751AA00E4EA9C /* HCUserDefaultsAlarmPersistenceSpec.m in Sources */,
 				66EAFF1C15A757F700E4EA9C /* HCUserDefaultsPersistenceSpec.m in Sources */,
+				66B13A95162D4D4800910136 /* HCUbiquitousAlarmPersistenceSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

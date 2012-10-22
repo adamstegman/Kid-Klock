@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "HCAlarmViewController.h"
+#import "HCAlarmPersistor.h"
 
 @class HCAlarmsViewController;
 
@@ -17,6 +18,8 @@
   id <HCAlarm> _selectedAlarm;
   NSArray *_sortedAlarms;
 }
+
+@property (strong, nonatomic) HCAlarmPersistor *alarmPersistor;
 
 @property (weak, nonatomic) id <HCAlarmsViewControllerDelegate> alarmsDelegate;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
